@@ -1,0 +1,185 @@
+-----DAY 3
+
+video - 2. Coding variables in JS 
+1) using 'var' keyword
+
+var marks = 90;
+var score = 5;
+
+2) using 'let' keyword
+let age = 2;
+let flag = 0;
+
+3) using 'const; keyword
+const pi = 3.1414
+
+
+
+
+
+video - 3. showing data to user
+functions
+1) console.log()    inbuilt function for printing
+
+
+
+
+
+video - 4. Data types
+ecma-international (pulishes official documents of js)
+mdn (mozilla documentation)
+
+(1) The Undefined Type
+A variable is undefined when declared but not assigned a value.
+Represents the absence of initialization.
+Example: let x; → x is undefined.
+(2) The Null Type
+null is a special value representing the intentional absence of any object value.
+Often used to indicate "empty" or "unknown."
+Example: let obj = null; means the variable explicitly has no value.
+(3) The Boolean Type
+Represents logical values: true or false.
+Used in conditions and control flow (e.g., if statements).
+(4) The String Type
+Represents textual data.
+Can use single quotes ('), double quotes ("), or backticks (` for template literals).
+Strings are immutable, meaning their contents cannot be changed after creation.
+(5) The Symbol Type
+Introduced in ES6.
+Represents unique and immutable values, often used as object keys to avoid key collisions.
+Example: let id = Symbol("description");
+(6) The Number Type
+Represents integers and floating-point numbers.
+Includes special values: Infinity, -Infinity, and NaN (Not a Number).
+JavaScript uses 64-bit floating-point for all numbers.
+(7) The Object Type
+A non-primitive type that can store collections of data or more complex entities.
+Objects can have properties (key-value pairs) and methods (functions).
+
+
+
+
+
+video - 6. Special characters
+\n - newline character or escape sequence
+\t - tab
+Single quote    \'
+Double quote    \"
+Ampersand       \&
+Newline         \n
+Tab             \t
+Backslash       \\
+Carries return  \r
+Backspace       \b
+Form feed       \f
+Vertical tab    \v
+
+
+
+
+
+video - 7. comments
+//      single comments
+/**/    multiline comments
+
+
+
+
+
+video - 8. Aritmetic and Assignment operators
+Arithmetic Operators (Used to perform basic mathematical operations.)
+Operator	                Description	Example
++	Addition	            5 + 3 = 8
+-	Subtraction	            5 - 3 = 2
+*	Multiplication	        5 * 3 = 15
+/	Division	            5 / 3 = 1.6667
+%	Modulus (Remainder)	    5 % 3 = 2
+**	Exponentiation (ES6)	5 ** 3 = 125
+++	Increment (adds 1)	    let a = 1; a++
+--	Decrement (subtracts 1)	let a = 1; a--
+
+Assignment Operators (Used to assign values to variables, often combining with arithmetic operations.)
+Operator	Description	                Example
+=	        Assign	                    a = 5
++=	        Add and assign	            a += 5 (same as a = a + 5)
+-=	        Subtract and assign	        a -= 5
+*=	        Multiply and assign	        a *= 5
+/=	        Divide and assign	        a /= 5
+%=	        Modulus and assign	        a %= 5
+**=	        Exponentiation and assign	a **= 5
+
+
+
+
+
+video - 9. Relaltional Operator
+Relational operators are used to compare two values. These operators return a Boolean value (true or false).
+Operator	Description	                               Example
+==	        Equal to (loose equality)	                5 == '5' → true
+===	        Equal to (strict equality)	                5 === '5' → false
+!=	        Not equal to (loose inequality)	            5 != '5' → false
+!==	        Not equal to (strict inequality)	        5 !== '5' → true
+>	        Greater than	                            10 > 5 → true
+<	        Less than	                                10 < 5 → false
+>=	        Greater than or equal to	                10 >= 10 → true
+<=	        Less than or equal to	                    5 <= 10 → true
+
+Loose Equality (==): Converts both values to the same type before comparing.
+(if type is same then it calls ===, else do the type conversion ans checks)
+Strict Equality (===): Does not perform type conversion; both value and type must match.
+(if type is same then checks for values, else return false i.e.no type conversion)
+
+
+
+
+
+
+video - 10. logical Operator
+Operator	Description	                                            Example
+&&	        Logical AND: Returns true if both conditions are true	(a > 5 && b < 10)
+||          Logical OR: Returns true if any conditions are true     (a > 5 || b < 10)
+!	        Logical NOT: Reverses the Boolean value of an operand	!(a > 5)
+
+
+
+
+
+video - 11. short circuiting and coercion(type interconversion) 
+null, undefined, "", +0, -0, NaN, false (these all are falsy values , expect these all other values are true values)
+
+in AND gate if first input is false it doesnt evaluate second input and returns second input directly
+            but if first input is true it returns second input directly
+
+in OR gate if first input is true it doesnt evaluate second input and returns first input directly
+            but if first input is false it returns second input directly
+
+
+
+
+
+        
+video - 12. Special numbers
+0, -0, NaN, Infinity, -Infinity
+Note : The only number in JS that is not equal to itself is NaN
+
+
+
+
+
+
+video - 13. Bitwise operators
+Operator	Name	                    Description
+&	        Bitwise AND	                Performs a logical AND operation on each pair of corresponding bits.
+|	        Bitwise OR
+^	        Bitwise XOR (Exclusive OR)	Performs a logical XOR operation on each pair of corresponding bits.
+~	        Bitwise NOT	                Inverts each bit (flips 0 to 1 and 1 to 0).
+<<	        Left Shift	                Shifts all bits to the left by the specified number of positions, filling with 0s on the right.
+>>	        Right Shift             	Shifts all bits to the right by the specified number of positions, maintaining the sign bit.
+>>>	        Zero-fill Right Shift	    Shifts all bits to the right by the specified number of positions, filling with 0s on the left.
+
+
+
+
+
+video - 15. typeof operator
+It is used to get the typeof the value or variable
