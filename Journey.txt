@@ -2,7 +2,7 @@ DAY |   Description
 1   |   Getting started with Backend journey
 2   |   Resume Building Session
 3   |   Basic JS (1-15 videos) 
-4   |   
+4   |   Conditionals and Loops
 5   |   
 6   |   
 7   |   

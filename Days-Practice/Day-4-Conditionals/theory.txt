@@ -1,0 +1,76 @@
+-----Day4-----
+
+--[Conditionals]--
+
+video 2. If else
+The if-else statement in JavaScript is a control flow structure used to execute blocks of code based on specified conditions.
+syntax :
+if (condition) {
+  // Code if condition is true
+} else {
+  // Code if condition is false
+}
+
+
+
+
+
+video 3. Else If and nested condtionals
+if (condition1) {
+  // Code if condition1 is true
+} else if (condition2) {
+  // Code if condition2 is true
+} else {
+  // Code if none of the above conditions are true
+}
+
+if (condition1) {
+  if (condition2) {
+    // Code if both conditions are true
+  }
+}
+
+
+
+
+--[Loops]--
+
+for Loop : Executes a block of code a specific number of times.
+Syntaax : 
+for (initialization; condition; increment/decrement) {
+  // Code to execute
+}
+
+
+while Loop: Executes a block of code while the condition is true.
+Syntax :
+while (condition) {
+  // Code to execute
+}
+
+
+do...while Loop: Executes the code block once, then repeats as long as the condition is true.
+Syntax :
+do {
+  // Code to execute
+} while (condition);
+
+
+for...of Loop: Iterates over the values of an iterable object (like arrays, strings, maps, etc.).
+Syntax :
+for (let value of iterable) {
+  // Code to execute
+}
+
+
+for...in Loop: Iterates over the enumerable properties of an object.
+Syntax :
+for (let key in object) {
+  // Code to execute
+}
+
+
+
+Note : 
+1) Loops can include break (to exit the loop) and continue (to skip to the next iteration).
+2) Use for...in for objects and for...of for iterables like arrays.
