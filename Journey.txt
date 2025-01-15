@@ -3,7 +3,7 @@ DAY |   Description
 2   |   Resume Building Session
 3   |   Basic JS (1-15 videos) 
 4   |   Conditionals and Loops
-5   |   
+5   |   Functions
 6   |   
 7   |   
 8   |   

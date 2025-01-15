@@ -1,0 +1,17 @@
+-----DAY 5-----
+
+Function Declaration:
+Defined using the "function" keyword.
+Can be called before they are defined due to hoisting.
+Syntax :
+function functionName(parameters) {
+  // Code to execute
+}
+
+
+
+
+
+In JS, if u dont manually return something then it will automatically returns "undefined" 
+Hence,
+console.log()   always returns undefined
