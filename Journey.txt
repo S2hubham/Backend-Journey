@@ -4,7 +4,7 @@ DAY |   Description
 3   |   Basic JS (1-15 videos) 
 4   |   Conditionals and Loops
 5   |   Functions
-6   |   
+6   |   Pattern Problems, Miscellaneous fundamental topics
 7   |   
 8   |   
 9   |   

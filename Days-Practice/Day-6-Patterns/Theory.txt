@@ -1,0 +1,72 @@
+-----DAY 6-----
+
+--[Patterns]--
+
+(
+Basic Idea : 
+In string concatenatio if both operands are string then we just join them togehter and get a new string
+ex : "abc" + "def" = "abcdef"
+But if one of them is not a string them JS convert it to string and then joins them
+ex : "abd" + 10 = "abd10"
+)
+
+
+--[Miscellaneous fundamental topics]--
+
+Increment operator(pre and post increment):
+(The difference lies in when the value of a is incremented)
+Operator	Name	            Effect
+a++	        Post-Increment	    The current value of a is used first, then a is incremented by 1.
+++a	        Pre-Increment	    a is incremented first, then the updated value is used.
+
+
+Decrement operator(pre and post decrement)
+Operator	Name	            Effect
+a--	        Post-Decrement	    The current value of a is used first, then a is decremented by 1.
+--a	        Pre-Decrement	    a is decremented first, then the updated value is used. 
+
+
+
+Ternary operator : 
+The ternary operator is a shorthand for if-else statements and is often used to make conditional decisions in a concise way. 
+It is represented by the syntax condition ? expression1 : expression2.
+Syntax :
+condition ? expressionIfTrue : expressionIfFalse;
+
+condition: The logical condition to evaluate.
+expressionIfTrue: The expression executed if the condition evaluates to true.
+expressionIfFalse: The expression executed if the condition evaluates to false.
+
+
+
+Switch case :
+Syntax 
+switch (expression) {
+  case value1:
+    // Code to execute if expression === value1
+    break;
+  case value2:
+    // Code to execute if expression === value2
+    break;
+  default:
+    // Code to execute if no cases match
+    break;
+}
+
+1)break Statement:
+Terminates the execution of a case.
+Without break, the code will "fall through" and continue executing subsequent cases.
+2)default Case:
+Executes if no case matches the expression.
+It is optional but recommended to handle unexpected values.
+3)Type Strict Comparison:
+Uses === for comparison, so both the value and type must match.
+
+also we can use multiple case values to execute same code block
+  case 100:
+  case 90:
+  case 80:
+    console.log("Excellent!");
+    break;
+
+
