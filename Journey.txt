@@ -5,7 +5,7 @@ DAY |   Description
 4   |   Conditionals and Loops
 5   |   Functions
 6   |   Pattern Problems, Miscellaneous fundamental topics
-7   |   
+7   |   Problems Solving
 8   |   
 9   |   
 10  |   
