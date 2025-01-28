@@ -1,0 +1,24 @@
+Coercion (type conversion)
+
+whenever we do operation, based on the input we can actually convert the type of input for operation
+This can be manually done(explicit typecasting) OR automatically done be the language based on certain rules (implicit typecasting / coercion)
+
+Abstract operations
+These operations are not a part of the ECMAScript language; they are defined here to solely to aid the specification of the semantics of the ECMAScript language. Other, more specialized abstract operations are defined throughout this specification.
+
+- There are a set of algorithms present in the ECMAScript specification, referred to as abstract operations. These operations are not directly available for use by developers in their scripts. Instead, they are mentioned in the documentation to explain internal processes and behaviors of the language.
+
+- Abstract operations define the internal logic and steps that the ECMAScript engine performs to execute various tasks. Although developers cannot invoke these operations directly, they play a critical role in specifying how the language functions under the hood.
+
+1) ToNumber(arg)
+
+Argument Type	    Result
+Undefined	        Return NaN.
+Null	            Return +0.
+Boolean	            If argument is true, return 1. If argument is false, return +0.
+Number	            Return argument (no conversion).
+String	            See grammar and conversion algorithm below.
+Symbol	            Throw a TypeError exception.
+Object	            Apply the following steps:
+                    Let primValue be ? ToPrimitive(argument, hint Number).
+                    Return ? ToNumber(primValue).
