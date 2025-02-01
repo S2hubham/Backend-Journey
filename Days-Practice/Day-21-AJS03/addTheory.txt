@@ -1,0 +1,23 @@
+An interpreted language is a programming language where the code is executed line by line by an interpreter instead of being fully compiled into machine code before running.
+
+Key Features of Interpreted Languages
+✔ No separate compilation step
+✔ Easier debugging (errors appear at runtime)
+✔ Slower than compiled languages (because code is interpreted line by line)
+
+
+
+In contrast, compiled languages (like C, C++) need to be fully converted into machine code before running.
+
+✅ Interpreted languages (JavaScript, Python) → Fast to develop, no compilation needed.
+✅ Compiled languages (C, C++) → Fast execution, but requires compilation.
+✅ Hybrid (Java, C#) → Uses both compilation & interpretation for efficiency.
+
+
+
+Feature 	        Interpreter 🖥️  	                                Compiler ⚙️
+Execution	        Translates & runs code line by line	                Translates entire code before running
+Speed (Execution)	Slower (because it processes one line at a time)	Faster (because everything is compiled beforehand)
+Error Detection	    Errors appear while running the code	            Errors are detected before execution
+Usage	            Good for scripting, web development	                Used for system software, high-performance apps
+Examples	        Python, JavaScript, Ruby, Bash	                    C, C++, Java, Rust

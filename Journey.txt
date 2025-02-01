@@ -19,8 +19,8 @@ DAY |   Description
 18  |  CNS Total 
 19  |  JS 2 
 20  |  AJS_01
-21  |  AJS02 
-22  |   
+21  |  AJS_02 
+22  |  AJS_03 
 23  |   
 24  |   
 25  |   
