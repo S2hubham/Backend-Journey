@@ -1,0 +1,56 @@
+NOTE : 
+✅ Hybrid Approach → JavaScript first parses & compiles the code to bytecode and then interprets or compiles it to machine code at runtime.
+✅ This makes JS faster than purely interpreted languages but more flexible than fully compiled ones.
+
+🚀 Final Verdict: JavaScript is not fully interpreted or compiled but JIT compiled, balancing flexibility and speed!
+
+
+
+
+
+
+
+JavaScript: Parsing Phase vs. Execution Phase
+JavaScript code execution happens in two phases:
+
+1. Parsing (Compilation) Phase
+🔹 What happens?
+
+The JavaScript engine scans the code before execution.
+Memory is allocated for variables and functions.
+Hoisting occurs:
+var variables are hoisted (allocated in memory but initialized as undefined).
+let and const variables are hoisted but not initialized (temporal dead zone).
+Function declarations are fully hoisted.
+Syntax errors are checked.
+🔹 Example:
+
+console.log(a);  // undefined (var is hoisted)
+console.log(b);  // ReferenceError (let is in TDZ)
+
+var a = 10;
+let b = 20;
+
+
+
+2. Execution Phase
+🔹 What happens?
+
+The code runs line by line.
+Variables and functions are assigned values.
+Expressions and operations are evaluated.
+If an undeclared variable is assigned a value (x = 10; without var/let/const), it becomes a global variable (only in non-strict mode).
+🔹 Example:
+
+
+function test() {
+    x = 5;  // No `var`, `let`, or `const` → becomes global in non-strict mode
+}
+test();
+console.log(x);  // 5
+(In strict mode, x would cause a ReferenceError because it was not declared.)
+
+Summary Table
+Phase	        What Happens?	                                        Hoisting?
+Parsing	        Code is scanned, memory is allocated	                ✅ Yes (var = undefined, let/const = TDZ)
+Execution	    Code runs, values are assigned, functions execute	    ❌ No hoisting
