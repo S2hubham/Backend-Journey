@@ -1,0 +1,133 @@
+Strict mode in JavaScript is a way to enforce stricter parsing and error handling in your code. 
+It helps catch common mistakes and prevent the use of bad practices.
+
+1. What is Strict Mode?
+Strict mode is a feature in JavaScript that makes your code more secure, optimized, and less error-prone. 
+It changes the way JavaScript behaves by preventing certain actions that could lead to bugs.
+
+You enable strict mode by adding the following at the beginning of a script or function:
+
+"use strict";
+2. Why Use Strict Mode?
+Strict mode helps in:
+
+Catching common coding mistakes (e.g., using undeclared variables).
+Preventing the use of unsafe features (e.g., assigning values to read-only properties).
+Improving performance (by allowing JavaScript engines to optimize the code better).
+Avoiding accidental global variables.
+
+
+3. How to Enable Strict Mode?
+(A) Applying to the Whole Script
+To apply strict mode to an entire script, add "use strict"; at the top:
+
+"use strict";
+
+x = 10;  // ❌ ERROR: 'x' is not defined
+console.log(x);
+Without strict mode, JavaScript would assume x is a global variable. But in strict mode, it throws an error.
+
+(B) Applying to a Function
+If you don’t want strict mode for the whole script, you can apply it only to a function:
+
+
+function myFunction() {
+    "use strict";
+    y = 20;  // ❌ ERROR: 'y' is not defined
+    console.log(y);
+}
+
+myFunction();
+Outside the function, normal JavaScript behavior applies.
+
+
+
+4. Features & Restrictions of Strict Mode
+(A) Prevents the Use of Undeclared Variables
+"use strict";
+name = "John";  // ❌ ERROR: name is not defined
+Without strict mode, JavaScript would create a global variable name. But strict mode stops this.
+
+(B) Prevents Deleting Variables or Functions
+"use strict";
+let person = "Alice";
+delete person;  // ❌ ERROR: Deleting a variable is not allowed
+Normally, JavaScript allows deleting properties but not variables. Strict mode enforces this rule strictly.
+
+(C) Prevents Duplicates in Function Parameters
+"use strict";
+function add(a, a) {  // ❌ ERROR: Duplicate parameter name not allowed
+    return a + a;
+}
+Without strict mode, JavaScript allows duplicate parameters (though it's bad practice). Strict mode prevents this.
+
+(D) Disallows Using Reserved Keywords for Variables
+Some words are reserved for future JavaScript versions (like implements, interface, package). Strict mode stops you from using them as variable names:
+"use strict";
+let package = "Data";  // ❌ ERROR: 'package' is a reserved word
+
+(E) Stops Assigning Values to Read-Only Properties
+"use strict";
+const obj = {};
+Object.defineProperty(obj, "name", { value: "John", writable: false });
+
+obj.name = "Doe";  // ❌ ERROR: Cannot modify read-only property
+Strict mode prevents modifying properties that are marked as non-writable.
+
+
+
+5. When to Use Strict Mode?
+✅ In large projects: It helps catch mistakes early.
+✅ When working in teams: It enforces better coding standards.
+✅ For better performance: JavaScript engines can optimize strict mode code better.
+❌ Avoid in old browsers: Older browsers like Internet Explorer 9 don’t support strict mode.
+
+
+
+6. Strict Mode in ES6 Modules
+If you use ES6 modules (import/export), strict mode is enabled by default. You don’t need to write "use strict"; explicitly.
+
+
+// In an ES6 module
+export function greet() {
+    // This function is automatically in strict mode
+    message = "Hello!";  // ❌ ERROR
+}
+
+
+
+7. Can We Use Strict Mode and Non-Strict Mode Together?
+Yes! You can write some functions in strict mode while keeping the rest of your code normal.
+
+
+function safeFunction() {
+    "use strict";
+    let a = 10;  // ✅ Allowed
+}
+
+function normalFunction() {
+    b = 20;  // ✅ Works (not in strict mode)
+}
+
+safeFunction();
+normalFunction();
+
+
+Conclusion :
+Strict mode is a powerful tool that helps you write better, safer, and faster JavaScript code by enforcing strict coding rules. 
+It’s widely used in modern JavaScript development and highly recommended for new projects. 🚀
+
+
+
+
+
+
+
+lexical scoping ->
+
+Feature	                Lexical Scoping 🏠	                                                                Dynamic Scoping 🔄
+Definition	            Variable scope is determined by where it is written in the code.	                Variable scope is determined by where the function is called.
+How It Works	        The compiler looks inside-out (local → parent → global) based on code structure.	The interpreter looks back in the call stack to find the variable.
+Example Language	    JavaScript, C++, Python	                                                            Bash, older Lisp variants
+More Predictable?	    ✅ Yes, easier to understand	                                                       ❌ No, can lead to confusion
+Use Case	            Most modern programming languages use lexical scoping for clarity.	                Used in some scripting languages for flexibility.

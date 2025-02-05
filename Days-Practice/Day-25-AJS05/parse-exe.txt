@@ -1,0 +1,63 @@
+-case 1
+console.log('Shubham');
+console.lo("kokane");
+
+-case 2
+console.log('Shubham');
+console..log("kokane");
+
+
+
+1️⃣ TypeError in console.lo("kokane")
+Why does it happen?
+In JavaScript, console is an object that provides various logging methods like .log(), .error(), .warn(), etc.
+When you write console.lo(), JavaScript tries to find a function named lo inside console.
+But lo does not exist, so JavaScript throws a TypeError:
+
+TypeError: console.lo is not a function
+
+Key Concept: Property Access in JavaScript Objects
+console is an object.
+console.log is a function stored as a property of the console object.
+If you try to call a non-existent property like console.lo, JavaScript cannot find it, causing an error.
+
+
+2️⃣ SyntaxError in console..log("kokane")
+Why does it happen?
+The .. (double dot) is not valid syntax in JavaScript.
+JavaScript uses the dot notation (.) to access properties and methods.
+When the interpreter sees console..log, it doesn't know how to parse it, so it throws a SyntaxError:
+
+SyntaxError: Unexpected token '.'
+
+Key Concept: Syntax Rules in JavaScript
+The dot (.) must be followed by a valid identifier (a function or property name).
+console.log ✅ (Valid)
+console..log ❌ (Invalid, unexpected .)
+console. log ❌ (Invalid, because there's a space after .)
+How JavaScript Parses This
+When JavaScript reads the code, it follows these steps:
+
+It sees console, which is a valid object.
+It expects a single dot (.) followed by a valid identifier.
+If it encounters:
+A function that exists (log) → ✅ Works fine.
+A function that doesn't exist (lo) → ❌ TypeError
+An invalid syntax like ..log → ❌ SyntaxError
+
+
+
+why does shubham get printed in one code why not in other code
+-case 1
+Execution Flow:
+console.log('Shubham'); runs successfully → "Shubham" gets printed.
+Then, JavaScript encounters console.lo("kokane");, which causes a TypeError.
+Errors in JavaScript stop execution only from that point onward.
+Since the error occurs after printing "Shubham", it still appears in the console.
+
+-case 2
+Execution Flow:
+Before  even running any code, JavaScript parses the entire file.
+When it encounters console..log("kokane");, it detects a SyntaxError immediately.
+Since SyntaxErrors occur before execution starts, nothing runs—not even console.log('Shubham');.
+So "Shubham" never gets printed.                                                                    
