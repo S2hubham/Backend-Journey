@@ -1,0 +1,92 @@
+Hoisting in JavaScript
+What is Hoisting?
+Hoisting is JavaScript's default behavior of moving variable and function declarations to the top of their scope before code execution.
+
+In simple words: You can use a function or variable before declaring it in your code.
+
+
+
+How Hoisting Works? (Demonstration)
+1️⃣ Function Hoisting (✅ Works)
+Functions declared using function keyword are fully hoisted.
+You can call the function before defining it.
+
+greet(); // ✅ Works! Output: Hello
+function greet() {
+  console.log("Hello");
+}
+👉 Behind the scenes, JavaScript moves the function declaration to the top:
+// JavaScript internally does this:
+function greet() {
+  console.log("Hello");
+}
+greet(); // Now, it's fine!
+
+
+
+
+2️⃣ Variable Hoisting with var (⚠️ Undefined)
+Variables declared with var are hoisted but not initialized.
+So, accessing them before declaration gives undefined.
+
+console.log(a); // Output: undefined
+var a = 10;
+console.log(a); // Output: 10
+👉 JavaScript moves the declaration to the top but not the assignment:
+
+var a; // Hoisted declaration
+console.log(a); // undefined
+a = 10; // Assignment happens later
+console.log(a);
+
+
+
+
+3️⃣ Hoisting with let and const (🚨 ReferenceError)
+let and const are also hoisted but not initialized.
+Accessing them before declaration results in an error.
+
+console.log(b); // ❌ ReferenceError: Cannot access 'b' before initialization
+let b = 20;
+console.log(b);
+
+console.log(c); // ❌ ReferenceError: Cannot access 'c' before initialization
+const c = 30;
+console.log(c);
+👉 Why? Because let and const exist in a temporal dead zone (TDZ) from the start of the block until they are initialized.
+
+
+
+
+Real-World Use Cases of Hoisting
+🔹 1️⃣ Using Function Hoisting for Clean Code
+You can define helper functions at the bottom of a file and still use them at the top.
+
+// Using the function before its definition
+sayHello("Alice");
+
+function sayHello(name) {
+  console.log(`Hello, ${name}!`);
+}
+
+
+
+🔹 2️⃣ Avoiding var to Prevent Hoisting Bugs
+Since var gets hoisted, it can cause unexpected undefined values.
+So, prefer let or const to avoid confusion.
+
+console.log(count); // ❌ undefined (but no error)
+var count = 5;
+✅ Better:
+
+console.log(count); // ❌ ReferenceError
+let count = 5;
+
+
+
+
+Key Takeaways
+✅ Function declarations are fully hoisted.
+✅ var is hoisted but initialized as undefined.
+✅ let and const are hoisted but remain in TDZ (error if accessed early).
+✅ Always prefer let or const over var to avoid hoisting issues.
