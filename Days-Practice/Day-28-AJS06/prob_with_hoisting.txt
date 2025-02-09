@@ -1,0 +1,111 @@
+Problems Introduced by Hoisting (with var)
+Hoisting refers to JavaScript's behavior of moving variable and function declarations to the top of their scope before execution. 
+While function hoisting is usually helpful, variable hoisting with var can cause issues.
+
+1️⃣ Using a Variable Before Declaration
+With var, the variable is hoisted but initialized as undefined, which can lead to unexpected behavior.
+
+Example:
+console.log(x); // ❌ Undefined, but no error
+var x = 10;
+console.log(x); // ✅ 10
+
+What happens?
+Internally, JavaScript treats it as:
+
+var x;        // Hoisting: Declaration moves to the top (but value is not assigned)
+console.log(x); // Undefined
+x = 10;       // Now, x gets assigned a value
+console.log(x); // 10
+🔴 Problem: No error is thrown, but x has an unexpected undefined value instead of throwing a ReferenceError like let or const would.
+✅ Solution: Use let or const to prevent using variables before they are declared.
+
+
+
+
+2️⃣ Accidental Global Variables
+If you forget to declare a variable, var inside a function can create a global variable, which can cause conflicts.
+Example:
+function test() {
+    x = 5; // ❌ No `var`, `let`, or `const` -> Creates a global variable!
+}
+test();
+console.log(x); // ✅ 5 (but should have been scoped to the function)
+🔴 Problem: x is now globally accessible, which can lead to unexpected bugs.
+✅ Solution: Use "use strict"; or always declare variables with let or const.
+
+
+
+
+
+
+3️⃣ Multiple Declarations Without Error
+With var, you can redeclare the same variable multiple times without an error, leading to unintended overwrites.
+Example:
+var x = 10;
+var x = 20; // ❌ No error, but accidentally overwrites x
+console.log(x); // ✅ 20
+🔴 Problem: This can make debugging difficult, especially in large programs.
+✅ Solution: Use let (which does not allow redeclaration):
+
+let y = 10;
+let y = 20; // ❌ Error: Identifier 'y' has already been declared
+
+
+
+
+
+4️⃣ Hoisting in Loops Causes Unexpected Behavior
+Variables declared with var in a loop are not block-scoped, leading to unexpected values when used inside closures.
+Example:
+for (var i = 0; i < 3; i++) {
+    setTimeout(() => console.log(i), 1000); 
+}
+
+🔴 Problem: Instead of printing 0, 1, 2, it prints
+O/P
+3
+3
+3
+👉 Why? Because var i is function-scoped, so the same i is shared across all iterations.
+
+✅ Solution: Use let (which is block-scoped):
+for (let i = 0; i < 3; i++) {
+    setTimeout(() => console.log(i), 1000);
+}
+Now, it correctly prints:
+O/P
+0
+1
+2
+
+
+
+
+
+5️⃣ Functions Hoisted but Not Assigned
+Function expressions (assigned to variables) do not get fully hoisted like function declarations.
+Example:
+console.log(foo()); // ✅ Works fine
+function foo() {
+    return "Hello!";
+}
+
+console.log(bar()); // ❌ TypeError: bar is not a function
+var bar = function () {
+    return "Hello!";
+};
+🔴 Problem: bar is hoisted, but only the declaration (var bar), not the function itself.
+✅ Solution: Use function declarations when hoisting is needed, or declare bar before using it.
+
+Conclusion:
+🔴 Problems introduced by var hoisting:
+Using variables before declaration (undefined instead of error).
+Accidental global variables (when missing var inside functions).
+Multiple declarations allowed, leading to bugs.
+Loop variables behave unexpectedly (function-scoped, not block-scoped).
+Function expressions don't hoist properly (only declarations do).
+✅ Best Practice:
+
+Use let and const instead of var to avoid these issues.
+Enable "use strict"; to catch accidental global variables.

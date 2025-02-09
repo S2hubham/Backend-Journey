@@ -1,0 +1,52 @@
+The const keyword is used to declare variables that cannot be reassigned after their initial value is set.
+
+1️⃣ Basic Rules of const
+✅ Must be initialized at the time of declaration.
+✅ Cannot be reassigned later.
+✅ Block-scoped (only available inside {} where it is declared).
+✅ Works with both primitive and reference (objects/arrays) types.
+
+
+2️⃣ Example: const with Primitive Data Types
+const x = 10;
+console.log(x); // 10
+
+x = 20; // ❌ Error: Assignment to constant variable
+🔹 Why error? Because const does not allow reassignment.
+
+
+3️⃣ const is Block-Scoped
+{
+    const a = 5;
+    console.log(a); // ✅ Works fine
+}
+console.log(a); // ❌ Error: a is not defined
+🔹 a is only accessible inside the {} block where it is declared.
+
+
+
+4️⃣ const with Arrays (✅ Can Modify Contents)
+Even though we cannot reassign the entire array, we can modify its elements.
+const arr = [1, 2, 3];
+arr.push(4); // ✅ Allowed
+console.log(arr); // [1, 2, 3, 4]
+
+arr = [5, 6, 7]; // ❌ Error: Assignment to constant variable
+🔹 Why does push work?
+
+arr stores a reference to the array, and we can modify its contents.
+But we cannot reassign arr to a new array.
+
+
+
+5️⃣ const with Objects (✅ Can Modify Properties)
+Similar to arrays, we can modify object properties but cannot reassign the object.
+const person = { name: "Alice", age: 25 };
+person.age = 26; // ✅ Allowed
+console.log(person); // { name: "Alice", age: 26 }
+
+person = { name: "Bob", age: 30 }; // ❌ Error: Assignment to constant variable
+🔹 Why does modifying age work?
+
+The reference to person stays the same, but we modify the object’s internal properties.
+Reassigning the person object is not allowed.
