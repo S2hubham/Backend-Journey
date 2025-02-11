@@ -28,7 +28,7 @@ DAY |   Description
 27  |   
 28  |  AJS_06 
 29  |  AJS_Doubt_Session 
-30  |   
+30  |  Async_JS_01 
 31  |   
 32  |   
 33  |   

@@ -1,0 +1,173 @@
+1️⃣ Callback Hell (Pyramid of Doom)
+Callback Hell occurs when multiple nested callbacks make the code unreadable and hard to manage. 
+It happens in asynchronous JavaScript when one callback depends on another, leading to deeply indented and unstructured code.
+Happens when multiple nested callbacks make the code hard to read and maintain.
+Debugging and error handling become complicated.
+The deeper the nesting, the worse the structure ("Pyramid of Doom").
+
+2️⃣ Solution: Promises
+Promises help flatten the structure by chaining .then().
+Easier error handling using .catch().
+Improves readability but still requires chaining.
+
+3️⃣ Best Solution: Async/Await
+Async/Await makes async code look synchronous and cleaner.
+Eliminates callback nesting and improves maintainability.
+Error handling is simple using try-catch.
+
+4️⃣ Conclusion
+❌ Avoid Callback Hell (Unreadable, Hard to Maintain).
+✅ Use Promises for structured async flow.
+🔥 Prefer Async/Await for best readability and error handling.
+
+
+
+
+
+Inversion of Control Due to Callbacks 🚀
+What is Inversion of Control?
+Normally, you control the flow of execution in your program.
+But when using callbacks, you give control to someone else (another function).
+
+Why is this a Problem?
+You don't know when or if the callback will be executed.
+You lose control over error handling.
+Makes debugging and maintaining code harder.
+
+🔹 Real-World Example: Ordering Food at a Restaurant 🍔
+Without Callbacks (You Control Everything)
+You go to a restaurant.
+You cook the food yourself.
+You serve it when you want.
+
+🔹 You have full control over the process.
+With Callbacks (Inversion of Control)
+You order food from a waiter (callback function).
+The chef (another function) decides when to cook it.
+You just wait until they call you.
+
+🔹 You lose control over when and how your food is prepared.
+How It Relates to Code?
+When using callbacks, you pass a function to another function.
+The other function decides when and how to execute it.
+If there's an error, you may not have direct control to handle it properly.
+
+
+Conclusion
+Callbacks cause Inversion of Control because you give control to another function.
+This can lead to unpredictability, debugging issues, and callback hell.
+Promises & Async/Await help you regain control over async flow.
+
+--
+Real world Example
+🔹 Razorpay (Payment Gateway) - Callback-Based Payment Processing
+How It Works?
+A user clicks "Pay Now" on your website.
+Your app sends payment details to Razorpay.
+Razorpay processes the payment and calls your callback function when done.
+Your app gets a success or failure response via the callback.
+Where is Inversion of Control?
+Your app does not control when Razorpay completes the payment.
+Razorpay decides when and how to execute the callback.
+If Razorpay fails to call the callback properly, your app might not know the payment status.
+
+🔹 Swiggy (Food Delivery App) - Callback-Based Order Tracking
+How It Works?
+You place an order on Swiggy.
+Swiggy assigns the order to a restaurant.
+The restaurant prepares the food and calls Swiggy back when it's ready.
+Swiggy assigns a delivery partner, who then updates the status.
+Where is Inversion of Control?
+Swiggy relies on restaurants and delivery partners to send updates.
+If a restaurant does not update that food is ready, Swiggy has no control over when your food will be picked up.
+Swiggy just waits for callbacks from multiple services (restaurants, delivery, payment).
+--
+
+
+
+
+Concept	Problem	Solution
+Callback Hell	    Too many nested callbacks	                Use Promises or async/await
+Promise Hell	    Too many .then() chains	                    Use async/await instead
+Async/Await Hell	Awaiting independent tasks sequentially	    Use Promise.all() for parallel execution
+
+
+1️⃣ Promise Hell (Also Called "Promise Chain Hell")
+🔴 What Happens?
+Too many .then() chained together.
+Becomes hard to read & debug.
+Each step depends on the previous one, making error handling complex.
+❌ Example of Promise Hell
+
+fetchUser()
+  .then((user) => {
+    return fetchOrders(user.id);
+  })
+  .then((orders) => {
+    return fetchOrderDetails(orders[0].id);
+  })
+  .then((details) => {
+    return processPayment(details);
+  })
+  .then((payment) => {
+    console.log("Payment Success:", payment);
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });
+
+🛑 Why is this bad?
+Looks like a "staircase" of .then(), similar to callback hell.
+Difficult to manage if more steps are added.
+If an error occurs anywhere, it propagates poorly.
+✅ Solution: Use async/await instead
+
+async function processOrder() {
+    try {
+        const user = await fetchUser();
+        const orders = await fetchOrders(user.id);
+        const details = await fetchOrderDetails(orders[0].id);
+        const payment = await processPayment(details);
+        console.log("Payment Success:", payment);
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+processOrder();
+
+🟢 Benefit:
+Looks clean & readable (no .then() chaining).
+Easy to debug with try-catch.
+
+
+
+2️⃣ Async/Await Hell (Also Called "Sequential Hell")
+🔴 What Happens?
+When multiple independent async calls are awaited one after another, instead of running in parallel.
+Causes performance issues due to unnecessary waiting.
+❌ Example of Async/Await Hell (Bad Performance)
+
+async function loadData() {
+    const data1 = await fetchData1(); // Takes 2s
+    const data2 = await fetchData2(); // Takes 2s (Waits for data1 first)
+    const data3 = await fetchData3(); // Takes 2s (Waits for data2 first)
+    console.log("All data loaded:", data1, data2, data3);
+}
+
+🛑 Why is this bad?
+If each fetch takes 2 seconds, this takes 6 seconds total!
+But they don’t depend on each other, so they should run in parallel.
+
+✅ Solution: Use Promise.all() for Parallel Execution
+async function loadData() {
+    const [data1, data2, data3] = await Promise.all([
+        fetchData1(),
+        fetchData2(),
+        fetchData3()
+    ]);
+    console.log("All data loaded:", data1, data2, data3);
+}
+
+🟢 Benefit:
+Runs in parallel, so total time is just 2 seconds instead of 6!
+Faster execution & better performance.

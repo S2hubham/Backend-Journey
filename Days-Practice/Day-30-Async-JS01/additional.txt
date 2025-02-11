@@ -1,0 +1,19 @@
+The worst sorting algorithm in terms of efficiency is Bogosort (also called Stupid Sort or Permutation Sort).
+
+🔥 Bogosort Algorithm:
+Randomly shuffle the array.
+Check if the array is sorted.
+If sorted, stop. Otherwise, repeat Step 1.
+
+🤦 Time Complexity:
+Worst Case: O(n!) (Factorial time, extremely slow)
+Average Case: O(n × n!)
+Best Case: O(n) (if already sorted in the first shuffle)
+
+❌ Why is it the Worst?
+It relies on pure luck instead of logic.
+It is highly inefficient, especially for large inputs.
+It could theoretically run forever if the array never gets sorted by chance.
+
+
+In simple words -> shuffle the array -> check if sorted -> if yes return true , if not keep on shuffling and checking 
