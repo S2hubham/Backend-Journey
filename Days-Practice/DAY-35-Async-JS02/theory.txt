@@ -1,0 +1,205 @@
+JavaScript Execution and Asynchronous Behavior
+1. JavaScript Runtime Environment
+JavaScript is single-threaded and synchronous by nature, running one task at a time.
+It has a Call Stack for executing code, a Heap for memory allocation, and access to Web APIs (like setTimeout, DOM, AJAX) in browsers.
+
+
+2. Call Stack
+Call Stack is where JavaScript keeps track of function calls.
+It follows a LIFO (Last In, First Out) order.
+Synchronous code gets executed directly on the Call Stack.
+Stack Overflow occurs if the Call Stack gets too deep (e.g., infinite recursion).
+
+
+3. Web APIs
+Provided by the browser runtime (not part of JavaScript).
+Handle asynchronous operations like:
+setTimeout, setInterval (Timers)
+DOM events (e.g., clicks)
+AJAX requests (e.g., fetch())
+Once an operation is completed, the callback is sent to the Callback Queue.
+
+
+4. Callback Queue
+Stores callbacks from completed Web API tasks.
+FIFO (First In, First Out) order.
+Waits for the Call Stack to be empty before pushing callbacks for execution.
+
+
+5. Event Loop
+Continuously checks two things:
+Is the Call Stack empty?
+Is there any callback in the Callback Queue?
+If the Call Stack is empty, it moves the first callback from the Callback Queue to the Call Stack for execution.
+This is what allows JavaScript to be non-blocking and asynchronous.
+
+
+6. setTimeout() and Timers
+setTimeout(callback, delay) schedules a callback to run after at least delay milliseconds.
+Timer is handled by the Web API, not the Call Stack.
+After the timer expires, the callback is moved to the Callback Queue.
+The Event Loop then moves it to the Call Stack when it is empty.
+The actual execution can be delayed if the Call Stack is busy, even after the timer is over.
+
+
+7. Order of Execution and Delays
+setTimeout(callback, 0) doesn't mean immediate execution.
+It means the callback is added to the Callback Queue after the current Call Stack is clear.
+Long-running synchronous tasks (e.g., loops) can delay the execution of callbacks in the Callback Queue.
+
+
+8. Blocking vs Non-Blocking Code
+Blocking Code stops the execution of the next line until it finishes (e.g., loops, synchronous functions).
+Non-Blocking Code (e.g., setTimeout, fetch) is asynchronous and doesn't block the Call Stack.
+
+
+9. Common Misunderstandings
+setTimeout doesn't guarantee exact timing. It ensures the callback won't run before the specified delay.
+Delays happen because the Event Loop waits for the Call Stack to be empty before moving callbacks to the Call Stack.
+console.log() appears synchronous because the browser's runtime handles it directly, but it's technically part of the Web API.
+
+
+Summary of Execution Flow:
+Call Stack executes synchronous code line by line.
+Asynchronous tasks (like setTimeout) are handled by the Web API.
+When complete, the callback goes to the Callback Queue.
+Event Loop checks if the Call Stack is empty.
+If empty, the Event Loop pushes the callback from the Callback Queue to the Call Stack.
+Callback executes synchronously once on the Call Stack.
+
+
+
+
+
+
+
+
+
+
+
+Single threaded : 
+JavaScript is single-threaded, which means it can do one thing at a time.
+
+Imagine a single queue at a grocery store with one cashier.
+
+Only one customer can check out at a time.
+The next customer waits until the cashier is free.
+In JavaScript, this means:
+
+It can only execute one line of code at a time.
+If one task is slow (like a long loop), everything else waits.
+But JavaScript is also non-blocking. It uses:
+
+Web APIs (like setTimeout) to handle things in the background.
+When ready, those tasks are added to a queue.
+Event Loop checks the queue and runs the tasks only when JavaScript is done with the current work.
+So, it feels fast and asynchronous, but it's still one thing at a time.
+
+
+
+
+
+
+
+
+Rumtime  : 
+What are Runtimes?
+JavaScript runtimes are environments where JavaScript code executes. They provide:
+
+Engine to run JS (e.g., V8 engine).
+APIs and features to interact with the system (like DOM, File System).
+Event loop and Callback queue for asynchronous behavior.
+
+1. Browser (e.g., Chrome, Firefox)
+Engine: Uses V8 (Chrome) or SpiderMonkey (Firefox) to execute JS.
+APIs Provided:
+DOM: Manipulate HTML/CSS (e.g., document.querySelector()),
+Web APIs: fetch(), setTimeout(), localStorage, etc.
+Event Loop: Handles asynchronous tasks like:
+User events (clicks, scrolls),
+Network requests (fetch()),
+Timers (setTimeout()).
+No File System Access for security.
+Example:
+console.log("Start");
+
+setTimeout(() => {
+    console.log("Inside setTimeout");
+}, 1000);
+
+console.log("End");
+
+Output Order:
+Start
+End
+Inside setTimeout
+setTimeout() is sent to Web API.
+After 1 second, it goes to Callback Queue.
+Event Loop checks Call Stack → If empty, executes the callback.
+
+
+2. Node.js
+Engine: Uses V8 (like Chrome).
+APIs Provided:
+File System (fs.readFile()),
+Network (HTTP requests),
+Process Management (process, child_process).
+Event Loop: Similar to browsers but with:
+libuv for handling OS-level async operations (File I/O, Network).
+Asynchronous by Design: Uses Non-Blocking I/O for better performance.
+Example:
+const fs = require('fs');
+
+console.log("Start");
+
+fs.readFile('example.txt', 'utf-8', (err, data) => {
+    if (err) throw err;
+    console.log("File content:", data);
+});
+
+console.log("End");
+
+Output Order:
+Start
+End
+File content: (content of example.txt)
+fs.readFile() is sent to libuv.
+When done, callback goes to Callback Queue.
+Event Loop moves it to Call Stack once it's empty.
+
+ 
+3. Deno
+Engine: Uses V8.
+APIs Provided:
+Modern APIs (similar to browsers) like fetch(),
+File System with explicit permissions (Deno.readTextFile()),
+TypeScript Support out-of-the-box.
+Security: Secure by default. Requires permissions for File System, Network, etc.
+Example: deno run --allow-read script.ts for reading files.
+Event Loop: Similar to Node.js using Rust-based async runtime.
+Example:
+console.log("Start");
+
+const text = await Deno.readTextFile('example.txt');
+console.log("File content:", text);
+
+console.log("End");
+Uses Top-Level Await for async operations.
+No Callback Hell, more readable code.
+
+
+How They Help JavaScript Work Asynchronously?
+Event Loop: Checks Call Stack and moves tasks from Callback Queue to Call Stack when empty.
+Callback Queue: Holds callbacks from asynchronous tasks (e.g., setTimeout, fetch).
+Web APIs (Browser) / libuv (Node):
+Handle async tasks outside JS engine.
+Notify Event Loop when ready.
+Non-Blocking I/O: In Node.js and Deno, async tasks (like reading files) don't block the main thread.
+
+
+Key Points to Remember : 
+JavaScript is Single-Threaded but achieves asynchronous behavior using Event Loop and Callback Queue.
+Browser is for frontend with DOM manipulation and Web APIs.
+Node.js is for backend with File System and Network access.
+Deno is a modern runtime with better security, TypeScript support, and permission control.
+Event Loop is the heart of asynchronous behavior in all runtimes.

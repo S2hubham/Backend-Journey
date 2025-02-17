@@ -1,0 +1,161 @@
+JavaScript Execution Model Recap:
+Call Stack: Where functions are pushed when called and popped when completed.
+Web APIs: Provided by the browser (e.g., setTimeout). They handle asynchronous tasks.
+Callback Queue: Holds callbacks waiting to be executed once the call stack is empty.
+Event Loop: Continuously checks the call stack. If it's empty, it pushes the next callback from the queue to the stack.
+Code Analysis:
+
+console.log("Hi");                         // 1
+timeConsumingByLoop();                      // 2
+timeConsumingByRuntimeFeature0();            // 3
+timeConsumingByRuntimeFeature1();            // 4
+timeConsumingByRuntimeFeature2();            // 5
+timeConsumingByLoop();                      // 6
+console.log("By");                          // 7
+
+
+
+Step-by-Step Execution:
+1. console.log("Hi");
+Call Stack: console.log() is pushed → logs "Hi" → popped.
+
+Output:
+Hi
+
+
+
+2. timeConsumingByLoop();
+
+function timeConsumingByLoop() {
+    console.log("loop starts");
+    for(let i = 0; i < 1000000000; i++) {
+        // some task
+    }
+    console.log("loop ends");
+}
+Call Stack: timeConsumingByLoop() is pushed.
+Execution:
+"loop starts" is logged.
+The for loop is synchronous, so it blocks the call stack for a while.
+After the loop, "loop ends" is logged.
+
+Output:
+loop starts
+loop ends
+
+
+
+3. timeConsumingByRuntimeFeature0();
+
+function timeConsumingByRuntimeFeature0() {
+    console.log("Starting timer");
+    setTimeout(function exec0() {
+        console.log("Completed the timer0");
+        for(let i = 0; i < 1000000000; i++) {
+            // some task
+        }
+    }, 5000);
+}
+Call Stack: timeConsumingByRuntimeFeature0() is pushed.
+Execution:
+"Starting timer" is logged.
+setTimeout(exec0, 5000) is called.
+exec0 is sent to the Web API, which sets a 5-second timer.
+After 5 seconds, exec0 goes to the Callback Queue.
+timeConsumingByRuntimeFeature0() is popped.
+Output:
+Starting timer
+
+
+4. timeConsumingByRuntimeFeature1();
+
+function timeConsumingByRuntimeFeature1() {
+    console.log("Starting timer");
+    setTimeout(function exec1() {
+        console.log("Completed the timer1");
+    }, 0);
+}
+Call Stack: timeConsumingByRuntimeFeature1() is pushed.
+Execution:
+"Starting timer" is logged.
+setTimeout(exec1, 0) is called.
+exec1 goes to the Web API. Although the timer is 0, it still gets queued.
+exec1 goes to the Callback Queue after the current call stack is clear.
+timeConsumingByRuntimeFeature1() is popped.
+
+Output:
+Starting timer
+
+
+
+5. timeConsumingByRuntimeFeature2();
+
+function timeConsumingByRuntimeFeature2() {
+    console.log("Starting timer");
+    setTimeout(function exec2() {
+        console.log("Completed the timer2");
+    }, 2000);
+}
+Call Stack: timeConsumingByRuntimeFeature2() is pushed.
+Execution:
+"Starting timer" is logged.
+setTimeout(exec2, 2000) is called.
+exec2 is sent to the Web API.
+After 2 seconds, exec2 goes to the Callback Queue.
+timeConsumingByRuntimeFeature2() is popped.
+
+Output:
+Starting timer
+
+
+
+6. timeConsumingByLoop(); (Second Call)
+Same as Step 2
+
+Output:
+loop starts
+loop ends
+
+
+
+7. console.log("By");
+Call Stack: console.log() is pushed → logs "By" → popped.
+
+Output:
+By
+
+
+
+8. Event Loop and Callback Queue Processing
+After the call stack is empty, the Event Loop checks the Callback Queue:
+
+exec1 (0 ms timer) → "Completed the timer1"
+exec2 (2000 ms timer) → "Completed the timer2"
+exec0 (5000 ms timer) → "Completed the timer0" followed by a long loop
+
+
+
+
+Final Output:
+Hi
+loop starts
+loop ends
+Starting timer
+Starting timer
+Starting timer
+loop starts
+loop ends
+By
+Completed the timer1
+Completed the timer2
+Completed the timer0
+Completed the timer0 is delayed because of the long loop.
+
+Even though exec1 has a 0 ms timer, it waits until the call stack is clear.
+
+
+Key Takeaways:
+setTimeout is asynchronous, so its callback goes to the Callback Queue.
+The Event Loop pushes callbacks to the Call Stack only when it's empty.
+Long-running synchronous code blocks the Call Stack, delaying asynchronous callbacks.
+Timers with 0 ms still wait for the Call Stack to clear.
