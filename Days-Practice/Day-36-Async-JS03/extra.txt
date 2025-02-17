@@ -1,0 +1,74 @@
+https://www.jsv9000.app/
+
+https://nodejs.org/en/learn/getting-started/introduction-to-nodejs
+
+
+
+Node.js process.stdout and process.stderr I/O Behavior
+process.stdout and process.stderr are Node.js streams used for output:
+
+process.stdout: Used by console.log() for standard output.
+process.stderr: Used by console.error() for error messages.
+Synchronous vs. Asynchronous Writes
+Whether the writes are synchronous or asynchronous depends on what the stream is connected to and the operating system:
+
+Connected To	Windows	POSIX (Linux, macOS)
+Files	Synchronous	Synchronous
+TTYs (Terminals)	Asynchronous	Synchronous
+Pipes (Sockets)	Synchronous	Asynchronous
+Synchronous: The write blocks the event loop until the operation completes.
+Asynchronous: The write is non-blocking, allowing the event loop to continue other tasks.
+Why This Matters:
+Synchronous writes are used to preserve output order and prevent interleaving (e.g., logs and errors mixing up).
+However, they block the event loop, which can:
+Slow down applications under heavy load.
+Cause performance issues when writing to slow terminals, file systems, or pipes not being read.
+Best Practices for Backend Engineers:
+Avoid heavy use of console.log() in production to prevent blocking.
+Use asynchronous logging libraries like winston or pino for high-performance applications.
+Check if the stream is connected to a TTY (Terminal) using:
+js
+Copy
+Edit
+console.log(process.stdout.isTTY); // true if connected to terminal
+This helps in adjusting logging strategies based on the environment (e.g., local vs. server).
+
+
+
+
+
+
+
+
+
+
+1. POSIX (Portable Operating System Interface):
+What: A set of standards for maintaining compatibility between operating systems (like Linux, macOS, and UNIX systems).
+Why Important: Ensures that programs can run on different operating systems with minimal changes.
+Example: Commands like ls, cd, cat, and system calls like read() and write() follow POSIX standards.
+
+2. TTY (Teletype):
+What: Refers to the terminal or console where you type commands and see outputs. Originally meant hardware devices like typewriters but now refers to terminal emulators.
+Why Important: Determines how input and output are handled in command-line environments.
+Example in Node.js:
+console.log(process.stdout.isTTY); // true if running in a terminal
+true: If you run the script in a terminal.
+false: If you redirect output to a file or pipe it to another command.
+
+3. Process in Node.js:
+What: A global object that provides information about the current Node.js instance.
+Why Important: Used to interact with the operating system, handle input/output, and manage the runtime environment.
+Key Properties:
+process.stdout: Standard output stream (console.log() uses this).
+process.stderr: Standard error stream (console.error() uses this).
+process.stdin: Standard input stream (used for reading user input).
+process.env: Access environment variables.
+process.exit(): Exits the current process.
+Example:
+console.log(process.pid);  // Prints the current process ID
+console.log(process.platform);  // Shows the OS platform (e.g., 'win32', 'darwin', 'linux')
+
+Why These Matter for Backend Development:
+POSIX: Ensures compatibility across different server environments.
+TTY: Helps in adjusting logging and input/output behavior depending on where the script is run (terminal vs. CI/CD pipelines).
+Process: Essential for managing runtime behavior, accessing environment variables, and optimizing server performance.
