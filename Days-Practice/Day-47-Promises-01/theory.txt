@@ -1,0 +1,34 @@
+Why Promises?
+    Promises are used to handle asynchronous operations in JavaScript.
+    They help avoid callback hell and make the code more readable.
+What is a Promise?
+    A Promise is an object representing the eventual completion (or failure) of an asynchronous operation.
+    It has three states:
+    Pending: The initial state.
+    Fulfilled: The operation was successful.
+    Rejected: The operation failed.
+
+Creating a Promise
+let promise = new Promise(function(resolve, reject) {
+    // Asynchronous operation
+});
+resolve(value): Marks the promise as fulfilled and returns value.
+reject(error): Marks the promise as rejected and returns error.
+
+
+-Promises represent an async operation and can be in pending, fulfilled, or rejected states.
+-Resolve/reject can only be called once; extra calls are ignored.
+-Only one argument is accepted by resolve() or reject(). Use an array/object for multiple values.
+-Blocking code (like loops) will execute synchronously before resolving a promise.
+-Without calling resolve/reject explicitly, a promise remains pending forever.
+-Calling resolve/reject inside setTimeout makes the promise truly async.
+
+
+
+When a promise contains an async task (like setTimeout), the following steps occur:
+    1)The promise is created and returned immediately – but its [[PromiseState]] is "pending", and [[PromiseResult]] is undefined.
+    2)The asynchronous task (setTimeout) starts running in the background.
+    3)After the delay, the callback inside setTimeout executes, resolving or rejecting the promise.
+    4)Once resolved or rejected, the PromiseState updates to "fulfilled" or "rejected", and PromiseResult gets the corresponding value.
+
+
