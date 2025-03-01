@@ -1,0 +1,111 @@
+1. Handlers in Promises
+A handler is a function that executes when a promise is resolved (fulfilled) or rejected.
+Handlers are attached using .then() and .catch().
+When a promise settles (either resolves or rejects), the handlers stored in the internal fulfillment/rejection queues get executed.
+
+
+2. .then() and .catch()
+.then(onFulfilled, onRejected) attaches handlers to execute when the promise is fulfilled or rejected.
+.catch(onRejected) is a shorthand for handling only rejection cases.
+.finally() runs regardless of resolution or rejection, useful for cleanup tasks.
+Each .then() returns a new promise, allowing chaining.
+
+
+3. Microtask Queue and Handlers Execution
+When a promise resolves or rejects, its handlers are not executed immediately.
+Instead, they are added to the Microtask Queue, which has higher priority than the Callback Queue (where setTimeout callbacks go).
+The Microtask Queue ensures promise handlers run as soon as possible, right after the current script execution.
+
+
+4. Event Loop and Task Execution Order
+The Event Loop is responsible for executing tasks from different queues in a structured order.
+Execution Priority:
+Synchronous code (normal JavaScript execution).
+Microtasks (promise handlers, queueMicrotask() callbacks).
+Callback Queue (Macrotasks) – includes setTimeout, setInterval, setImmediate (Node.js).
+Once synchronous code finishes, the event loop checks and executes all microtasks before handling any macrotask (e.g., setTimeout).
+
+
+5. Priority in Handlers Execution
+Multiple .then() handlers for the same promise are stored in a queue and executed in the order they were attached.
+If a new .then() is added after the promise is already resolved, it still goes to the microtask queue and executes in the next event loop cycle.
+If a promise chain exists, each .then() waits for the previous one to complete before executing.
+
+
+
+
+
+Last example execution =>>> 
+
+Step 1: Global Execution Starts
+The JavaScript engine starts executing the script synchronously from top to bottom.
+
+
+Step 2: setTimeout is Scheduled
+setTimeout(function exec(){
+    console.log("Timer completed");
+}, 0);
+setTimeout with 0 ms delay is placed in the Callback Queue (Macrotask Queue).
+It won’t execute immediately; it waits for the call stack to be empty and the Event Loop to pick it up.
+
+
+Step 3: createPromise() Execution
+let p = createPromise();
+Function createPromise is called.
+
+Inside createPromise:
+console.log("Resolving the promise");
+This prints immediately:
+"Resolving the promise"
+The resolve("Done") is called, changing the promise state to "fulfilled" with the value "Done".
+Since .then() handlers are asynchronous, they are not executed immediately. Instead, they are pushed to the Microtask Queue.
+
+
+Step 4: Adding .then() Handlers
+p.then(fulfillmentHandler1, rejectionHandler);
+p.then(fulfillmentHandler2, rejectionHandler);
+p.then(fulfillmentHandler3, rejectionHandler);
+Since p is already resolved, all .then() handlers are added to the Microtask Queue in order.
+
+
+Step 5: Blocking Synchronous Loop
+for(let i = 0; i < 10000000000; i++){}
+This is a long-running synchronous task (loop) that blocks the Call Stack.
+Until this loop completes, nothing else can execute, including the Microtask Queue and Callback Queue.
+
+
+Step 6: Logging "Ending..."
+console.log("Ending...");
+This prints after the loop finishes:
+"Ending..."
+
+
+Step 7: Processing Microtask Queue (Promise Handlers)
+Now that the synchronous code is done, the Microtask Queue executes before moving to the Callback Queue.
+The .then() handlers are executed in the order they were attached:
+Inside fulfill handler 1 with value :  Done
+Inside fulfill handler 2 with value :  Done
+Inside fulfill handler 3 with value :  Done
+
+
+Step 8: Processing Callback Queue (setTimeout)
+Finally, the event loop picks up the setTimeout callback from the Callback Queue, executing:
+Timer completed
+
+Final Output (Order of Execution)   
+Resolving the promise
+Ending...
+Inside fulfill handler 1 with value :  Done
+Inside fulfill handler 2 with value :  Done
+Inside fulfill handler 3 with value :  Done
+Timer completed
+
+
+
+
+Key Takeaways :
+-Promises execute immediately but their handlers (.then()) run asynchronously via the Microtask Queue.
+-Microtasks have higher priority than Macrotasks (like setTimeout).
+-Synchronous code (like the long loop) blocks the event loop, delaying promise resolution and setTimeout.
+-Multiple .then() handlers attached to a resolved promise execute in order from the Microtask Queue.
+-The setTimeout callback runs last since it is a Macrotask.
