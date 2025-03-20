@@ -1,0 +1,71 @@
+Understanding Inversion of Control and How Promises Resolve It >>>>
+
+✅ What is Inversion of Control (IoC)?
+Inversion of Control occurs when you give control of how and when to execute a callback function to another function. This can lead to issues such as:
+Multiple Invocations – The callback may be called more than once.
+Missed Execution – The callback may not be called at all.
+Unpredictable Timing – You lose control over when the callback is executed.
+Error Handling Complexity – Handling errors within callbacks is messy and inconsistent.
+
+
+
+🔍 Example of IoC with Callbacks
+
+function download(url, cb) {
+    console.log("Started downloading from", url);
+    setTimeout(function exec() {
+        console.log("Completed downloading after 5s");
+        const content = "ABCDEF";
+        cb(content); // Callback may be called once...
+        cb(content); // ...or multiple times!
+    }, 5000);
+}
+
+download("www.xyz.com", function processDownload(data) {
+    console.log("Downloaded data is", data);
+});
+
+
+❌ Problems in this approach:
+Loss of Control: We cannot ensure how many times the callback is called.
+Callback Hell: Nesting multiple callbacks leads to difficult-to-read code.
+Error Handling: We cannot easily handle errors across multiple callback layers.
+
+
+✅ How Promises Solve Inversion of Control
+A Promise is an object representing the eventual completion (or failure) of an asynchronous operation. 
+It allows controlled execution of callbacks using .then(), .catch(), and .finally().
+
+🟢 Revised Code Using Promises
+
+function download(url) {
+    console.log("Started downloading from", url);
+    return new Promise(function exec(resolve, reject) {
+        setTimeout(function () {
+            console.log("Completed downloading after 5s");
+            const content = "ABCDEF";
+            resolve(content); // Only one execution allowed
+        }, 5000);
+    });
+}
+
+download("www.xyz.com")
+    .then(function processDownload(data) {
+        console.log("Data is", data);
+    });
+
+
+✅ Why This is Better:
+-Single Execution Guarantee: resolve() or reject() can only be called once.
+-Error Handling: Centralized error handling via .catch().
+-Chaining: We can easily chain asynchronous tasks with .then().
+-Consistency: Promises ensure a consistent flow of asynchronous logic.
+
+
+📊 How Promises Prevent Inversion of Control
+Issue with Callbacks	                Fixed by Promises
+Callback may run multiple times	        resolve() or reject() runs only once.
+Callback may never be called	        Promise stays in pending until resolved.
+Difficult error propagation	            Unified error handling with .catch().
+Nested, hard-to-read code	            Clean, linear flow with .then() chaining.
+Loss of control over execution	        We control when and how to use the result.
