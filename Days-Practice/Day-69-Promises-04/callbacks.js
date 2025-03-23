@@ -37,7 +37,7 @@ download("www.xyz.com", function(data) {
 
 
 
-function download(url) {
+/* function download(url) {
     return new Promise(function x(res, rej){
         console.log("Downloading from the URL:", url);
         console.log();
@@ -74,7 +74,7 @@ function upload(file) {
             res("Operation Successfull!!!");
         }, 3000);
     })
-}
+} 
 
 
 download("www.xyz.com")
@@ -82,4 +82,100 @@ download("www.xyz.com")
 .then(upload)
 .then(function f3(data){
     console.log(data);
-})  
+}) */ 
+
+
+/* function getInt(x){
+    return Math.floor(Math.random() * x);
+}
+
+function flight(name, cb){
+    console.log("Searching for the flight...");
+    let finder = getInt(Math.floor(Math.random()*10));
+    setTimeout(function x(){
+        if(finder % 2 == 0){
+            console.log("Flight is available");
+            cb(name);
+        }
+        else{
+            console.log("Flight not available");
+            return;
+        }
+    } ,2000);
+}
+
+function book(name, cb){
+    console.log("Booking the flight", name);
+    setTimeout(function x(){
+        console.log("Booked successfully");
+        let ticket = getInt(Math.floor(Math.random()*100));
+        cb(ticket);
+    }, 3000);
+}
+
+
+function sendTicket(ticket, cb){
+    console.log("Getting ticket");
+    setTimeout(function x(){
+        console.log("Ticket number is", ticket);
+        cb("Done <-_->")
+    }, 2000);
+}
+
+flight("Emirates", function(name){
+    book(name, function(ticket){
+        sendTicket(ticket, function(data){
+            console.log(data);
+        })
+    })
+}) */
+
+
+
+/* function getInt(x){
+    return Math.floor(Math.random() * x);
+}
+
+function flight(name){
+    return new Promise(function searching(res, rej) {
+        console.log("Searching for the flight...");
+        let finder = getInt(Math.floor(Math.random()*10));
+        setTimeout(function x(){
+            if(finder % 2 == 0){
+                console.log("Flight is available");
+                res(name);
+            }
+            else{
+                rej("No filght available!!!");
+            }
+        } ,2000);
+    })
+}
+
+function book(name){
+    return new Promise(function booking(res, rej){
+        console.log("Booking the flight", name);
+        setTimeout(function x(){
+            console.log("Booked successfully");
+            let ticket = getInt(Math.floor(Math.random()*100));
+            res(ticket);
+        }, 3000);
+    })
+}
+
+
+function sendTicket(ticket){
+    return new Promise(function getTicket(res, rej){
+        console.log("Getting ticket");
+        setTimeout(function x(){
+            console.log("Ticket number is", ticket);
+            res("Done <-_->")
+        }, 2000);
+    })
+}
+
+flight("Emirates")
+.then(book)
+.then(sendTicket)
+.then(console.log)
+.catch(console.log) */
