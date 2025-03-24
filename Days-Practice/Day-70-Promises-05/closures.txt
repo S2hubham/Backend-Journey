@@ -1,0 +1,79 @@
+📌 Closures in JavaScript
+✅ Definition:
+A closure is a function that "remembers" and can access variables from its lexical scope (the scope where it was defined) even after that scope has closed.
+
+📊 Example Code:
+function process() {
+    let i = 0; // Local variable
+    function innerProcess() {
+        i += 1; // Accessing the outer variable
+        return i;
+    }
+    return innerProcess; // Returning the inner function
+}
+
+let res = process();
+
+console.log("First call =>", res()); // 1
+console.log("Second call =>", res()); // 2
+console.log("Third call =>", res()); // 3
+
+
+
+📚 How It Works (Step-by-Step):
+Function Execution Context:
+When process() is called, a new execution context is created.
+Variable i is initialized to 0 in the local scope of process().
+
+Returning the Inner Function:
+innerProcess() is returned but not executed immediately.
+This function holds a reference to the outer scope where i exists.
+
+Persistence of Data:
+Each call to res() increments i because the inner function "remembers" the value of i from its closure.
+Even after process() has finished executing, i is not garbage-collected—it stays in memory because res still references it.
+
+
+
+🔍 Understanding the [[Scopes]] Property:
+When inspecting the function in the console:
+
+Closure (process) {i: 2}:
+This indicates the preserved scope where the variable i lives.
+
+
+
+📖 Key Characteristics of Closures:
+-Access to Outer Scope: Inner functions can access variables defined in their parent function.
+-Data Encapsulation: Variables in closures are private and cannot be accessed directly from outside.
+-Persistent State: Even after the outer function is executed, the inner function retains the state of the variables.
+
+
+
+
+
+
+
+function DO(task){
+    setTimeout(function exec(){
+        console.log(task);
+    }, 2000);
+}
+DO("Shubham");
+
+
+📌 Real-World Analogy for Closures + setTimeout()
+Imagine you're at a restaurant and you place an order:
+
+🍔 The Restaurant Analogy:
+You (Caller):
+You walk into a restaurant and order a burger. This is like calling the DO("Shubham") function.
+
+Chef (Inner Function):
+The chef starts preparing your burger but says it will take 2 minutes (similar to setTimeout() delaying the task).
+
+You Leave the Counter (Function Ends):
+You step aside and wait. The person who took your order remembers it, even though you’re no longer at the counter. This "memory" is like a closure keeping track of the task variable.
+
+Order is Ready (Callback Execution):
+After 2 minutes, the chef finishes the burger and calls out "Shubham's burger is ready!"—just like the exec() function logging "Shubham".

@@ -1,0 +1,43 @@
+📊 Iterators vs Generators
+Feature	        Iterator	                    Generator
+Definition	    Object with next() method	    Special function using function*
+Creation	    Manual implementation	        Automatic via yield keyword
+State	        Manually managed	            Automatically maintained by JavaScript
+Syntax	        Regular object	                function* syntax
+
+
+
+
+📌 What is a Generator?
+A generator is a special type of function in JavaScript that can pause execution and resume it later. It allows lazy evaluation and produces a sequence of values on-demand.
+
+📊 Generator Syntax
+Generators are defined using the function* syntax:
+function* generatorName() {
+    // Use 'yield' to pause execution
+    yield value;
+}
+
+Key Concepts in Generators
+yield Keyword:
+    Pauses the generator’s execution and returns the value.
+    The generator remains in a "suspended" state until next() is called.
+next() Method:
+    Resumes execution from the last yield point.
+    Returns an object:
+        {
+            value: <yielded value>,
+            done: <boolean>
+        }
+Generator Object:
+    Calling a generator function does not execute it immediately.
+    It returns a generator object which you control using next().
+
+
+
+summary :
+-Generators are defined using function* and produce an iterator.
+-yield pauses the function, and next() resumes it.
+-Use yield* to delegate to other iterables.
+-Can pass values to and throw errors inside a generator.
+-Useful for lazy evaluation, asynchronous control, and custom iterators.

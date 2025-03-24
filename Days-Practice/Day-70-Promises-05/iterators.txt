@@ -1,0 +1,41 @@
+📌 What is an Iterator?
+An iterator in JavaScript is an object that provides a method called next() to traverse through a collection (like arrays, strings, etc.) one value at a time.
+When you call next():
+It returns an object with two properties:
+    value: The next value in the collection.
+    done: A boolean (true if there are no more values, false otherwise).
+
+
+📊 Key Characteristics of Iterators:
+Sequential Access: Iterates through elements one-by-one without exposing the underlying data structure.
+Lazy Evaluation: Values are computed only when requested via next(), saving resources for large datasets.
+Custom Behavior: You can define your own iterator logic using custom iterators.
+
+
+
+Iterator Protocol
+To be an iterator, an object must implement the following:
+1)next() method: Must return an object with:
+    {
+    value: <current value>,
+    done: <boolean>
+    }
+2)Symbol.iterator method (for iterables): Allows the object to be used in constructs like for...of.
+
+
+
+
+
+
+
+
+Imperative :
+const arr = [1, 2, 3];
+for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+}
+
+
+Declarative : 
+const arr = [1, 2, 3];
+arr.forEach(element => console.log(element));
