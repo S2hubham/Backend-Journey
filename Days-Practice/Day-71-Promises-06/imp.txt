@@ -1,0 +1,94 @@
+Combining Generators and Promises (Async Generators)
+Purpose and Design
+-Handling Asynchronous Tasks:
+    You combine generators with promises to control asynchronous operations in a sequential, readable way.
+-Manual Scheduler:
+    The generator function (steps()) yields promises (from download, saveToFile, upload).
+    A helper function (doAfterRecieving) recursively calls iter.next(value) when each promise resolves.
+
+Execution Flow
+Promise Yields:
+    In the generator steps(), each asynchronous function is called with yield so that the generator pauses until the promise resolves.
+Manual Advancement:
+    doAfterRecieving receives the resolved value and calls iter.next(value), advancing the generator.
+Logging and Results:
+    After each yield, the resolved data is logged and used in the subsequent operation.
+
+Key Points
+Generator as Coroutine:
+    The generator here acts as a coroutine, pausing and resuming asynchronous operations.
+Promise Chaining via Generator:
+    The yielded promise’s .then(doAfterRecieving) chain ensures that each asynchronous step is executed in order.
+Code Readability:
+    This pattern helps write asynchronous code in a sequential manner before async/await was introduced.
+
+
+
+Async/Await Version
+Conversion from Generators 
+Simpler Syntax:
+    Replace function* with async function and yield with await.
+Automatic Handling:
+    Async functions automatically wrap the return value in a promise.
+    Execution is paused at each await until the promise resolves, much like the generator’s yield/resume cycle.
+
+Execution Flow
+Awaiting Promises:
+    const downloadedData = await download("www.xyz.com"); waits for the download promise to resolve.
+    Subsequent awaits (saveToFile and upload) work similarly.
+Sequential Execution:
+    The code reads top-to-bottom, making it easier to follow than manually advancing a generator.
+Return Value:
+    The async function returns a promise. When you call steps().then(...), it logs the final result.
+
+
+
+Key Points
+Syntactic Sugar Over Promises:
+    Async/await makes asynchronous code look synchronous without changing its non-blocking behavior.
+Error Handling:
+    You can use try/catch blocks around await calls to manage errors.
+Cleaner Code:
+    The async/await pattern reduces boilerplate compared to the generator-based approach.
+
+
+
+Overall Comparison and Crucial Insights
+Generators & Iterators:
+    Useful for pausing execution and manually controlling flow.
+    Requires explicit handling (like using .next() and a scheduler).
+
+Async Generators (with Promises):
+    Allow you to handle asynchronous operations in a sequential manner.
+    Require an external mechanism (like doAfterRecieving) to resume execution.
+
+Async/Await:
+    Simplifies asynchronous code by eliminating the need for an external scheduler.
+    Provides clearer, more maintainable code for asynchronous operations.
+    Enhances error handling with try/catch.
+
+By comparing these patterns, you can see that async/await was developed to simplify the patterns initially implemented with generators and promises. 
+Understanding generators helps us appreciate what happens “under the hood” when you use async/await.
+
+
+
+
+
+NOTE : When you declare an async function, no matter what value you return, it’s automatically wrapped in a promise. 
+This means even if you return a plain value, calling the async function returns a promise that resolves to that value.
+
+// Define an async function that returns a plain string.
+async function greet() {
+    return "Hello, world!";
+}
+
+// When you call the async function, it returns a promise.
+const result = greet();
+console.log(typeof result); // this will give promise object
+
+console.log(result);  
+// Output: Promise { 'Hello, world!' }
+
+// You can use .then() to access the returned value.
+result.then(message => console.log(message));
+// Output (after promise resolves): Hello, world!
