@@ -1,0 +1,33 @@
+1️⃣ Promise.all() - Stock Market Dashboard
+🔹 Scenario: A stock market dashboard fetches live stock prices, financial news, and market trends from different APIs. All this data is needed together for accurate insights.
+
+✅ Why Promise.all()?
+We must have all data before updating the dashboard.
+If any API fails, showing partial stock data could be misleading.
+It ensures synchronized and reliable information.
+
+
+
+2️⃣ Promise.allSettled() - Bus Ticket Booking System
+🔹 Scenario: A bus ticket booking platform checks availability from multiple bus operators. Even if some providers fail to respond, users should still see the available options.
+✅ Why Promise.allSettled()?
+All responses matter, whether success or failure.
+Users can still book from the available bus services even if some fail.
+Prevents a single API failure from blocking the entire booking process.
+
+
+    
+3️⃣ Promise.any() - Weather Application
+🔹 Scenario: A weather app fetches data from multiple weather providers. It picks the first successful response to ensure users get the forecast as quickly as possible.
+✅ Why Promise.any()?
+Users don't need all responses, just the fastest one.
+Reduces waiting time by accepting the first available forecast.
+Ensures a smooth user experience even if some APIs are slow or fail.
+
+
+
+🚀 Summary Table
+Method	                Real-World Use Case	            Why Use It?
+Promise.all()	        Stock market dashboard	        Requires all data together for accuracy.
+Promise.allSettled()	Bus ticket booking	            Shows both successes & failures to give users options.
+Promise.any()	        Weather app	                    Picks the fastest available response for real-time updates.

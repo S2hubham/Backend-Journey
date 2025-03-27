@@ -1,0 +1,110 @@
+1. What is Promise.all()?
+Promise.all() is a method in JavaScript that takes an array of promises and returns a single promise that resolves when all the input promises have resolved. 
+If any promise in the array rejects, the returned promise immediately rejects with that reason.
+
+
+
+2. Syntax
+Promise.all([promise1, promise2, promise3])
+  .then(results => {
+    console.log(results);  // Array of resolved values
+  })
+  .catch(error => {
+    console.error(error);  // First rejected reason
+  });
+
+
+
+3. Behavior of Promise.all()
+All promises resolve → Returns an array of resolved values.
+Any promise rejects → Immediately rejects with that error.
+Handles non-promise values → Converts them into resolved promises.
+
+
+
+4. Use Cases
+Fetching multiple APIs simultaneously.
+Running independent asynchronous operations in parallel.
+Loading multiple resources like images or files.
+
+
+
+Problems to Understand Edge Cases
+1. Basic Example (All Promises Resolve)
+const p1 = Promise.resolve(10);
+const p2 = new Promise(resolve => setTimeout(() => resolve(20), 1000));
+const p3 = Promise.resolve(30);
+
+Promise.all([p1, p2, p3]).then(console.log);  
+// Output after 1 second: [10, 20, 30]
+✅ All promises resolve successfully, and the final result is an array of values.
+
+
+2. If One Promise Rejects
+const p1 = Promise.resolve(100);
+const p2 = new Promise((_, reject) => setTimeout(() => reject("Error occurred"), 1000));
+const p3 = Promise.resolve(300);
+
+Promise.all([p1, p2, p3])
+  .then(console.log)
+  .catch(console.error);
+// Output after 1 second: "Error occurred"
+🚨 If one promise rejects, the entire Promise.all() fails immediately.
+
+
+
+3. Handling Mixed Data Types
+Promise.all([1, "text", Promise.resolve(3)]).then(console.log);
+// Output: [1, "text", 3]
+✅ Non-promise values are treated as already resolved.
+
+
+
+4. Empty Array Case
+Promise.all([]).then(console.log);  
+// Output: []
+✅ If Promise.all([]) is called with an empty array, it resolves to an empty array immediately.
+
+
+
+5. Handling Long-Running and Failing Promises
+const slowPromise = new Promise(resolve => setTimeout(() => resolve("Slow Done"), 3000));
+const fastPromise = new Promise((_, reject) => setTimeout(() => reject("Fast Failed"), 1000));
+
+Promise.all([slowPromise, fastPromise])
+  .then(console.log)
+  .catch(console.error);
+// Output after 1 second: "Fast Failed"
+🚨 Promise.all() stops waiting as soon as one promise fails, even if other promises are still running.
+
+
+
+6. Using Promise.all() with fetch()
+const urls = [
+  "https://jsonplaceholder.typicode.com/todos/1",
+  "https://jsonplaceholder.typicode.com/todos/2",
+  "https://jsonplaceholder.typicode.com/invalid-url"
+];
+
+Promise.all(urls.map(url => 
+    fetch(url)
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error(`HTTP Error! Status: ${res.status}`);
+            }
+            res.json();
+        })
+    )
+)
+.then(console.log)
+.catch((err)=>{console.log(err)});
+// If one URL is invalid, entire Promise.all() rejects.
+🚨 If one fetch() fails, the entire Promise.all() rejects.
+
+
+
+Summary
+-Promise.all([]) → [] (Resolves instantly)
+-If one fails → Whole Promise.all() rejects.
+-Non-promise values are converted into resolved promises.
+-Useful for running multiple async tasks in parallel

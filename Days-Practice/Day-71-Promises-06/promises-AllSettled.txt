@@ -1,0 +1,98 @@
+What is Promise.allSettled()?
+Promise.allSettled() is a method that takes an array of promises and waits for all of them to complete, regardless of whether they resolve or reject. It never fails early like Promise.all().
+
+Syntax
+Promise.allSettled([promise1, promise2, ...])
+  .then(results => console.log(results));
+It always resolves with an array of objects.
+
+Each object has:
+{ status: "fulfilled", value: result } if the promise succeeded.
+{ status: "rejected", reason: error } if the promise failed.
+
+
+
+Key Differences: Promise.all() vs. Promise.allSettled()
+
+Feature	              Promise.all()	                          Promise.allSettled()
+Waits for all?	      No, rejects immediately if one fails	  Yes, always waits for all
+Result on failure?	  Rejects with the first error	          Returns all results, including errors
+Use case	            When all promises must succeed	        When we need all results, even failures
+
+
+🚀 Edge Cases & Examples
+✅ Example 1: Handling Mixed Results
+const promises = [
+  Promise.resolve("✅ Success 1"),
+  Promise.reject("❌ Error 1"),
+  Promise.resolve("✅ Success 2"),
+  Promise.reject("❌ Error 2")
+];
+
+Promise.allSettled(promises)
+  .then(results => console.log(results));
+
+Output:
+[
+  { status: "fulfilled", value: "✅ Success 1" },
+  { status: "rejected", reason: "❌ Error 1" },
+  { status: "fulfilled", value: "✅ Success 2" },
+  { status: "rejected", reason: "❌ Error 2" }
+]
+✔️ All promises are processed, even if some fail.
+
+
+✅ Example 2: Fetching APIs with Errors
+const urls = [
+  "https://jsonplaceholder.typicode.com/todos/1",
+  "https://jsonplaceholder.typicode.com/todos/2",
+  "https://jsonplaceholder.typicode.com/invalid-url"
+];
+
+Promise.allSettled(
+  urls.map(url => 
+    fetch(url)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+        return res.json();
+      })
+  )
+).then(console.log);
+
+Output (when one URL is invalid):
+[
+  { status: "fulfilled", value: { userId: 1, id: 1, ... } },
+  { status: "fulfilled", value: { userId: 1, id: 2, ... } },
+  { status: "rejected", reason: "HTTP Error: 404" }
+]
+✔️ Instead of failing, it gives detailed results for each API request.
+
+
+✅ Example 3: Handling Timeouts in Promises
+const delay = (ms, shouldFail = false) => new Promise((resolve, reject) => {
+  setTimeout(() => {
+    shouldFail ? reject(`❌ Failed after ${ms}ms`) : resolve(`✅ Resolved after ${ms}ms`);
+  }, ms);
+});
+
+Promise.allSettled([
+  delay(1000),
+  delay(2000, true), // This will fail
+  delay(1500)
+]).then(console.log);
+
+Output:
+[
+  { status: "fulfilled", value: "✅ Resolved after 1000ms" },
+  { status: "rejected", reason: "❌ Failed after 2000ms" },
+  { status: "fulfilled", value: "✅ Resolved after 1500ms" }
+]
+✔️ Even if one fails, the other results are still available.
+
+
+
+When to Use Promise.allSettled()?
+When you want results for all promises, even failed ones.
+When making multiple API requests where some may fail.
+When handling multiple tasks with different completion times.
+When aggregating data from different sources, regardless of success.

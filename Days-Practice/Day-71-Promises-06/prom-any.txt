@@ -1,0 +1,99 @@
+What is Promise.any()?
+Promise.any() takes an array of promises and returns the first successfully resolved value.
+If at least one promise resolves, it immediately resolves with that value.
+If all promises reject, it rejects with an AggregateError containing all errors.
+
+Syntax
+Promise.any([promise1, promise2, ...])
+  .then(result => console.log(result))
+  .catch(error => console.log(error));
+Returns only the first fulfilled value.
+
+If all promises fail, it throws an AggregateError.
+
+
+🆚 Key Differences: Promise.all(), Promise.allSettled(), Promise.any()
+Feature	                Promise.all()	                    Promise.allSettled()	        Promise.any()
+Stops early?	        Yes, if any promise rejects	        No, waits for all	            Yes, as soon as one fulfills
+Returns on success?	    Array of all results	            Array with status for all	    Only the first successful result
+Returns on failure?	    First error only	                Array of all results	        AggregateError if all fail
+Use case	            When all promises must succeed	    When we need all results	    When we need at least one success
+
+
+🚀 Edge Cases & Examples
+✅ Example 1: Resolving First Successful Promise
+const promises = [
+  new Promise((resolve) => setTimeout(() => resolve("✅ Success 1"), 2000)),
+  new Promise((resolve) => setTimeout(() => resolve("✅ Success 2"), 1000)), // This one wins
+  new Promise((resolve) => setTimeout(() => resolve("✅ Success 3"), 3000))
+];
+
+Promise.any(promises)
+  .then(console.log) 
+  .catch(console.error);
+
+Output:
+"✅ Success 2"
+✔️ First fulfilled promise wins (Success 2 in 1s), others are ignored.
+
+
+
+✅ Example 2: What Happens If All Reject?
+const failingPromises = [
+  new Promise((_, reject) => setTimeout(() => reject("❌ Error 1"), 1000)),
+  new Promise((_, reject) => setTimeout(() => reject("❌ Error 2"), 2000)),
+  new Promise((_, reject) => setTimeout(() => reject("❌ Error 3"), 1500))
+];
+
+Promise.any(failingPromises)
+  .then(console.log)
+  .catch(err => console.log("All promises failed:", err.errors));
+
+Output:
+All promises failed: ["❌ Error 1", "❌ Error 3", "❌ Error 2"]
+✔️ Since all failed, an AggregateError is returned, listing all failures.
+
+
+
+✅ Example 3: Fetching APIs and Returning the First Success
+const urls = [
+  "https://jsonplaceholder.typicode.com/todos/1", // Valid
+  "https://jsonplaceholder.typicode.com/invalid-url", // Invalid
+  "https://jsonplaceholder.typicode.com/todos/2" // Valid
+];
+
+Promise.any(
+  urls.map(url => fetch(url)
+    .then(res => {
+      if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+      return res.json();
+    })
+  )
+).then(console.log)
+ .catch(err => console.log("All failed:", err.errors));
+
+Possible Output:
+{ userId: 1, id: 1, title: 'delectus aut autem', completed: false }
+✔️ The first successful API response is returned, even if some fail.
+
+
+
+✅ Example 4: Using Promise.any() for Fallback APIs
+If one API fails, Promise.any() ensures we still get a response from another:
+const fetchData = [
+  fetch("https://invalid-url.com/api"), // Will fail
+  fetch("https://jsonplaceholder.typicode.com/todos/1"), // Will succeed
+  fetch("https://another-invalid-url.com/api") // Will fail
+];
+
+Promise.any(fetchData)
+  .then(response => response.json())
+  .then(console.log)
+  .catch(err => console.log("All APIs failed", err.errors));
+✔️ Ensures at least one successful API call is returned.
+
+
+When to Use Promise.any()?
+When you need at least one success (e.g., multiple APIs, redundant operations).
+When optimizing fallback strategies (e.g., try first available server).
+When running multiple parallel tasks and you only care about the first success
