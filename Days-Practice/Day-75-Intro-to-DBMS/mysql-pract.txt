@@ -1,0 +1,118 @@
+1️⃣ SQL vs MySQL
+🛠 Analogy:
+Think of SQL as a syllabus (like CBSE, ICSE, or university curriculums) and MySQL as a school (like DPS, Kendriya Vidyalaya, or IIT) that follows that syllabus.
+SQL (Structured Query Language): A standard query language used for managing relational databases (like a universal syllabus).
+MySQL: A specific RDBMS that implements SQL to store and manage data (like a school that follows a syllabus).
+Other RDBMS examples: PostgreSQL, SQLite, Oracle, Microsoft SQL Server.
+
+
+2️⃣ Data Types in MySQL
+MySQL supports various data types for different use cases:
+
+📌 String Data Types
+Data Type	    Description	            Example
+CHAR(n)	        Fixed-length            string	CHAR(5) → 'Chat'
+VARCHAR(n)	    Variable-length string	VARCHAR(10) → 'Hello'
+TEXT	        Large text storage	    Used for blog posts
+
+📌 Numeric Data Types
+Data Type	        Description	                Example
+INT	                Whole numbers	            INT → 1234
+DECIMAL(p,s)	    Precise floating point	    DECIMAL(5,2) → 99.99
+FLOAT / DOUBLE	    Approximate decimal numbers	FLOAT → 3.14
+
+📌 Date & Time Data Types
+Data Type	Description	                Example
+DATE	    Stores date only	        YYYY-MM-DD → '2024-03-28'
+DATETIME	Stores date & time	        YYYY-MM-DD HH:MM:SS
+TIMESTAMP	Stores UTC-based timestamp	Used for logging
+
+
+
+3️⃣ Basic MySQL Commands
+🚀 Database & Table Operations
+SHOW DATABASES;  -- Shows all available databases
+CREATE DATABASE SHUBH;  -- Creates a new database named SHUBH
+USE SHUBH;  -- Switches to the SHUBH database
+SHOW TABLES;  -- Lists all tables in the current Database
+
+
+
+4️⃣ Creating a Table
+CREATE TABLE tab(
+    Name VARCHAR(15),
+    DoB DATE,
+    Salary DECIMAL(10,2)
+);
+
+
+
+5️⃣ Describe Table Structure
+sql
+Copy
+Edit
+DESC tab;  -- Shows table structure (column names, data types)
+
+
+
+6️⃣ Inserting Data
+INSERT INTO tab(Name, DoB, Salary) 
+VALUES ('Shubham', "2004-02-02", 60000.00);
+
+
+
+7️⃣ Retrieving Data
+SELECT * FROM tab;  -- Retrieves all records
+SELECT Name, Salary FROM tab;  -- Retrieves only Name and Salary
+
+
+
+8️⃣ Creating a Table with Constraints
+CREATE TABLE tab1 (
+    Name VARCHAR(15) NOT NULL,  -- Ensures Name cannot be NULL
+    DoB DATE DEFAULT "2000-02-02",  -- Default date if no value is provided
+    Gender ENUM("Male", "Female", "Others")  -- Restricts values
+);  
+
+
+
+9️⃣ Filtering Data with WHERE Clause
+SELECT * FROM tab1 WHERE Gender = "Male";
+
+
+
+🔟 Using LIKE for Pattern Matching
+SELECT * FROM tab1 WHERE Name LIKE "a%";  -- Names starting with 'a'
+SELECT * FROM tab1 WHERE Name LIKE "_a%";  -- Second letter 'a'
+SELECT * FROM tab1 WHERE Name LIKE "%a%";  -- Contains 'a'
+
+
+
+1️⃣1️⃣ Using OR & NOT Operators
+SELECT * FROM tab1 WHERE (DoB >= "2004-02-18") OR (Gender = "Others");
+Returns records where either the date of birth is after 2004-02-18 OR gender is "Others".
+
+SELECT * FROM tab1 WHERE NOT Gender = "Female";
+Excludes records where gender is Female.
+
+
+
+1️⃣2️⃣ Sorting Data with ORDER BY
+SELECT * FROM tab1 ORDER BY Name;  -- Ascending order
+SELECT * FROM tab1 ORDER BY Name DESC;  -- Descending order
+
+
+
+1️⃣3️⃣ Limiting Results
+SELECT * FROM tab1 ORDER BY Name DESC LIMIT 1;
+Fetches only one record.
+
+
+
+🌟 Why DBMS is Crucial?
+🛠 Google Password Check Example
+When you log into Google, your password is matched against millions of records within milliseconds. This is possible because of:
+    Indexes (fast searching)
+    Hashing (efficient password comparison)
+    Optimized queries
+    Without DBMS, checking your password among millions of users would be painfully slow.
