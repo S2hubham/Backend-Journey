@@ -1,0 +1,32 @@
+DBMS : 
+    -A DBMS is a software system that enables the creation, management, and use of databases. It provides systematic methods for storing, retrieving, and managing data.
+    -Importance:
+        Data Abstraction & Independence: Separates data from the application logic.
+        Efficient Data Management: Optimizes storage and retrieval operations.
+        Data Integrity & Security: Enforces rules (constraints) to maintain data accuracy and protects data from unauthorized access.
+        Concurrent Access: Allows multiple users to access and modify data concurrently while maintaining consistency.
+
+
+
+SQL (Structured Query Language):
+    -Standard language for querying and managing relational databases.
+    -Key Functions:
+        DML (Data Manipulation Language): SELECT, INSERT, UPDATE, DELETE.
+        DDL (Data Definition Language): CREATE, ALTER, DROP.
+        DCL (Data Control Language): GRANT, REVOKE.
+    -Crucial Point: SQL is universally supported (with minor variations) across most relational DBMS
+
+
+
+RDBMS :
+    -Tables (Relations): Organized into rows (records) and columns (attributes).
+    -Schema vs. Instance:
+        Schema: The overall structure of the database (tables, relationships, constraints).
+        Instance: The actual data stored at any given time.
+    -Normalization:
+        Process of organizing data to reduce redundancy and improve integrity (1NF, 2NF, 3NF, BCNF, etc.).
+    -ACID Properties:
+        Atomicity: Ensures that transactions are all-or-nothing.
+        Consistency: Ensures that a transaction takes the database from one valid state to another.
+        Isolation: Ensures that concurrent transactions do not interfere with each other.
+        Durability: Ensures that once a transaction is committed, it will persist even in case of system failure.
