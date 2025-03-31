@@ -1,0 +1,178 @@
+If you define a column as VARCHAR(15) and store only 10 characters in it, the remaining 5 characters are not allocated. 
+VARCHAR is a variable-length data type, meaning it only uses the required storage plus some overhead (typically 1 or 2 bytes for length information)
+
+
+
+
+How to Sort and Return the Second Record : To return the second record from a sorted result, use ORDER BY with LIMIT and OFFSET.
+
+SQL Query =>
+SELECT * FROM table_name
+ORDER BY column_name ASC
+LIMIT 1 OFFSET 1;
+
+Explanation
+ORDER BY column_name ASC: Sorts the records in ascending order (use DESC for descending).
+LIMIT 1: Retrieves only one record.
+OFFSET 1: Skips the first record and returns the second one.
+
+
+
+SELECT Name FROM tab1 WHERE Name LIKE "%y%" ORDER BY Name LIMIT 1;
+In SQL, execution order follows this sequence:
+1️⃣ FROM → 2️⃣ WHERE (Filter) → 3️⃣ ORDER BY (Sort) → 4️⃣ LIMIT (Restrict results)
+
+
+
+
+
+
+
+
+---Altering
+Theory: ALTER TABLE allows you to modify an existing table’s structure.
+You can add or drop columns, change column definitions, or set constraints like primary keys.
+
+Syntax & Examples:
+1)Adding a Primary Key:
+Query: 
+ALTER TABLE Students
+ADD ID INT AUTO_INCREMENT PRIMARY KEY FIRST;
+//Adds an auto-increment primary key column named ID at the beginning of the Students table.
+
+2)Altering Columns: Changing a Column Name or Data Type
+Query:
+ALTER TABLE Actors 
+CHANGE NetWorth NW DECIMAL(10, 2);
+//Changes the NetWorth column to NW with a new data type (DECIMAL with precision 10,2).
+
+3)Adding a New Column:
+Query:
+ALTER TABLE Actors
+ADD Region VARCHAR(10);
+//Adds a new column Region to the Actors table at the end as no position is mentioned
+
+4)Renaming a Column:
+Query:
+ALTER TABLE Actors
+CHANGE SecondName LastName VARCHAR(15);
+//Renames SecondName to LastName and updates its data type if needed.
+
+5)Adding a Column at a Specific Position:
+Query:
+ALTER TABLE Actors
+ADD MiddleName VARCHAR(15) AFTER FirstName;
+//Adds the MiddleName column immediately after the FirstName column.
+
+6)Dropping a Column:
+Query:
+ALTER TABLE Actors
+DROP MiddleName;
+//Removes the MiddleName column from the table.
+
+
+
+---SELECT
+1)Using Column Aliases:
+Query:
+SELECT DoB AS "Date Of Birth" FROM Actors;
+//Returns the DoB column with the alias "Date Of Birth" in the result set.
+
+2)Concatenating Columns:
+Query:
+SELECT CONCAT(FirstName, ' ', LastName) AS "Name" FROM Actors;
+//Combines FirstName and LastName into one column named "Name".
+
+3)SELECT DISTINCT:
+Query:
+SELECT DISTINCT Section FROM Students;
+//Retrieves unique values for the Section column from the Students table.
+
+
+
+
+---Deleting Data
+Theory: DELETE statements remove one or more rows from a table based on a condition.
+You can limit deletions and sort the target records for deletion.
+
+Syntax & Examples:
+Query:
+DELETE FROM tab1 
+WHERE Name LIKE "%y%" ORDER BY Name LIMIT 1;
+//Deletes one record from tab1 where the Name contains the letter "y", after sorting the records by name.
+
+Query:
+DELETE FROM TAB;
+//Deletes all records from the table named TAB.
+
+
+
+
+---Updating Data
+Theory: UPDATE is used to modify existing records in a table.
+It allows you to set new values for one or more columns, filtering which records to update using the WHERE clause.
+
+Syntax & Example:
+Query:
+UPDATE Actors 
+SET FirstName = "RDJ", MaritalStatus = "Single"
+WHERE ID = 1;
+//Updates the first record in Actors by changing the FirstName to "RDJ" and MaritalStatus to "Single".
+
+
+
+
+---Aggregate Functions and Grouping
+Theory: Aggregate Functions like COUNT(), SUM(), AVG(), MAX(), and MIN() perform calculations on a set of numeric values.
+GROUP BY groups rows that share a property so aggregate functions can be applied to each group.
+HAVING is used to filter groups based on aggregate results (similar to WHERE but for groups).
+
+NOTE : WHERE only works on individual rows, but COUNT(*) > 5 is only known after grouping.
+       Thus, HAVING is required to filter aggregated results.
+       WHERE cannot be used with aggregate functions like COUNT(*).
+
+Syntax & Examples:
+1)Counting Records:
+Query:
+SELECT COUNT(*) AS "No. of Single People" FROM Students
+WHERE Marital_Status = "Single";
+//Counts the number of students with Marital_Status equal to "Single".
+
+2)Summing Values:
+Query:
+SELECT SUM(Score) FROM Students;
+SELECT SUM(Score) FROM Students WHERE Marital_Status = "Single";
+//Calculates the total Score for all students or only those who are single.
+
+3)Average, Maximum, and Minimum:
+Query:
+SELECT AVG(Score) FROM Students;
+SELECT MAX(Score) FROM Students;
+SELECT MIN(Score) FROM Students;
+//Retrieves the average, highest, and lowest scores from the Students table.
+
+4)Grouping Records:
+Query:
+SELECT Marital_Status, COUNT(*) FROM Students
+GROUP BY Marital_Status;
+//Groups students by Marital_Status and counts the number of students in each group.
+
+5)Ordering Groups:
+Query:
+SELECT Marital_Status, COUNT(*) FROM Students
+GROUP BY Marital_Status
+ORDER BY COUNT(*);
+//Orders the grouped results based on the count of students.
+
+6)Using HAVING with GROUP BY:
+Query:
+SELECT DoB, COUNT(*) FROM Students
+GROUP BY DoB 
+HAVING DoB >= "2005-03-15";
+//Groups records by DoB then find the count and forms the table with two attr DoB , COUNT(*) then having filters the newly formed logical table(ie works on aggregated results)
+
+Query:
+SELECT Marital_Status, AVG(Score) AS Average FROM Students
+GROUP BY Marital_Status
+HAVING Marital_Status = "Married";
+//Calculates the average score for each marital status group, then filters to show only the "Married" group.

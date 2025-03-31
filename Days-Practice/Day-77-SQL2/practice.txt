@@ -1,0 +1,144 @@
+show databases;
+use shubh;
+
+
+CREATE TABLE Actors(
+    FirstName VARCHAR(20),
+    SecondName VARCHAR(20),
+    DoB DATE,
+    Gender ENUM("Male", "Female"),
+    MaritalStatus ENUM("Single", "Married"),
+    NetWorth INT
+);
+
+
+INSERT INTO Actors (FirstName, SecondName, DoB, Gender, MaritalStatus, NetWorth) 
+VALUES 
+('Robert', 'Downey', '1965-04-04', 'Male', 'Married', 300),
+('Scarlett', 'Johansson', '1984-11-22', 'Female', 'Married', 165),
+('Leonardo', 'DiCaprio', '1974-11-11', 'Male', 'Single', 260),
+('Angelina', 'Jolie', '1975-06-04', 'Female', 'Single', 120),
+('Tom', 'Holland', '1996-06-01', 'Male', 'Single', 25);
+
+
+CREATE TABLE Students(
+    Name VARCHAR(15),
+    DOB DATE,
+    Marital_Status ENUM("Single", "Married"),
+    Score INT,
+    Class INT DEFAULT NULL,
+    Section VARCHAR(5)
+);
+
+
+INSERT INTO Students (Name, DOB, Marital_Status, Score, Class, Section) 
+VALUES 
+('Alice', '2005-03-15', 'Single', 85, NULL, 'A'),
+('Bob', '2004-07-22', 'Single', 90, NULL, 'B'),
+('Charlie', '2006-01-10', 'Single', 78, NULL, 'C'),
+('David', '2003-12-05', 'Married', 88, NULL, 'A'),
+('Emma', '2005-06-30', 'Single', 92, NULL, 'B');
+
+
+ALTER TABLE Students
+ADD ID INT AUTO_INCREMENT PRIMARY KEY FIRST;
+
+
+ALTER TABLE Actors
+ADD ID INT AUTO_INCREMENT PRIMARY KEY FIRST;
+
+
+SELECT * FROM Actors;
+
+
+SELECT * FROM Students;
+
+
+DELETE FROM tab1 
+WHERE Name LIKE "%y%" ORDER BY Name LIMIT 1;
+
+
+DELETE FROM TAB;
+
+
+UPDATE Actors 
+SET FirstName = "RDJ", MaritalStatus = "Single"
+WHERE ID = 1;
+
+
+ALTER TABLE Actors 
+CHANGE NetWorth NW DECIMAL(10, 2);
+
+
+ALTER TABLE Actors
+ADD Region VARCHAR(10);
+
+
+UPDATE Actors 
+SET Region = "Hollywood";
+
+
+ALTER TABLE Actors
+CHANGE Region Speciality VARCHAR(15);
+
+
+ALTER TABLE Actors
+CHANGE SecondName LastName VARCHAR(15);
+
+
+ALTER TABLE Actors
+ADD MiddleName VARCHAR(15) AFTER FirstName;
+
+
+ALTER TABLE Actors
+DROP MiddleName;
+
+
+SELECT DoB AS "Date Of Birth" FROM Actors;
+
+
+SELECT CONCAT(FirstName, ' ', LastName) AS "Name" FROM Actors;
+
+
+SELECT DISTINCT Section FROM Students;
+
+
+SELECT COUNT(*) AS "No. of Single People" FROM Students
+WHERE Marital_Status = "Single";
+
+
+SELECT SUM(Score) FROM Students;
+
+
+SELECT SUM(Score) FROM Students
+WHERE Marital_Status = "Single";
+
+
+
+SELECT AVG(Score) FROM Students;
+
+
+SELECT MAX(Score) FROM Students;
+
+
+SELECT MIN(Score) FROM Students;
+
+
+SELECT Marital_Status, COUNT(*) FROM Students
+GROUP BY Marital_Status;
+
+
+SELECT Marital_Status, COUNT(*) FROM Students
+GROUP BY Marital_Status
+ORDER BY COUNT(*);
+
+
+HAVING comes with GROUP BY 
+
+SELECT DoB, COUNT(*) FROM Students
+GROUP BY DoB HAVING DoB >= "2005-03-15";
+
+
+SELECT Marital_Status, AVG(Score) AS Average FROM Students
+GROUP BY Marital_Status
+HAVING Marital_Status = "Married";
