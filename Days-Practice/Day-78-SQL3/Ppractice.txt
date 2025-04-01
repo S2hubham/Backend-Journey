@@ -1,0 +1,110 @@
+CREATE TABLE DigiAssests(
+    URL VARCHAR(30),
+    AssetType VARCHAR(15),
+    LastUpdatedOn DATETIME,
+    ID INT
+);
+
+INSERT INTO DigiAssests (URL, AssetType, LastUpdatedOn, ID)
+VALUES
+    ('google.com', 'Website', '2022-11-03 23:28:17', 2),
+    ('fb.com', 'Facebook', '2022-11-03 23:28:17', 3),
+    ('insta.c', 'Instagram', '2022-11-03 23:28:17', 6),
+    ('yahoo.com', 'Website', '2022-11-03 23:28:17', 10),
+    ('googleee.com', 'Website', '2022-11-03 23:28:17', 11),
+    ('facebook.com', 'Facebook', '2022-11-03 23:28:17', 5),
+    ('insta.com', 'Instagram', '2022-11-03 23:28:17', 7),
+    ('twitter.com', 'Twitter', '2022-11-03 23:28:17', 8),
+    ('yahoo.com', 'Website', '2022-11-03 23:28:17', 19);
+
+
+
+INSERT INTO actors (ID, FirstName, LastName, DoB, Gender, MaritalStatus, NetWorth, Speciality)
+VALUES
+    (1, 'Brad', 'Pitt', '1963-12-18', 'Male', 'Single', 240.00, 'Hollywood'),
+    (3, 'George', 'Clooney', '1962-05-06', 'Male', 'Married', 500.00, 'Hollywood'),
+    (4, 'Johnny', 'Depp', '1958-12-12', 'Male', 'Single', 200.00, 'Hollywood'),
+    (5, 'Shah Rukh', 'Khan', '1965-11-02', 'Male', 'Married', 1008.00, 'Bollywood');
+
+
+
+-> INNER JOIN
+SELECT * FROM Actors INNER JOIN DigiAssests
+ON Actors.ID = DigiAssests.ID;
+
+OR 
+
+SELECT * FROM Actors, DigiAssests
+WHERE Actors.ID = DigiAssests.ID;
+
+OR 
+
+SELECT * FROM Actors INNER JOIN DigiAssests
+USING(ID);
+
+
++----+-----------+----------+------------+--------+---------------+---------+------------+---------+-----------+---------------------+------+
+| ID | FirstName | LastName | DoB        | Gender | MaritalStatus | NW      | Speciality | URL     | AssetType | LastUpdatedOn       | ID   |
++----+-----------+----------+------------+--------+---------------+---------+------------+---------+-----------+---------------------+------+
+|  3 | George    | Clooney  | 1962-05-06 | Male   | Married       |  500.00 | Hollywood  | fb.com  | Facebook  | 2022-11-03 23:28:17 |    3 |
+|  6 | RJ        |          | 1965-11-02 | Male   | Married       | 1000.00 | Bollywood  | insta.c | Instagram | 2022-11-03 23:28:17 |    6 |
++----+-----------+----------+------------+--------+---------------+---------+------------+---------+-----------+---------------------+------+
+
+
+
+-> RIGHT JOIN
+SELECT * FROM Actors RIGHT JOIN DigiAssests
+ON Actors.ID = DigiAssests.ID;
+
+OR 
+
+SELECT * FROM Actors RIGHT JOIN DigiAssests
+USING(ID);
+
+SELECT Actors.ID, FirstName, NW, URL FROM Actors RIGHT JOIN DigiAssests
+ON Actors.ID = DigiAssests.ID;
+
++------+-----------+----------+------------+--------+---------------+---------+------------+--------------+-----------+---------------------+------+
+| ID   | FirstName | LastName | DoB        | Gender | MaritalStatus | NW      | Speciality | URL          | AssetType | LastUpdatedOn       | ID   |
++------+-----------+----------+------------+--------+---------------+---------+------------+--------------+-----------+---------------------+------+
+| NULL | NULL      | NULL     | NULL       | NULL   | NULL          |    NULL | NULL       | google.com   | Website   | 2022-11-03 23:28:17 |    2 |
+|    3 | George    | Clooney  | 1962-05-06 | Male   | Married       |  500.00 | Hollywood  | fb.com       | Facebook  | 2022-11-03 23:28:17 |    3 |
+|    6 | RJ        |          | 1965-11-02 | Male   | Married       | 1000.00 | Bollywood  | insta.c      | Instagram | 2022-11-03 23:28:17 |    6 |
+| NULL | NULL      | NULL     | NULL       | NULL   | NULL          |    NULL | NULL       | yahoo.com    | Website   | 2022-11-03 23:28:17 |   10 |
+| NULL | NULL      | NULL     | NULL       | NULL   | NULL          |    NULL | NULL       | googleee.com | Website   | 2022-11-03 23:28:17 |   11 |
+| NULL | NULL      | NULL     | NULL       | NULL   | NULL          |    NULL | NULL       | facebook.com | Facebook  | 2022-11-03 23:28:17 |    5 |
+| NULL | NULL      | NULL     | NULL       | NULL   | NULL          |    NULL | NULL       | insta.com    | Instagram | 2022-11-03 23:28:17 |    7 |
+| NULL | NULL      | NULL     | NULL       | NULL   | NULL          |    NULL | NULL       | twitter.com  | Twitter   | 2022-11-03 23:28:17 |    8 |
+| NULL | NULL      | NULL     | NULL       | NULL   | NULL          |    NULL | NULL       | yahoo.com    | Website   | 2022-11-03 23:28:17 |   19 |
++------+-----------+----------+------------+--------+---------------+---------+------------+--------------+-----------+---------------------+------+
+
+
+
+-> LEFT JOIN
+SELECT * FROM Actors LEFT JOIN DigiAssests
+ON Actors.ID = DigiAssests.ID;
+
++----+-----------+----------+------------+--------+---------------+---------+------------+---------+-----------+---------------------+------+
+| ID | FirstName | LastName | DoB        | Gender | MaritalStatus | NW      | Speciality | URL     | AssetType | LastUpdatedOn       | ID   |
++----+-----------+----------+------------+--------+---------------+---------+------------+---------+-----------+---------------------+------+
+|  1 | Brad      | Pitt     | 1963-12-18 | Male   | Single        |  240.00 | Hollywood  | NULL    | NULL      | NULL                | NULL |
+|  3 | George    | Clooney  | 1962-05-06 | Male   | Married       |  500.00 | Hollywood  | fb.com  | Facebook  | 2022-11-03 23:28:17 |    3 |
+|  4 | Johnny    | Depp     | 1958-12-12 | Male   | Single        |  200.00 | Hollywood  | NULL    | NULL      | NULL                | NULL |
+|  6 | RJ        |          | 1965-11-02 | Male   | Married       | 1000.00 | Bollywood  | insta.c | Instagram | 2022-11-03 23:28:17 |    6 |
++----+-----------+----------+------------+--------+---------------+---------+------------+---------+-----------+---------------------+------+
+
+
+-> OUTER JOIN is not supported in MYSQL
+-> if we don't give joining condition it will return catesian product (product of rows from both tables)
+-> if we dont want to specify join condition then use NATURAL JOIN
+
+SELECT FirstName, URL FROM Actors NATURAL JOIN DigiAssests;  
+this will use its own logic to find the common column then join the two tables 
+NOTE : if no common column name the -> cartesian product
+
+(SELECT * FROM TAB) UNION (SELECT * FROM tab1); 
+ex. getting topper and last student from a table by sorting and limiting
+(why it is diff from outer join)
+
+
+-> SELF JOIN  (use alias to differ the tables)
