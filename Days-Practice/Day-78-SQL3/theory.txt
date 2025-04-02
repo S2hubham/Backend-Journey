@@ -1,0 +1,106 @@
+questions => https://www.datacamp.com/blog/top-sql-joins-interview-questions
+
+
+What is a Join?
+    A JOIN in SQL is used to retrieve data from multiple tables by linking them through a common column. It helps in fetching meaningful data efficiently.
+
+Why Use Joins?
+    To combine data from related tables.
+    To analyze and extract insights from multiple sources.
+    To maintain data integrity and avoid redundancy.
+    To generate comprehensive reports.
+
+
+Types :
+1) INNER JOIN:
+Combines rows from two tables where a specified condition is met.
+
+Query => 
+SELECT e.name, d.dept_name FROM Employees e INNER JOIN Departments d
+ON e.dept_id = d.dept_id;
+
+How it Works:
+    Step 1: Imagine a Cartesian product that pairs every row from the first table with every row from the second table.
+    Step 2: Apply the join condition (Employees.dept_id = Departments.dept_id) to filter out non-matching pairs.
+    Step 3: Return only the rows where the join condition is true.
+
+Real World example => (ecommerce)
+I have 20 customers but only 10 orders are made actually by customers 
+now i want to show only who have made the orders
+
+
+
+2) LEFT JOIN
+This join returns all rows from the left (or first) table and only matching rows from the right (or second) table. 
+If there’s no match, it fills in with NULL for columns from the right table.
+
+Query => 
+SELECT e.name, d.dept_name FROM Employees e LEFT JOIN Departments d 
+ON e.dept_id = d.dept_id;
+
+Real World example => (ecommerce)
+i want all the customers irrespective of thier orders (if customer table is left)
+
+
+
+3) RIGHT JOIN 
+In MySQL, a RIGHT JOIN returns all rows from the right (or second) table, along with matching rows from the left (or first) table. 
+When there's no match, the left table's columns are filled with NULL.
+
+Query => 
+SELECT e.name, d.dept_name FROM Employees e RIGHT JOIN Departments d 
+ON e.dept_id = d.dept_id;
+
+Real World example => (ecommerce)
+i want all the customers irrespective of thier orders (if customer table is right)
+
+
+
+4) FULL JOIN
+❌ MySQL does not support FULL OUTER JOIN directly. However, we can achieve the same result by using a UNION of LEFT JOIN and RIGHT JOIN.
+The UNION automatically removes duplicates, so you don’t need additional filtering.
+
+Query => 
+SELECT e.name, d.dept_name FROM Employees e LEFT JOIN Departments d 
+ON e.dept_id = d.dept_id
+UNION
+SELECT e.name, d.dept_name FROM Employees e RIGHT JOIN Departments d 
+ON e.dept_id = d.dept_id;
+
+O/P =>  This is useful when you want to analyze both employees without departments and departments without employees in a single query.
++---------+-----------+
+| name    | dept_name |
++---------+-----------+
+| Alice   | HR        |
+| Bob     | IT        |
+| Charlie | NULL      |
+| David   | Finance   |
+| Emma    | NULL      |
+| NULL    | Marketing |
++---------+-----------+
+
+Real World example => (ecommerce)
+like getting all the orders and all the customers
+
+
+
+5) CROSS JOIN
+A CROSS JOIN returns the Cartesian product of both tables. This means each row from the first table is combined with every row from the second table.
+Unlike INNER, LEFT, or RIGHT joins, a CROSS JOIN does not use a JOIN condition.
+
+Query => 
+SELECT e.name, d.dept_name FROM Employees e CROSS JOIN Departments d;     4 * 5 = 20 records
+
+
+
+6) SELF JOIN
+A SELF JOIN is when a table is joined with itself. This is useful when you need to compare rows within the same table.
+Since a table cannot directly join itself, we use table aliases to treat it as two different tables.
+
+Query =>
+SELECT e1.name AS Employee, e1.name AS Manager 
+FROM Employee e1 LEFT JOIN Employee e2
+ON e1.manager_id = e2.emp_id;
+
+Real World example => 
+find manager of the employee
