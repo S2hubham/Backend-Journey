@@ -1,0 +1,264 @@
+= SQL vs. DBMS
+SQL (Structured Query Language):
+SQL is a language used for managing and querying relational databases. It provides a standardized way to insert, query, update, and delete data, as well as to define and modify database schemas.
+
+DBMS (Database Management System):
+A DBMS is the software system that manages databases. It handles data storage, retrieval, security, and integrity. Examples include MySQL, PostgreSQL, Oracle, and SQL Server.
+
+In essence, SQL is the language used to interact with a DBMS. The DBMS executes the SQL commands and ensures the data is managed properly.
+
+
+
+= Database Schema
+Before actually developing any app or product, we create a design document that outlines various components. 
+One critical component is determining how data will be stored and managed. This includes specifying the tables needed, the relationships between them, and the constraints to enforce data integrity. 
+Essentially, this blueprint for organizing our data is what we call the database schema.
+Components :
+    Tables: The primary storage units where data is kept.
+    Columns/Fields: Define what type of data is stored (e.g., integer, text, date).
+    Relationships: Indicate how tables relate to each other, often through primary and foreign keys.
+    Constraints: Rules that the data must adhere to (e.g., uniqueness, not null, check constraints).
+    Indexes and Views: Improve performance and provide specific data representations.
+Types :
+    Physical Schema: How the data is actually stored on the hardware.
+    Logical Schema: How the data is organized logically, regardless of the physical storage details.
+    External Schema: How individual users or applications view the data.
+
+
+
+
+= Functional dependency
+Notation:
+    Typically denoted as A → B, which means that attribute (or set of attributes) A uniquely determines attribute (or set of attributes) B.
+Example:
+    In a table where each student has a unique student ID, the student ID (A) functionally determines the student’s name and birthdate (B). So, if two rows share the same student ID, they must also share the same name and birthdate.
+Usage in Database Design:
+    Normalization: Identifying and eliminating redundancy in tables.
+    Ensuring Data Integrity: Guaranteeing that the data remains consistent across the database.
+
+
+
+
+= Axioms
+1. Reflexivity  (subset)
+Definition:
+The reflexivity axiom states that if Y is a subset of X, then X functionally determines Y. In other words, any set of attributes trivially determines any of its subsets.
+Example (Address):
+Consider a table with an attribute called address that contains several subparts (e.g., street, city, state). Since the set {street, city, state} is a subset of the full address, by reflexivity, the full address determines, say, just the city.
+    Formally: If Address = {street, city, state}, then Address → {city}.
+(In simple words if A is subset of B then A is functionally dependent on B (B -> A))
+
+
+2. Augmentation
+Definition:
+The augmentation axiom says that if X → Y holds, then for any attribute set Z, the dependency XZ → YZ also holds. Essentially, if a dependency exists, you can add extra attributes to both sides of the dependency without invalidating it.
+Example (Employee, Project, Address):
+Suppose we have a dependency where an employee uniquely determines the project they are working on, denoted as:
+    EmployeeID → Project
+Now, if we augment both sides with another attribute, such as Address, the dependency still holds:
+    (EmployeeID, Address) → (Project, Address)
+
+
+3. Transitivity  (transferable dependency)
+Definition:
+The transitivity axiom states that if X → Y and Y → Z, then X → Z. This means that the dependency can “pass through” an intermediate attribute.
+Example (Employee Attributes):
+Consider a table with attributes: e_id, e_name, e_zip, e_state, e_phone. Assume the following dependencies:
+    e_id → e_zip (An employee ID uniquely determines the employee's zip code)
+    e_zip → e_state (An employee's zip code uniquely determines their state)
+By the transitivity axiom, you can infer:
+    e_id → e_state
+(This implies that knowing the employee ID is sufficient to determine the employee's state.This creates redundant data and thereby updations are also increased)
+
+
+
+
+= Closures
+Attribute Closure (X⁺):
+For an attribute set X and a set of functional dependencies F, the closure X⁺ is the set of all attributes that can be functionally derived from X using the rules (or axioms) of functional dependencies (reflexivity, augmentation, and transitivity).
+
+use case : You can use the closure of an attribute set to decide if it is a candidate key.
+
+Example
+Suppose you have a relation with attributes {A, B, C, D} and the following set of functional dependencies:
+A → B
+B → C
+C → D
+
+To compute the closure of {A} (denoted A⁺):
+Initial Closure:
+A⁺ = {A}
+
+Apply A → B:
+Since A is in A⁺, add B: A⁺ = {A, B}
+
+Apply B → C:
+Now B is in A⁺, add C: A⁺ = {A, B, C}
+
+Apply C → D:
+With C in A⁺, add D: A⁺ = {A, B, C, D}
+
+Now, A⁺ equals the entire set of attributes, which indicates that A is a candidate key for the relation.
+
+
+
+
+
+= Assertion (not relevant topic)
+Assertions in database systems are constraints that apply to the database as a whole rather than to a single table. 
+They allow you to specify complex conditions that must always hold true across multiple tables or the entire database. 
+For example, you could have an assertion that ensures the total credits of all courses taken by a student never exceed a certain limit.
+(Supported in IBM db2 only)
+(Instead of assertions, many systems rely on triggers, stored procedures, or application-level logic to enforce complex constraints. These alternatives can be more efficient and provide greater flexibility)
+
+
+
+
+1) R = {A, B, C, D, E}
+FDs:
+A → B
+A → E
+C → B
+C → E
+B → D
+
+Step 1: Closure of A
+Let’s compute A⁺:
+A → B ⟹ add B
+A → E ⟹ add 
+B → D ⟹ since we have B, add D
+So,
+A⁺ = {A, B, E, D} — Missing C, so A is not a candidate key
+
+Step 2: Closure of C
+Let’s compute C⁺:
+C → B ⟹ add B
+C → E ⟹ add E
+B → D ⟹ add D
+So,
+C⁺ = {C, B, E, D} — Missing A, so C is not a candidate key
+
+Step 3: Try AC
+Let’s compute (A, C)⁺:
+A → B, E
+C → B, E
+B → D
+A and C together can derive B, E, D — plus A and C are already there.
+So:
+(A, C)⁺ = {A, C, B, E, D} = all attributes ⇒ Candidate Key
+Now check if it is minimal:
+A alone isn’t sufficient
+C alone isn’t sufficient
+⟹ AC is minimal
+
+✅ Candidate Key = AC
+
+
+
+2) R = {A, B, C, D}
+FDs:
+AB → C
+BC → D
+CD → A
+We need to find minimal attribute sets whose closure gives all attributes {A, B, C, D}
+
+Try AB
+(AB)⁺ = {A, B}
+AB → C ⇒ add C
+BC → D ⇒ we now have B and C, so add D
+CD → A ⇒ already have C and D, A is already present
+✅ (AB)⁺ = {A, B, C, D} ⇒ AB is a candidate key
+
+Check if it’s minimal:
+Try A alone ⇒ can't get B or C
+Try B alone ⇒ can't get anything useful
+⟹ AB is minimal
+
+Try BC
+(BC)⁺ = {B, C}
+BC → D ⇒ add D
+CD → A ⇒ now we have C, D ⇒ add A
+Now A, B, C, D present
+✅ (BC)⁺ = all attributes ⇒ BC is also a candidate key
+
+Check if it’s minimal:
+Neither B nor C alone can do it
+⟹ BC is also minimal
+
+Try CD
+(CD)⁺ = {C, D}
+CD → A ⇒ add A
+Now we have A, C, D
+A, C ⇒ missing B, so can't go further
+⟹ CD is not a candidate key
+
+✅ Candidate Keys = AB, BC
+
+
+
+
+
+= Database Keys
+1) Super Key
+    -Definition: A set of one or more attributes that can uniquely identify a tuple (row) in a table.
+    -Can contain extra attributes.
+
+    🔸 Example:
+    Table: Student(SID, Name, Email)
+    SID alone can identify uniquely → {SID} is a super key
+    {SID, Name}, {SID, Email} are also super keys (though not minimal)
+
+2️) Candidate Key
+    -Definition: A minimal super key (i.e., no extra attributes).
+    -uniquely identifies tuples, and is minimal.
+    -A table can have multiple candidate keys.
+
+    🔸 Example:
+    In Student(SID, Email, Name)
+    {SID}, {Email} → both uniquely identify → both are candidate keys
+
+3️) Primary Key
+    -Definition: One of the candidate keys chosen to uniquely identify tuples.
+    -Cannot be NULL
+    -Each table has only one primary key
+
+    🔸 Example:
+    Choose SID as the primary key → PRIMARY KEY (SID)
+
+4️) Alternate Key
+    -Definition: Candidate keys not chosen as the primary key.
+    -These are still valid unique identifiers.
+
+    🔸 Example:
+    From above:
+    Primary key = SID
+    Then, Email becomes the alternate key
+
+5️) Composite Key
+    -Definition: A key formed by combining two or more attributes to uniquely identify a row.
+    -Used when no single attribute is unique on its own.
+
+    🔸 Example:
+    Enrollment(StudentID, CourseID, Grade)
+    Neither StudentID nor CourseID alone is unique, but together they are.
+    → Composite key = {StudentID, CourseID}
+
+6️) Foreign Key
+    -Definition: An attribute (or set) in one table that references the primary key of another table.
+    -Maintains referential integrity between tables.
+
+    🔸 Example:
+    Two tables:
+    1)Student(SID, Name)
+    2)Enrollment(SID, CourseID, Grade)
+    Here, Enrollment.SID is a foreign key referencing Student.SID
+
+
+-Summary Table
+Key Type	    Description	                                        Example
+Super Key	    Any set that uniquely identifies a row	            {SID}, {SID, Name}
+Candidate Key	Minimal super key	                                {SID}, {Email}
+Primary Key	    Chosen candidate key	                            PRIMARY KEY (SID)
+Alternate Key	Other candidate keys not chosen as primary	        {Email}
+Composite Key	Combines 2+ attributes to uniquely identify rows	{StudentID, CourseID}
+Foreign Key	    Refers to primary key of another table	            Enrollment.SID → Student.SID

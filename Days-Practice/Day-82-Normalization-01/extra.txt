@@ -1,0 +1,46 @@
+The N+1 Problem is a common performance issue in database access, especially when using ORMs (like Sequelize, Hibernate, Django ORM, etc.).
+
+= What is it?
+Suppose you want to fetch:
+    -1 parent record (e.g., one blog post)
+    -along with its N child records (e.g., N comments)
+
+Due to poor querying, the ORM might execute:
+    -1 query to fetch the blog post
+    -and then N queries (one for each comment)
+
+So instead of doing 1 + 1 = 2 queries, it does N + 1 queries.
+
+
+= Why is it bad?
+-Leads to lots of unnecessary DB calls
+-Slows down performance drastically when N is large
+-Often happens silently unless explicitly optimized
+
+
+Example (in SQL)
+Assume: 
+Post table
+Comment table with foreign key post_id
+
+❌ Problematic (N+1):
+-- 1 query to get all posts
+SELECT * FROM posts;
+
+-- N queries (for each post)
+SELECT * FROM comments WHERE post_id = 1;
+SELECT * FROM comments WHERE post_id = 2;
+.
+.
+.
+SELECT * FROM comments WHERE post_id = N;
+
+
+✅ Optimized (Using JOIN or eager loading):
+-- Just 1 query using JOIN
+SELECT * FROM posts
+JOIN comments ON posts.id = comments.post_id;
+
+
+
+(NOTE : no one write this manually rather ORMs(Sequelize, Hibernate, Django ORM) do it for you under the hood bcoz you didn't tell it otherwise)
