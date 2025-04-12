@@ -1,0 +1,82 @@
+Original Unnormalized Table (1NF Not Satisfied)
+StudentID	StudentName	    Courses	            Instructor	            InstructorPhone	            Department
+101	        Alice	        DBMS, OOPs	        Dr. Smith	            9999999999	                Computer Science
+102	        Bob	            DBMS, Networking	Dr. Smith, Dr. Lee	    9999999999, 8888888888	    Computer Science, IT
+103	        Charlie	        OOPs, AI	        Dr. Brown	            7777777777	                Computer Science
+
+
+
+
+---Anomalies in This Unnormalized Data
+1. Update Anomaly
+Problem: Redundant data in multiple places — hard to update consistently.
+
+If Dr. Smith changes his phone number, you have to update it for both Alice and Bob.
+If you forget to update one —  inconsistency.
+
+2. Insert Anomaly
+Problem: Can't insert data unless it's mixed with unrelated data.
+
+Suppose a new course ML is introduced by Dr. Watson —
+Since no student has enrolled yet, you can’t insert just the course info.
+
+3. Delete Anomaly
+Problem: Deleting a student might remove important unrelated info.
+
+If you delete Charlie, the only student who took AI,
+info about AI course and Dr. Brown also gets lost — even though that data is still relevant.
+
+
+
+
+
+---Normalized Data (3NF Applied) — Problem Solved
+--Student table
+StudentID	StudentName
+101	        Alice
+102	        Bob
+103	        Charlie
+(PK)
+
+--Instructor table
+Instructor ID	Instructor	InstructorPhone	    Department
+I1	            Dr. Smith	9999999999	        Computer Science
+I2	            Dr. Lee	    8888888888	        IT
+I3	            Dr. Brown	7777777777	        Computer Science
+(PK)
+
+--Courses table	
+Course ID	Courses
+C1	        DBMS
+C2	        OOPs
+C3	        Networking
+C4	        AI
+(PK)
+
+--Enrollment table		
+Student ID	Courses ID	Instructor ID
+101	        C1	        I1
+101	        C2	        I1
+102	        C1	        I1
+102	        C3	        I2
+103	        C2	        I3
+103	        C4	        I3
+Candidate key (Student ID + Courses ID)
+
+
+Now Observe How Anomalies Are Gone
+1) Update Anomaly Fixed
+Dr. Smith’s phone stored only once in Instructor table.
+
+Update it in one place → reflected everywhere.
+
+2) Insert Anomaly Fixed
+Want to add ML course taught by Dr. Watson?
+
+Simply add in Course and Instructor table —
+No need to insert dummy student data.
+
+3) Delete Anomaly Fixed
+Deleting Charlie from Enrollment doesn’t delete AI course or Dr. Brown.
+
+They stay safe in their own tables.

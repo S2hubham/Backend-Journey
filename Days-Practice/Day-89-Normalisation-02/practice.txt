@@ -1,0 +1,74 @@
+--Original table
+StudentID	StudentName	    Courses	            Instructor	            InstructorPhone	            Department
+101	        Alice	        DBMS, OOPs	        Dr. Smith	            9999999999	                Computer Science
+102	        Bob	            DBMS, Networking	Dr. Smith, Dr. Lee	    9999999999, 8888888888	    Computer Science, IT
+103	        Charlie	        OOPs, AI	        Dr. Brown	            7777777777	                Computer Science
+
+
+==1NF form
+1)NO row should contain more than one value
+2)Each row should be uniquely identified , primary key is not mandatory
+
+
+StudentID	StudentName	    Courses	        Instructor	I       nstructorPhone      Department
+101	        Alice	        DBMS	        Dr. Smith	        9999999999	        Computer Science
+101	        Alice	        OOPs	        Dr. Smith	        9999999999	        Computer Science
+102	        Bob	            DBMS	        Dr. Smith	        9999999999	        Computer Science
+102	        Bob	            Networking	    Dr. Lee	            8888888888	        IT
+103	        Charlie	        OOPs	        Dr. Brown	        7777777777	        Computer Science
+103	        Charlie	        AI	            Dr. Brown	        7777777777	        Computer Science
+
+Candidate Key = StudentID + Courses
+
+
+
+
+==2NF form
+1) It should be in INF form
+2) Handle partial dependency if exists
+3) each table should be connected with primary key foreign key relation
+
+
+--Student table
+StudentID	StudentName
+101	        Alice
+102	        Bob
+103	        Charlie
+(PK)
+
+--Instructor table
+Instructor ID	Instructor	InstructorPhone	    Department
+I1	            Dr. Smith	9999999999	        Computer Science
+I2	            Dr. Lee	    8888888888	        IT
+I3	            Dr. Brown	7777777777	        Computer Science
+(PK)
+
+--Courses table	
+Course ID	Courses
+C1	        DBMS
+C2	        OOPs
+C3	        Networking
+C4	        AI
+(PK)
+
+--Enrollment table		
+Student ID	Courses ID	Instructor ID
+101	        C1	        I1
+101	        C2	        I1
+102	        C1	        I1
+102	        C3	        I2
+103	        C2	        I3
+103	        C4	        I3
+Candidate key (Student ID + Courses ID)
+
+
+
+==3NF form 
+1) It should be in 2nf form
+2) Remove any transitive dependency if exists
+
+In the Student, Instructor, and Course tables, every non‑key attribute depends directly on the primary key.
+In the Enrollment table, InstructorID is recorded against the composite key (StudentID, CourseID) to show which instructor taught each student.
+There are no transitive dependencies, so this schema is 3NF compliant.
+
+No transitive dependency exixts hence above schema is final one

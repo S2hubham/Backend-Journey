@@ -81,3 +81,10 @@ DAY |   Description
 80  |  
 81  |  
 82  |  Intro to Normalization
+83  |  
+84  |
+85  |
+86  |
+87  |
+88  |
+89  |  Normalization_02
