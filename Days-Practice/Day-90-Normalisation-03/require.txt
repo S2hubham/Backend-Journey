@@ -1,0 +1,62 @@
+___Database Design Schema
+
+Design a db for a Quora like app
+
+- User should be able to post a question
+- User should be able to answer a question
+- User should be able to comment on an answer
+- User should be able to comment on a comment
+- User should be able to like a comment or a question or an answer
+- User should be able to follow another user
+- Every question can belong to multiple topics
+- User can follow a topic also
+- You should be able to filter out questions based on topic
+
+
+
+
+entities
+1.user
+2.questions
+3.answers
+4.comments
+5.likes
+6.topic
+
+
+relations
+1.user <-> comments     one to many
+2.user <-> questions    one to many
+3.user <-> comments     one to many
+4.user <-> user         many to many
+5.comments <-> comments one to many
+6.comments, answer, question <-> likes    one to many
+7.question <-> topic    one to many
+8.user <-> topic        many to many
+
+
+
+Tables 
+1.user table
+userid(PK)      name    email   password
+
+2.topics table
+topicsid        topics_name  
+
+3.questions table
+questionsid     userid      content
+
+4.answer table
+answerid        userid      questionsid     content
+
+5.comments table
+commentid       userid      commentableid(enum)      commentable_type       parent_id(id enum == comment)
+
+6.likes
+likesid         userid      likeable_type(enum)     likeableid
+
+7.join of question-topic
+questionsid     topicsid
+
+8.join of follow
+followid        followable_type(enum)       followable_id       userid
