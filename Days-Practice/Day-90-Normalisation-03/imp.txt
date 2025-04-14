@@ -1,0 +1,101 @@
+1. Handling Many-to-Many Relationships
+Concept:
+When one record in a table can be related to many records in another table and vice versa, we use a join table to break the M:N relation into two 1:N relations.
+
+Example:
+A question can belong to many topics, and one topic can have many questions.
+
+Solution: Create a join table question_topics:
+
+question_topics (
+  question_id FK → questions(id),
+  topic_id FK → topics(id),
+  PRIMARY KEY (question_id, topic_id)
+)
+Other examples:
+Users following multiple topics: follows
+Users following other users: follows (self-referencing polymorphic)
+
+
+2. Polymorphic Tables
+Concept:
+When a table needs to relate to multiple types of entities, use two columns:
+related_id
+related_type
+
+This avoids having multiple nullable foreign keys.
+
+Example 1 – Likes on different entities:
+Users can like questions, answers, and comments.
+
+likes (
+  id PK,
+  user_id FK → users(id),
+  likeable_id,
+  likeable_type → 'question' | 'answer' | 'comment'
+)
+
+Example 2 – Comments on answers and other comments:
+
+comments (
+  id PK,
+  user_id FK → users(id),
+  commendable_id,
+  commendable_type → 'answer' | 'comment',
+  body
+)
+
+
+
+3. Self-Referencing Relationships
+Concept:
+A table can reference itself. This is useful for nested or hierarchical data.
+
+Example – Nested Comments:
+A comment can have another comment as a parent.
+
+comments (
+  id PK,
+  comment_id FK → comments(id)  -- nullable, for top-level comments
+)
+But we replaced it with a polymorphic commendable model to make it more general.
+
+Example – User follows User:
+Use a follows table with polymorphic fields.
+
+
+
+4. Polymorphic Follows
+Concept:
+Allow following both users and topics from a single table.
+
+follows (
+  id PK,
+  follower_id FK → users(id),
+  followable_id,
+  followable_type → 'user' | 'topic'
+)
+Advantage:
+Avoids creating two separate tables like user_follows_user and user_follows_topic.
+
+
+
+5. Normalization (up to BCNF)
+You applied:
+1NF: All values are atomic.
+2NF: No partial dependencies.
+3NF: No transitive dependencies.
+BCNF: Every non-trivial functional dependency has a superkey on the left.
+
+Example:
+likes and comments avoid NULLs by using polymorphic models
+Join tables for M:N avoid duplication
+Self-referencing handled cleanly
+
+
+
+6. Designing for Extensibility
+Using polymorphism and join tables ensures:
+Easy to add new likeable entities (e.g., posts)
+Easy to add new followable things
+Flexible comment nesting

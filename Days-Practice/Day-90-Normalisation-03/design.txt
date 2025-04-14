@@ -1,0 +1,101 @@
+__ Approach to Designing a DB for a Quora-like App
+1)Understand the Requirements
+Break down the features:
+    Users can post questions, answers, comments.
+    Nested comments.
+    Likes on questions, answers, and comments.
+    Follow system (user-user, user-topic).
+    Questions can belong to multiple topics.
+    Questions can be filtered by topic.
+
+
+2)Identify Core Entities and Actions
+-List what things exist (nouns) and what can be done (verbs):
+    Users, Questions, Answers, Comments, Topics, Likes, Follows
+    
+3)Look for Relationships
+    One-to-many: One user → many questions
+    Many-to-many: Question ↔ Topic
+    Self-referencing: User ↔ User (follow), Comment ↔ Comment (nested)
+
+4)Normalize the Design
+    Remove redundancy
+    Avoid NULLs where possible (use polymorphic types if needed)
+
+5)Design with Extensibility
+    Use polymorphic associations (likes, comments, follows)
+
+
+
+__ Entities and Their Relationships
+Entity	    Related To	                        Relationship Type
+Users	    Questions, Answers, Comments	    One-to-Many
+Users	    Users (follows)	                    Many-to-Many (self)
+Users	    Topics (follows)	                Many-to-Many
+Questions	Topics	                            Many-to-Many
+Questions	Answers	                            One-to-Many
+Answers	    Comments	                        One-to-Many
+Comments	Comments (nested)	                One-to-Many (self)
+Users	    Likes on Q/A/Comment	            One-to-Many (Polymorphic)
+
+
+
+__ Table Structures
+1.users
+    id PK
+    name
+    email
+    password_hash
+    created_at
+
+
+2.questions
+    id PK
+    user_id FK → users(id)
+    title
+    body
+    created_at
+
+
+3.topics
+    id PK
+    name UNIQUE
+
+
+4.question_topics (join table for M:N)
+    question_id FK → questions(id)
+    topic_id FK → topics(id)
+    PRIMARY KEY (question_id, topic_id)
+
+
+5.answers
+    id PK
+    question_id FK → questions(id)
+    user_id FK → users(id)
+    body
+    created_at
+
+
+6.comments (polymorphic: answer or another comment)
+    id PK
+    user_id FK → users(id)
+    commendable_id → answers.id OR comments.id
+    commendable_type → 'answer' or 'comment'
+    body
+    created_at
+
+
+7.likes (polymorphic: question, answer, comment)
+    id PK
+    user_id FK → users(id)
+    likeable_id → questions.id / answers.id / comments.id
+    likeable_type → 'question' / 'answer' / 'comment'
+    created_at
+
+
+8.follows (polymorphic: user follows user or topic)
+    id PK
+    follower_id FK → users(id)
+    followable_id → users.id or topics.id
+    followable_type → 'user' or 'topic'
+    created_at
