@@ -1,0 +1,74 @@
+Views – SQL (MySQL)
+
+🔹 What is a View?
+A View is a virtual table based on a SELECT query.
+It doesn’t store data physically — just the SQL logic behind it.
+
+It behaves like a real table, and you can query it like:
+SELECT * FROM view_name;
+
+
+🔹 Why Use Views?
+- Simplify complex joins or logic
+- Hide sensitive columns (for security)
+- Improve readability of queries
+- Reuse common query logic
+
+
+🔹 Syntax to Create a View
+CREATE VIEW view_name AS
+SELECT column1, column2
+FROM table_name
+WHERE condition;
+
+
+🔹 Example:
+CREATE VIEW active_users AS
+SELECT name, email FROM users WHERE status = 'active';
+
+
+🔹 Using a View
+SELECT * FROM active_users;
+
+
+🔹 Updating Data Through a View
+Yes, you can update a view if:
+The view is based on a single table
+It does not use DISTINCT, GROUP BY, JOIN, LIMIT, or subqueries
+
+
+🔹 Example:
+-- Original table
+UPDATE users SET status = 'inactive' WHERE name = 'John';
+
+-- Through view (if allowed)
+UPDATE active_users SET status = 'inactive' WHERE name = 'John';
+NOTE : MySQL may throw an error if the view is too complex to update.
+
+
+🔹 How to Check All Views
+SHOW FULL TABLES IN database_name WHERE TABLE_TYPE = 'VIEW';
+
+
+🔹 View the Code Behind a View
+SHOW CREATE VIEW view_name;
+
+
+🔹 Modify a View (Update View)
+CREATE OR REPLACE VIEW view_name AS
+SELECT ...;
+This replaces the existing view with a new one.
+
+
+🔹 Drop/Delete a View
+DROP VIEW view_name;
+
+
+🔹 Materialized Views?
+MySQL does NOT support true materialized views (which store data physically).
+You’d need to simulate it using tables and triggers or use other DBMS like PostgreSQL or Oracle.
+
+🔹 Limitations of Views
+-  Can't have indexes
+-  Complex views can’t be updated
+-  Slight performance overhead (runs underlying query each time)

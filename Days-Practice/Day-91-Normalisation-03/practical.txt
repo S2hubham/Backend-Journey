@@ -1,0 +1,210 @@
+Create Database
+CREATE DATABASE moviebookingDB;
+USE moviebookingDB;
+
+
+---Tables---
+1. users
+CREATE TABLE users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(255)
+);
+
+2. cities
+CREATE TABLE cities (
+    city_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100)
+);
+
+3. theatres
+CREATE TABLE theatres (
+    theatre_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    city_id INT,
+    FOREIGN KEY (city_id) REFERENCES cities(city_id)
+);
+
+4. movies
+CREATE TABLE movies (
+    movie_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(100),
+    duration INT -- in minutes
+);
+
+5. shows
+CREATE TABLE shows (
+    show_id INT PRIMARY KEY AUTO_INCREMENT,
+    show_time DATETIME,
+    movie_id INT,
+    theatre_id INT,
+    seats INT,
+    FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
+    FOREIGN KEY (theatre_id) REFERENCES theatres(theatre_id)
+);
+
+6. booking_status
+CREATE TABLE booking_status (
+    status_id INT PRIMARY KEY AUTO_INCREMENT,
+    status_value ENUM('pending', 'confirmed', 'cancelled')
+);
+
+7. bookings
+CREATE TABLE bookings (
+    booking_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    show_id INT,
+    price DECIMAL(8, 2),
+    status_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (show_id) REFERENCES shows(show_id),
+    FOREIGN KEY (status_id) REFERENCES booking_status(status_id)
+);
+
+8. reviews (Polymorphic)
+CREATE TABLE reviews (
+    review_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    reviewable_id INT,
+    reviewable_type ENUM('movie', 'theatre'),
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    comment TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+
+
+---Data---
+1.user data
+INSERT INTO users (user_id, name, email, password) VALUES
+(1, 'Shawn Harrington PhD', 'anthony98@hatfield.com', '2CoDKjgh)7'),
+(2, 'Amanda Park', 'allendougherty@williamson.net', '&mvS9jwVP7'),
+(3, 'Tyler Wood', 'hleach@yahoo.com', '(LVY2kWu4T'),
+(4, 'Julie Kelley', 'sboyer@fischer-ray.com', '(qaHvQvde4'),
+(5, 'Jesse Evans', 'jennifer17@velazquez.com', 'lX@1Id$3)&');
+
+2.city data
+INSERT INTO cities (city_id, name) VALUES
+(1, 'Andradeburgh'),
+(2, 'Port Christopher'),
+(3, 'North Craigchester');
+
+3.theatre data
+INSERT INTO theatres (theatre_id, name, city_id) VALUES
+(1, 'Zavala, Carlson and Boyd', 2),
+(2, 'Stafford LLC', 1),
+(3, 'Martin Inc', 1),
+(4, 'Goodman, Russell and Gentry', 1);
+
+4.movies data
+INSERT INTO movies (movie_id, title, duration) VALUES
+(1, 'Strategy others play', 160),
+(2, 'Meet similar big', 114),
+(3, 'Song at', 170),
+(4, 'Manage', 176),
+(5, 'Prove of piece yard', 147);
+
+5.shows data
+INSERT INTO shows (show_id, show_time, movie_id, theatre_id, seats) VALUES
+(1, '2025-04-14 08:37:11', 4, 3, 131),
+(2, '2025-04-17 18:56:27', 5, 4, 51),
+(3, '2025-04-16 03:03:38', 2, 4, 188),
+(4, '2025-04-15 11:56:18', 3, 2, 114),
+(5, '2025-04-17 19:37:02', 2, 1, 141),
+(6, '2025-04-16 20:41:58', 1, 1, 119);
+
+
+6.booking_status data
+INSERT INTO booking_status (status_id, status_value) VALUES
+(2, 'pending'),
+(3, 'confirmed'),
+(4, 'cancelled');
+
+7.booking data
+INSERT INTO bookings (booking_id, user_id, show_id, price, status_id) VALUES
+(1, 2, 5, 433.89, 2),
+(2, 1, 4, 390.94, 4),
+(3, 3, 2, 240.00, 3),
+(4, 5, 4, 230.73, 4),
+(5, 3, 6, 458.00, 4),
+(6, 4, 3, 469.05, 2);
+
+8.reviews data
+INSERT INTO reviews (review_id, user_id, reviewable_id, reviewable_type, rating, comment) VALUES
+(1, 5, 2, 'movie', 2, 'Check word prove their organization continue have.'),
+(2, 4, 3, 'movie', 2, 'Collection might oil speech manage.'),
+(3, 2, 5, 'theatre', 2, 'Party garden kitchen another throughout fast reach support.'),
+(4, 4, 4, 'theatre', 2, 'Land economy fish power story.'),
+(5, 1, 1, 'movie', 3, 'Whatever field movie resource strategy citizen.'),
+(6, 3, 4, 'theatre', 1, 'Store member almost the identify for serious agree.');
+
+
+
+---Queries---
+1. User can book a movie on a particular theatre and timings
+Show all bookings with user, movie, theatre, and show details:
+
+SELECT b.booking_id, u.name AS user_name, m.title AS movie_title, t.name AS theatre_name, s.show_time, b.price, bs.status_value
+FROM bookings b
+JOIN users u ON b.user_id = u.user_id
+JOIN shows s ON b.show_id = s.show_id
+JOIN movies m ON s.movie_id = m.movie_id
+JOIN theatres t ON s.theatre_id = t.theatre_id
+JOIN booking_status bs ON b.status_id = bs.status_id;
+
+2. User can review a Movie
+
+SELECT r.review_id, u.name AS user_name, m.title AS movie_title, r.rating, r.comment
+FROM reviews r
+JOIN users u ON r.user_id = u.user_id
+JOIN movies m ON r.reviewable_id = m.movie_id
+WHERE r.reviewable_type = 'movie';
+
+3. User can review a theatre 
+
+SELECT r.review_id, u.name AS user_name, t.name AS theatre_name, r.rating, r.comment
+FROM reviews r
+JOIN users u ON r.user_id = u.user_id
+JOIN theatres t ON r.reviewable_id = t.theatre_id
+WHERE r.reviewable_type = 'theatre';
+
+4. Review involves rating and comments both
+Already shown above — both review queries return rating and comment.
+
+5. Cancel a booking / Pending / Confirmed status 
+
+SELECT b.booking_id, u.name, m.title AS movie_title, bs.status_value
+FROM bookings b
+JOIN users u ON b.user_id = u.user_id
+JOIN shows s ON b.show_id = s.show_id
+JOIN movies m ON s.movie_id = m.movie_id
+JOIN booking_status bs ON b.status_id = bs.status_id;
+
+
+You can also filter:
+-- Only Cancelled
+SELECT * FROM bookings WHERE status_id = 4;
+
+-- Only Pending
+SELECT * FROM bookings WHERE status_id = 2;
+
+-- Only Confirmed
+SELECT * FROM bookings WHERE status_id = 3;
+
+6. Get all movies from a theatre 
+
+SELECT DISTINCT m.movie_id, m.title, t.name AS theatre_name
+FROM shows s
+JOIN movies m ON s.movie_id = m.movie_id
+JOIN theatres t ON s.theatre_id = t.theatre_id
+WHERE t.theatre_id = 1; -- replace 1 with desired theatre_id
+
+7. Get all theatres of a particular city where movie is running
+
+SELECT DISTINCT t.theatre_id, t.name AS theatre_name, c.name AS city_name, m.title AS movie_title
+FROM shows s
+JOIN theatres t ON s.theatre_id = t.theatre_id
+JOIN cities c ON t.city_id = c.city_id
+JOIN movies m ON s.movie_id = m.movie_id
+WHERE c.city_id = 1 AND m.movie_id = 2; -- replace with desired city/movie id

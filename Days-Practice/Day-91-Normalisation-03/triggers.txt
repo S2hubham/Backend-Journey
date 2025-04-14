@@ -1,0 +1,83 @@
+ Triggers – SQL (MySQL)
+🔹 What is a Trigger?
+A Trigger is a block of SQL code that automatically executes when a specific event (INSERT, UPDATE, DELETE) happens on a table.
+Think of it like an automatic "reaction" to a change in the database.
+
+🔹 Why Use Triggers?
+- Auto-maintain logs or backups
+- Enforce business rules or validations
+- Track data changes (audit)
+- Prevent unwanted changes
+
+
+🔹 Types of Triggers
+Timing	Event	Description
+BEFORE	INSERT	Before inserting a new row
+AFTER	INSERT	After a new row is inserted
+BEFORE	UPDATE	Before a row is updated
+AFTER	UPDATE	After a row is updated
+BEFORE	DELETE	Before a row is deleted
+AFTER	DELETE	After a row is deleted
+
+
+🔹 Trigger Syntax (MySQL)
+CREATE TRIGGER trigger_name
+{BEFORE | AFTER} {INSERT | UPDATE | DELETE}
+ON table_name
+FOR EACH ROW
+BEGIN
+   -- SQL statements
+END;
+
+
+🔹 Example 1: Auto Log Insertions
+-- Suppose we want to log whenever a new user is added
+CREATE TABLE logs (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   action VARCHAR(255),
+   log_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TRIGGER after_user_insert
+AFTER INSERT ON users
+FOR EACH ROW
+BEGIN
+   INSERT INTO logs (action)
+   VALUES (CONCAT('User added: ', NEW.name));
+END;
+
+Now, whenever a new user is inserted, a log is added automatically.
+
+
+
+🔹 Example 2: Prevent Deleting Admin Users
+CREATE TRIGGER before_user_delete
+BEFORE DELETE ON users
+FOR EACH ROW
+BEGIN
+   IF OLD.role = 'admin' THEN
+      SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Admins cannot be deleted!';
+   END IF;
+END;
+
+
+🔹 Keywords: OLD and NEW
+Keyword	Used in	Description
+OLD	UPDATE, DELETE	Refers to the row before change
+NEW	INSERT, UPDATE	Refers to the new row values
+
+
+🔹 Viewing All Triggers
+SHOW TRIGGERS;
+
+
+🔹 Drop/Delete a Trigger
+DROP TRIGGER trigger_name;
+
+
+🔹 Limitations of Triggers
+-  Can’t trigger on SELECT
+-  No recursion (a trigger can't call itself)
+-  Debugging is tricky
+-  Too many triggers can affect performance

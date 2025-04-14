@@ -1,0 +1,20 @@
+Pagination in SQL (for Google-like results)
+Definition:
+    Pagination splits large results into pages.
+Use case:
+    Used in web apps (like Google search results) to show limited results per page.
+Syntax (MySQL/PostgreSQL):
+
+SELECT * FROM table_name
+LIMIT limit OFFSET offset;
+
+
+-LIMIT = how many rows to show
+-OFFSET = how many rows to skip
+
+Example:
+-- Page 2, 10 results per page
+SELECT * FROM products
+LIMIT 10 OFFSET 10;
+
+Formula: OFFSET = (page_number - 1) * limit

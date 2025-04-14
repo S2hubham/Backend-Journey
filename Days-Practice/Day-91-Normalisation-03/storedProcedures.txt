@@ -1,0 +1,110 @@
+Stored Procedures – SQL (MySQL)
+🔹 What is a Stored Procedure?
+A Stored Procedure is a group of SQL statements stored in the database that can be executed repeatedly.
+
+Think of it like a function in programming — you define it once and call it whenever needed.
+
+🔹 Why Use Stored Procedures?
+- Reusability – Define logic once, use many times
+- Performance – Runs faster as it's precompiled
+- Security – Can restrict direct access to data
+- Modularity – Makes code cleaner and organized
+
+
+🔹 Basic Syntax
+DELIMITER //
+
+CREATE PROCEDURE procedure_name()
+BEGIN
+   -- SQL statements
+END //
+
+DELIMITER ;
+
+
+🔹 What is DELIMITER and Why Use It?
+Normally, SQL ends with ;, but inside a procedure you use many semicolons.
+So we change the delimiter (end symbol) temporarily — e.g., from ; to // — so MySQL doesn’t get confused.
+Example:
+DELIMITER //
+
+CREATE PROCEDURE HelloWorld()
+BEGIN
+   SELECT 'Hello, World!';
+END //
+
+DELIMITER ;
+
+
+🔹 Calling a Stored Procedure
+CALL HelloWorld();
+
+
+🔹 Parameters in Stored Procedures
+You can pass parameters like in functions.
+Types:
+IN – Pass a value into the procedure (default)
+OUT – Return a value from the procedure
+INOUT – Both input and output
+
+🔹 IN Parameter Example
+DELIMITER //
+
+CREATE PROCEDURE GetUserByID(IN userId INT)
+BEGIN
+   SELECT * FROM users WHERE id = userId;
+END //
+
+DELIMITER ;
+
+CALL GetUserByID(1);
+
+
+🔹 OUT Parameter Example
+DELIMITER //
+
+CREATE PROCEDURE GetUserCount(OUT total INT)
+BEGIN
+   SELECT COUNT(*) INTO total FROM users;
+END //
+
+DELIMITER ;
+
+-- Declare a variable to store the output
+CALL GetUserCount(@count);
+SELECT @count;
+
+
+🔹 INOUT Parameter Example
+DELIMITER //
+
+CREATE PROCEDURE DoubleValue(INOUT num INT)
+BEGIN
+   SET num = num * 2;
+END //
+
+DELIMITER ;
+
+SET @x = 10;
+CALL DoubleValue(@x);
+SELECT @x;  -- Output: 20
+
+
+🔹 Viewing Stored Procedures
+List all procedures:
+SHOW PROCEDURE STATUS;
+
+Filter by database:
+SHOW PROCEDURE STATUS WHERE Db = 'your_database_name';
+
+
+🔹 See Procedure Code
+SHOW CREATE PROCEDURE procedure_name;
+
+
+🔹 Drop/Delete a Procedure
+DROP PROCEDURE procedure_name;
+
+
+🔹 Show all procedures:
+SHOW PROCEDURE STATUS WHERE Db = 'your_db_name';
