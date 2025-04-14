@@ -1,0 +1,83 @@
+movie booking application DB
+
+-   User can book a movie on a particular theatre and timings
+-   User can review a movie
+-   User can review a theatre
+-   Review involves rating and comments both
+-   You can cancel a booking / or if your payment is stuck then booking can be pending else confirmed
+-   You should be able to get all movies from a theatre
+-   You should be able to get all theatres of a particular city where movie is running
+
+___step 1
+Entity	    Reason
+user	    User who books / reviews
+movie	    Movie details
+theatre	    Theatre info
+city	    Theatre belongs to a city
+review	    Common entity for movie/theatre review
+booking	    Stores which user booked which movie at which theatre+timing
+show	    Represents a particular movie in a theatre at a time
+
+
+
+___step 2
+Entity	    Related To	                Relationship Type	            Notes
+user	    review	                    one to many	                    User can write multiple reviews (for movie or theatre)
+user	    booking	                    one to many	                    Each booking is linked to one user
+user	    movie (via review only)	    many to many (indirect)	        Through review, not direct — user reviews movie
+user	    theatre (via review only)	many to many (indirect)	        Same as above
+theatre	    city	                    many to one	                    One city has many theatres
+theatre	    show	                    one to many	                    Each theatre has multiple shows
+movie	    show	                    one to many	                    Each movie has multiple shows
+user	    show (via booking)	        many to many	                Through booking table
+review	    movie OR theatre	        polymorphic	                    Review can be of either movie or theatre
+booking	    show	                    many to one	                    Each booking is for one show
+
+
+___step 3
+1.user table
+    user_id (pk)
+    name
+    email
+    password
+
+2.movie table
+    movie_id(pk)
+    title
+    duration
+
+3.theatre table
+    theatre_id(pk)
+    name
+    city_id(fk)
+
+4.city table
+    city_id(pk)
+    name
+
+5.review table
+    review_id(pk)
+    user_id(fk)
+    reviewable_id   -> id of theatre / movie
+    reviewable   -> theatre / movie
+    rating
+    comment
+
+6.booking table
+    booking_id(pk)
+    user_id(fk)
+    show_id(fk)
+    status_id
+    price
+
+7.show table
+    show_id(pk)
+    movie_id(fk)
+    theatre_id(fk)
+    show timing
+    total_seats
+    available_seats
+
+8.status table(further normalised booking table)
+    status_id(pk)
+    status enum(pending, confirmed, cancelled)
