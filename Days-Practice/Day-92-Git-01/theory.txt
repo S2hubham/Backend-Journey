@@ -1,0 +1,40 @@
+What is Version Control?
+Version Control is a system that helps track changes to files over time so you can recall specific versions later.
+It’s mainly used in software development to manage code changes, collaborate with others, and avoid overwriting each other's work.
+
+Real-World Example (Amazon Prime):
+Amazon Prime’s website and app are regularly updated with new features like better UI, streaming improvements, or bug fixes. Developers use version control (like Git) to manage these changes.
+If a new update causes a problem (e.g., playback error), they can roll back to the previous working version easily — thanks to version control.
+
+
+
+What is Git?
+Git is a distributed version control system that helps developers track changes in code, collaborate on projects, and manage different versions efficiently.
+    -Developed by Linus Torvalds (creator of Linux)
+    -Works offline and keeps a full history of changes
+    -You can commit, branch, merge, and revert code safely
+
+
+What is GitHub?
+GitHub is a cloud-based platform that hosts Git repositories. It makes it easy for developers to:
+    -Store and share code online
+    -Collaborate with teams
+    -Manage projects with tools like Issues, Pull Requests, and Actions
+    -Think of GitHub as a social media for code — but way more powerful!
+
+
+Feature         | Git                                           | GitHub
+Type            | Version Control System                        | Online Hosting Platform for Git Repositories
+Function        | Tracks changes locally in your project        | Stores Git repos online, enables collaboration
+Works Offline?  | Yes                                           | No (needs internet to access)
+Developed By    | Linus Torvalds                                | GitHub, Inc. (now owned by Microsoft)
+Use Case        | Save versions, branch, merge on your system   | Share, review, and collaborate with others online
+
+
+How Git Works Internally
+Git manages your project like a timeline of snapshots (not file-by-file changes).
+It uses 3 main areas:
+    -Working Directory – where you edit files
+    -Staging Area (Index) – where you prepare changes to be committed
+    -Repository (.git folder) – where Git stores commits (snapshots of your project)
+Every time you commit, Git saves a snapshot of your staged files and links it to the previous commit — like a chain.

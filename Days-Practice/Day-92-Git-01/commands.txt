@@ -1,0 +1,15 @@
+1.git status
+Shows the current state of the working directory and staging area.
+Tells which files are modified, staged, untracked, or ready to be committed.
+
+2.git commit
+Saves a snapshot of staged changes to the local repository.
+Requires a commit message (-m "message") to describe the change.
+
+3.git add .
+Adds all modified and new files in the working directory to the staging area.
+Prepares them for the next commit.
+
+4.git rm --cached <file_name>
+Unstages a file (removes it from the staging area) without deleting it from the working directory.
+Useful if you added a file by mistake and want to exclude it from the next commit.

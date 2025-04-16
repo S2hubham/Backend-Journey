@@ -1,0 +1,28 @@
+competitors of git
+-> Mercurial, Bazaar, Apache Subversion (SVN) 
+
+competitors of GitHub
+-> Gitlab, Bitbucket (by Atlassian), AWS CodeCommit, Azure Repos
+
+
+Piper- Google’s Version Control Tool    
+(https://medium.com/@gitship/which-version-control-tool-is-google-using-how-is-it-proving-useful-for-it-7fbde4296fbf)
+
+
+React was created by Jordan Walke, a software engineer at Facebook (now Meta), in 2011.
+
+
+linux 
+	Highly customizable at the kernel level and beyond
+    Terminal (powerful, scriptable, and versatile with multiple shells like Bash)
+    Dominates servers, cloud computing, and development
+    Linux Kernel
+    Free 
+    Open-source, community-driven OS
+
+Windows
+    Windows NT Kernel
+    Proprietary, commercial OS developed by Microsoft
+    Paid (license required)
+    More vulnerable to viruses and malware
+    
