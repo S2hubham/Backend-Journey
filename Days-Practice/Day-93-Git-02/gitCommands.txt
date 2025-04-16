@@ -1,0 +1,143 @@
+1. git log
+This command shows you the commit history of your current branch.
+
+- Example output:
+commit e3a1f6d7b5c94f2a3d8d4c0d4b99a8c0c4f5b5d3
+Author: John Doe <john@example.com>
+Date:   Fri Apr 12 10:45:23 2025 +0530
+    Added login feature
+
+- What is the unique hash?
+That long string after commit → e3a1f6d7b5c94f2a3d8d4c0d4b99a8c0c4f5b5d3
+It’s a SHA-1 hash Git uses to uniquely identify each commit.
+Think of it like a fingerprint for that specific snapshot of your code.
+
+- Use git log --oneline to quickly get commit hashes.
+
+
+
+
+
+2. When Git opens Vim (usually during git commit), follow these steps:
+a. Press i → to enter Insert mode
+    You'll see -- INSERT -- at the bottom
+
+b. Type your commit message
+    Added login form with validation
+
+c. Press Esc → to exit Insert mode
+
+d. Type :wq and press Enter
+    w = write (save)
+    q = quit
+
+Result:
+    Git saves your commit message and continues the process.
+
+
+Quick cheats:
+Action	                Vim Command
+Start typing	        i
+Exit insert mode	    Esc
+Save + quit	            :wq + Enter
+Quit without saving	    :q! + Enter
+
+-if u don't want to open vim, nano editor for git then use -m 
+git commit -m "commit msg"
+
+
+(NOTE : even if i commit change a without push this commit i made change b and then pushed both changes then no conflict occurs and only committed changes will be pushed to next version)
+
+
+
+
+
+
+3. git restore <file_name>
+this only works if changes are in working area. This can be useful if we did some dirty piece of code and no more want it . 
+Instead of deleting every changes line by line we can restore it or u can say restore last clean version. 
+once the file goes to staged are u cannot restore using this command u have to use  ->  git restore --staged <file name> 
+and then again use above command bcoz this command will only bring it back to working area from the staged area.
+
+Stage           |   Command                     |   What it does                          |
+Working only    |   git restore <file>          |   Undo changes in working directory     |
+Staged only     |   git restore --staged <file> |   Move file from staged → working area  |  
+Both            |   Run both commands above     |   Fully restore to last committed state |
+
+
+
+
+
+4. git rm <file_name>
+when we want to bring all the changes from working area to untracked area we use this command 
+but if the file is in staged area then first bring it to working area (using --stagged restore approach) and then remove it
+otherwise git wont allow u to make it untracked and u have to forcefully remove it using -f
+and use --cached to keep the file 
+
+
+
+
+
+5. git diff <old_commit_hash> <new_commit_hash>
+it gives all the changes between two commits
+
+Add --name-only to just see the files that changed:
+
+
+
+
+
+
+6. git remote add <name> <repo-link>
+Links your local Git repository to a remote (usually GitHub, GitLab, etc.)
+
+-origin is just a name (by convention). You can name it anything, like:
+Ex : git remote add shubham https://github.com/user/repo.git
+
+-git remove rm <remote name>
+to remove the links
+
+-git remote rename <old name> <new name>
+renames the remote connection
+
+
+
+
+
+7. git pull origin main
+to sync with GitHub repo / changes and local machine
+
+
+
+
+8. Common Git Workflow to Avoid Merge Conflicts
+    a. Make your changes
+
+    b. Stage your changes
+        git add <file(s)>
+
+    c. Commit locally
+        git commit -m "Your message"
+
+    d. Pull the latest changes from remote BEFORE pushing
+        git pull origin <branch-name>  
+
+    e. Push your commits after pulling
+        git push origin <branch-name>
+
+When you pull before pushing, you make sure your local repo is in sync with the remote.
+If someone else pushed changes before you, pulling lets you merge those changes locally.
+This reduces the chances of conflicts during git push.
+
+Use this shortcut to pull with rebase (cleaner history):
+git pull --rebase origin main
+It rewrites your commits on top of the latest remote code, reducing merge commits.
+
+
+
+
+before pulling always commit your changes then pull
+if merge conflict happens then handle using conflict resolver in vscode 
+here u can decide how the incoming changes and ur made changes will be reflected after pushing code 
+after resolving then add a commit msg and push the resolved code 
+done a conflict is resolved

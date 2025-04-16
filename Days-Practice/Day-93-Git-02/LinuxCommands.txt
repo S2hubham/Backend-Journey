@@ -1,0 +1,32 @@
+1.echo
+Prints text or variables to the terminal.
+echo "Hello, World"
+echo $HOME      # prints your home directory path
+
+2.ls
+Lists files and directories in the current folder.
+ls             # basic listing
+
+3.ls -a
+Lists all files, including hidden ones (those starting with .).
+ls -a
+
+4.ls -la
+Lists all files in long format with permissions, ownership, size, and timestamps, including hidden files.
+ls -la
+
+
+-Relevant Commands:
+
+Command	            Description
+pwd	                Show current directory path
+cd folder	        Change directory
+mkdir newdir	    Create a new directory
+rm file.txt	        Remove a file
+rm -r dir/	        Remove a directory and its contents
+touch file	        Create an empty file
+cat file	        Show contents of a file
+cp a.txt b.txt	    Copy a file
+mv a.txt b.txt	    Rename or move a file
+clear	            Clears the terminal screen
+
