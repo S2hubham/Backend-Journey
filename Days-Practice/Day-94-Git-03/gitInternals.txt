@@ -1,0 +1,247 @@
+____GIT INTERNALS
+
+
+
+1. Core Concepts
+SHA-1 Hashing
+    -Git uses SHA-1 to uniquely identify objects (commit, tree, blob, tag).
+    -It takes file content and produces a 40-character hash.
+    -Hash is content-addressable – even a small change creates a new hash.
+        echo "Hello Git" | git hash-object --stdin
+        # Outputs: e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+
+Git Objects (Object Database)
+Git stores data as 4 types of objects:
+    -Blob: content of files
+    -Tree: directories (points to blobs/trees)
+    -Commit: snapshot of tree + metadata
+    -Tag: named pointer to commit
+
+Tip: as we cannot use cat <file_name> to view the blob bcoz its a blob we have to use command provided by the git i.e.git cat-file -p <hash> to view any object
+
+
+
+2. Data Structures
+-Directed Acyclic Graph (DAG)
+    Commits form a graph where each commit points to its parent(s).
+    No cycles (DAG), ensures Git history integrity.
+
+    A → B → C
+        ↘
+            D
+-Trees & Blobs
+    -A tree is like a folder; it maps names to blob/tree objects.
+    -A blob is just file content.
+
+
+3. .git Directory Breakdown
+
+Folder/File	        Description
+.git/objects/	    Stores all Git objects
+.git/refs/	        Branches and tags
+.git/HEAD	        Pointer to current branch
+.git/config	        Project-level configuration
+.git/index	        Staging area (snapshot for next commit)
+
+
+
+4. SHA-1 in Git
+-What is SHA-1?
+    -SHA-1 (Secure Hash Algorithm 1) is a cryptographic hash function.
+    -It generates a 40-character hexadecimal hash (160 bits).
+    -Git uses SHA-1 to:
+        -Identify content uniquely
+        -Ensure integrity (any small change = new hash)
+        -Track all objects (blobs, trees, commits, etc.)
+
+Example:
+    echo "Hello git" | git hash-object --stdin
+    # 4434c387bce1495087e34f516b821e06f510b407
+
+
+
+5.  How Files Are Stored
+-Creating a Blob (Content Hashing)
+    When you hash a file manually:
+    echo "Hello git" | git hash-object -w --stdin
+    # Output: 4434c387bce1495087e34f516b821e06f510b407
+
+    NOTE : -w writes the object into .git/objects/
+
+-Internally:
+.git/objects/
+├── 44/34c387bce1495087e34f516b821e06f510b407
+
+    -First 2 characters → folder name (44)
+    -Remaining 38 characters → file name inside the folder
+
+-Viewing the Object
+    You can’t use cat because it's stored as a compressed binary blob.
+    Use:  git cat-file -p 4434c387bce1495087e34f516b821e06f510b407
+    # Output: Hello git
+
+-Staging a File (What Happens?)
+    Let's say you create a file a.txt with content:
+    echo "Hi Git Internals" > a.txt
+    git add a.txt
+
+    Git does the following:
+        -Calculates SHA-1 hash of file content.
+        -Creates a blob object in .git/objects/ if it doesn’t exist.
+        -Updates the index (staging area) with:
+            -File name
+            -Blob’s SHA-1
+            -Permissions
+            -You can verify this:
+                git ls-files --stage
+                # 100644 <sha-1-hash> 0	a.txt
+
+Example Output:
+100644 3d4c50ec... 0	a.txt
+
+
+-Object Types Summary
+Object Type	    Purpose	                View Command
+blob	        File content	        git cat-file -p <hash>
+commit	        Snapshot + metadata	    git cat-file -p <commit_hash>
+tag	            Reference to commits	git cat-file -p <tag_hash>
+
+
+-Try This (Hands-on Flow):
+    echo "hello world" > hello.txt
+    git init
+    git add hello.txt
+
+    # Find the hash of the blob
+    git hash-object hello.txt
+    # Example: 2ef7bde608ce5404e97d5f042f95f89f1c232871
+
+    # See where it’s stored
+    ls .git/objects/2e/
+
+    # Read blob content
+    git cat-file -p 2ef7bde608ce5404e97d5f042f95f89f1c232871
+
+    # See index stage
+    git ls-files --stage
+
+
+
+-Final Notes :
+    -Git doesn’t track files directly — it tracks content using SHA-1 hashes.
+    -Every piece of data is turned into a key-value pair:
+    -Key = SHA-1 Hash
+    -Value = Actual Content (stored in compressed form)
+    -Even commits, branches, and trees are SHA-1 hashed!
+
+
+
+
+6.  Handling Folders and Subfolders
+-Git Uses a Directed Tree Structure
+    -Each directory (folder) is a tree object
+    -Each file is a blob object
+    -A tree can:
+        Point to other blobs (files)
+        Point to other trees (subfolders)
+
+-Tree Object Contains:
+    Field	        Description
+    Mode	        File/folder permissions (e.g., 100644 for file)
+    Type	        blob or tree
+    Hash (SHA-1)	Pointer to blob or tree
+    Filename	    Name of the file or directory
+
+-When Does Git Create Tree Objects?
+    Only when you commit — Git takes the files in the staging area (index) and creates:
+    -blob objects for each file
+    -tree objects for each directory
+    -a commit object that points to the top-level tree
+
+Example: Folder + Subfolder in Git
+Step-by-step:
+    mkdir src
+    echo "console.log('hello');" > src/index.js
+    echo "main file" > index.js
+
+    git init
+    git add .
+    git commit -m "Add files"
+
+    Now check the commit hash:
+    git log --oneline
+    # e.g., a1b2c3d Initial commit
+
+    Check what the commit points to:
+    git cat-file -p a1b2c3d
+
+    Example output:
+    tree 5b3f1c...
+    author Shubham ...
+
+    Add files
+    Check the top-level tree:
+    git cat-file -p 5b3f1c...
+
+    Output:
+    100644 blob a12345...	index.js
+    040000 tree b67890...	src
+    → index.js is a blob, src is a tree (i.e., a subfolder)
+
+    Check src tree:
+    git cat-file -p b67890...
+
+    Output:
+    100644 blob c9def0...	index.js
+
+-Inspect Types with -t:
+    git cat-file -t a12345...   # blob
+    git cat-file -t b67890...   # tree
+    git cat-file -t <commit>    # commit
+
+-Commit Object Contains:
+    Field	    Description
+    tree	    SHA-1 of root tree
+    parent	    SHA-1 of previous commit (optional)
+    author	    Who made the commit
+    date	    Timestamp (ensures uniqueness)
+    message	    Commit message
+
+Key Learnings (Recap):
+    -Git does not store folders, it stores trees.
+    -Files → blobs, Folders → trees
+    -Tree object maps directory structure using pointers.
+    -Subfolders are handled by nesting trees inside trees.
+    -This structure is created only at commit time.
+
+
+
+7. Git Optimization: Compression & Performance
+-Git Objects & Storage Basics
+    -Every file version is stored as a blob object.
+    -As commits grow, more blobs/trees/commits are created → lots of loose objects.
+    -Git uses zlib compression internally for each object.
+    -But storing every individual object separately becomes inefficient over time.
+
+-Pack Files (.pack & .idx)
+    -To optimize storage, Git packs loose objects into a single binary file:
+    .git/
+    └── objects/
+        └── pack/
+            ├── pack-xxxxxxxxxx.pack
+            └── pack-xxxxxxxxxx.idx
+
+File	Description
+.pack	Compressed file containing multiple objects (blobs, trees, commits)
+.idx	Index file for quick access to objects inside .pack
+
+
+-git gc (Garbage Collection)
+    Runs several optimizations:  
+        git gc
+    What it does:
+        -Compresses loose objects into pack files
+        -Removes unreachable objects (dangling commits, unreachable blobs)
+        -Rewrites and repacks for better disk usage
+        -Run this periodically or automatically by Git when thresholds are crossed.
+

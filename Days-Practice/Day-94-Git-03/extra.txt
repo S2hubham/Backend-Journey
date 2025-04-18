@@ -1,0 +1,9 @@
+piper googles version control
+https://ronamosa.io/docs/books/papers/Google3/
+https://en.wikipedia.org/wiki/Piper_(source_control_system)
+
+
+google -> Kubernetes
+
+git internals advanced / revision
+https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
