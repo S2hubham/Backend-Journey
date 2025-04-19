@@ -1,0 +1,78 @@
+Handling dangling commits
+1. Create a Sample Repo
+    mkdir git-detached-demo && cd git-detached-demo
+    git init
+
+2. Make Some Commits
+    echo "Line 1" > file.txt
+    git add . && git commit -m "Commit 1"
+
+    echo "Line 2" >> file.txt
+    git add . && git commit -m "Commit 2"
+
+    echo "Line 3" >> file.txt
+    git add . && git commit -m "Commit 3"
+
+    echo "Line 4" >> file.txt
+    git add . && git commit -m "Commit 4"
+
+    echo "Line 5" >> file.txt
+    git add . && git commit -m "Commit 5"
+
+    echo "Line 6" >> file.txt
+    git add . && git commit -m "Commit 6"
+
+3. Get Commit History
+    git log --oneline
+Note a commit ID from middle (e.g., 3rd one).
+
+4. Checkout That Commit (Detached HEAD)
+    git checkout <commit_id>   you're now in detached HEAD
+    Check:
+    git status
+You'll see: You are in 'detached HEAD' state
+    git log --oneline
+    u will not see commits after commit 3
+
+5. Make a Commit in Detached HEAD
+    echo "Detached change" >> file.txt
+    git add . && git commit -m "Detached commit"
+You now have a new commit that is not on any branch.
+
+6. Switch Back to Main Branch
+    git switch main
+Now the detached commit is not reachable by any branch!
+
+7. Recover the Detached Commit
+    git reflog
+Find the hash of the detached commit and:
+
+    git checkout -b recovered-work <that_hash>
+This saves your work on a new branch.
+
+8. (Optional) See Dangling Commits
+    git fsck --lost-found
+
+    git log --all --decorate --oneline --graph
+    o/p
+    * 0f35433 (HEAD -> recovered-work) Detached commit
+    | * 735451a (main) Commit 6
+    | * 7eb920e Commit 5
+    | * efc1951 Commit 4
+    |/
+    * acd2beb Commit 3
+    * 2f630c1 Commit 2
+    * 49d9e3a Commit 1
+
+What Actually Happened?
+    You were in a detached HEAD state and made a commit:
+    That commit (0f35433) was not connected to any branch initially.
+    This commit was about to become dangling if left untouched.
+    You then created a new branch recovered-work at 0f35433:
+    This means that commit now has a branch pointer referencing it.
+    So yes — you saved a potentially dangling commit by creating a branch.
+
+If You Hadn't Created the recovered-work Branch:
+    That commit would not appear in any branch.
+    It would be dangling.
+    You could still recover it temporarily using git reflog before garbage collection runs.

@@ -1,0 +1,27 @@
+Simple guide for forking
+Step 1: Fork and Clone
+git clone https://github.com/your-username/sample-project.git
+cd sample-project
+
+Step 2: Add the original project as upstream
+git remote add upstream https://github.com/original-owner/sample-project.git
+
+Step 3: Check remotes
+git remote -v
+
+Step 4: Create a new branch to work on a feature or issue
+git checkout -b fix-readme
+
+Step 5: Make changes and commit
+echo "New line" >> README.md
+git add README.md
+git commit -m "Added a new line to README"
+
+Step 6: Push changes to your fork
+git push origin fix-readme
+
+Step 7: Go to GitHub and open a pull request to the upstream repo
+
+Step 8: Sync with upstream later
+git fetch upstream
+git pull upstream main

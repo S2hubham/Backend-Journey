@@ -1,0 +1,173 @@
+1. Forking
+What: Creating a personal copy of someone else's repository on GitHub.
+Why: You can’t push directly to most open source repos. Forking gives you your own space to make changes.
+How:
+    -Click "Fork" on the GitHub project page.
+    -It creates your-username/project-name.
+
+
+
+
+2. Cloning Your Fork
+    git clone https://github.com/your-username/project-name.git
+    cd project-name
+This brings your forked repo to your local machine.
+
+
+
+
+3. Upstream
+What: A link to the original repo you forked from.
+Why: To pull in new updates from the source repo into your local/forked copy.
+How to Add Upstream:
+    git remote add upstream https://github.com/original-owner/project-name.git
+    origin: Your fork
+upstream: Original repo
+
+
+
+
+4. Pulling from Upstream
+Fetch changes from the original repo and merge them:
+    git fetch upstream
+    git pull upstream main
+Keeps your fork up-to-date with the main project.
+
+
+
+
+
+5. Pull Request (PR)
+What: A request to merge your changes into the original project.
+How:
+Push changes to your fork:
+    git push origin your-branch-name
+    Go to GitHub → Your fork → Click "Compare & pull request"
+    Add title, description, and submit!
+The maintainers will review and accept or suggest changes.
+
+
+
+
+6. git clean – Clean Your Working Directory
+Used to remove untracked files or directories (i.e., files not added to staging area).
+
+Command	        Description
+git clean -f	Forcefully removes untracked files only
+git clean -d	Targets untracked directories (won’t delete without -f)
+git clean -fd	Deletes both untracked files and directories
+git clean -n	Dry run: Shows what will be deleted, without actually deleting anything
+git clean -fdn	Dry run for deleting both untracked files and directories
+
+Important Notes
+    -You must use -f (force) for anything to be deleted. This is for safety.
+    -This does not remove tracked files, only untracked ones (i.e., not in git’s index/staging area).
+    -Works well for cleaning up compiled files, temp folders, etc.
+
+
+Example Scenario -> 
+You're working on a project and generate some build or temporary files:
+    # See what's untracked (but don’t delete yet)
+    git clean -n
+
+    # Clean just untracked files
+    git clean -f
+
+    # Clean untracked files and folders
+    git clean -fd
+
+-f -> cleans working area by deleting untracked files only
+--dry-run -> what files are going to be deleted but doesn't delete anything
+-d  -> will delete directory 
+-d -f -> removes all directories and files both
+
+
+
+
+7. git log with Time Filters & Grep
+--since — Show commits after a specific time
+
+git log --since="yesterday"	        Shows commits made after yesterday
+git log --since="5 minutes ago"	    Commits from the last 5 minutes
+git log --since=1.minute	        Commits from 1 minute ago
+
+You can also use other durations:
+1.hour, 2.days, 1.week, etc.
+
+
+--grep — Search commit messages for a pattern
+git log --grep=second	        Shows commits with "second" in their message
+
+Can be combined with --since for powerful log filtering:
+git log --since="1 day ago" --grep=fix
+
+
+Try This Hands-On:
+    -Make a few commits.
+    -Wait a minute or two.
+    git log --since="2 minutes ago"
+    git log --grep="your commit message keyword"
+
+
+
+
+8. What is HEAD in Git?
+    HEAD is a pointer to the current commit you're working on (usually the latest commit on your current branch).
+    If you're on a branch like main, HEAD points to main, which points to a commit.
+
+What is Detached HEAD?
+    A detached HEAD happens when you checkout a specific commit ID:
+        git checkout <commit_id>
+    Now HEAD is pointing directly to a commit, not a branch.
+    You are no longer on any branch.
+
+A dangling commit is:
+    A commit with no branch or tag referencing it.
+    It becomes unreachable in normal history (git log).
+    Git will garbage collect it after a while if not saved.
+
+Dangers of Detached HEAD
+    If you make new commits in this state, they are not connected to any branch.
+    If you switch branches or exit this state without saving those commits, they can be garbage-collected (i.e., deleted).
+    This results in dangling commits — commits that are no longer reachable unless saved manually.
+
+How to Exit Detached HEAD
+        git switch -         # or
+        git checkout <branch_name>
+    Returns you to your previous branch safely.
+
+How to Save Work from Detached HEAD
+    If you created commits you want to keep:
+        git checkout -b new-branch-name
+    This creates a new branch from that commit, preserving the work.
+
+Git Garbage Collection
+    Git may delete unreachable (dangling) commits after some time.
+    Git stores dangling commits temporarily, and you can see them via:
+        git fsck --lost-found
+
+
+
+
+
+9. Git: ~ and ^ Operators — Precise Notes
+    a. ^ — Parent Selector
+    ^ = first parent
+    ^n = nth parent (only applies for merge commits, which have multiple parents)
+
+    Usage:
+    git show <commit>^       # shows first parent
+    git show <commit>^2      # shows second parent (if merge commit)
+
+    b. ~ — Ancestor Selector
+    ~n = nth generation ancestor, always along first-parent path
+    It walks linearly back through the history.
+
+    Usage:
+    git show HEAD~1          # 1 commit behind HEAD
+    git show HEAD~3          # 3 commits behind HEAD (like grandparent)
+
+Difference : 
+Operator	Path Taken	                                        Use Case
+^n	        Selects nth parent (especially for merge commits)	Multi-parent inspection
+~n	        Follows first parent repeatedly                     Linearly going back in time

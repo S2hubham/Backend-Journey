@@ -1,0 +1,97 @@
+Practice for ^ and ~
+1. Initialize Git Repo
+    git init demo-git-flow
+    cd demo-git-flow
+
+2 Create a file and first few commits
+    echo "Commit 1" > file.txt
+    git add .
+    git commit -m "Commit 1"
+
+    echo "Commit 2" >> file.txt
+    git commit -am "Commit 2"
+
+    echo "Commit 3" >> file.txt
+    git commit -am "Commit 3"
+
+    echo "Commit 4" >> file.txt
+    git commit -am "Commit 4"
+
+3. Create a new branch for the feature
+    git checkout -b feature
+
+4. Add one commit in feature branch
+    echo "Feature Commit" >> feature.txt
+    git add feature.txt
+    git commit -m "Feature Commit"
+
+5️. Switch back to main branch
+    git checkout main
+
+6️. Merge feature branch (non-fast-forward)
+    git merge feature --no-ff -m "Merge branch 'feature'"
+
+7️. Add more commits on main branch
+    echo "Commit 6" >> file.txt
+    git commit -am "Commit 6"
+
+    echo "Commit 7" >> file.txt
+    git commit -am "Commit 7"
+
+    echo "Commit 8" >> file.txt
+    git commit -am "Commit 8"
+
+8. viewing the branching 
+    git log --all --decorate --oneline --graph
+
+    * c2ed4cf (HEAD -> main) Commit 8
+    * e499889 Commit 7
+    * f2efc6b Commit 6
+    *   4bb7394 Merge branch 'feature'
+    |\
+    | * 6d0510d (feature) Feature Commit
+    |/
+    * 475adae Commit 4
+    * 9d364db Commit 3
+    * ccfdd8e Commit 2
+    * 5bc64c9 Commit 1
+
+9. using ^
+    git log 4bb7394^ --oneline
+    o/p :
+    * 475adae Commit 4
+    * 9d364db Commit 3
+    * ccfdd8e Commit 2
+    * 5bc64c9 Commit 1
+
+    git log 4bb7394^2 --oneline
+    o/p :
+    * 6d0510d (feature) Feature Commit
+    * 475adae Commit 4
+    * 9d364db Commit 3
+    * ccfdd8e Commit 2
+    * 5bc64c9 Commit 1
+
+    git log 4bb7394^2 --oneline
+    o/p :
+    fatal: ambiguous argument '4bb7394^3':  as no more parent is present
+
+10. using ~
+    git log c2ed4cf~ --oneline
+    o/p :
+    * e499889 Commit 7
+    * f2efc6b Commit 6
+    * 4bb7394 Merge branch 'feature'
+    * 6d0510d (feature) Feature Commit
+    * 475adae Commit 4
+    * 9d364db Commit 3
+    * ccfdd8e Commit 2
+    * 5bc64c9 Commit 1
+
+
+    git log c2ed4cf~4 --oneline
+    o/p :
+    * 475adae Commit 4
+    * 9d364db Commit 3
+    * ccfdd8e Commit 2
+    * 5bc64c9 Commit 1
