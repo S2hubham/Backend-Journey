@@ -1,0 +1,33 @@
+Situation:
+You're working on a feature called dark-mode-toggle. You:
+    -Create initial logic and commit.
+    -Realize you missed CSS.
+    -Then, fix a typo in JS.
+    -Want to keep all of this in a single clean commit, as per company policy.
+
+
+
+Step-by-Step : 
+    # Step 1: Create branch and file
+    git checkout -b dark-mode-toggle
+    echo "function toggleDarkMode() {}" > theme.js
+    git add theme.js
+    git commit -m "Add dark mode toggle logic"
+
+    # Step 2: Realize CSS is missing
+    echo ".dark-mode { background: black; }" > style.css
+    git add style.css    
+    git commit --amend          # Add this to the last commit
+    # Choose to edit the message or leave it as is
+
+    # Step 3: Fix typo in JS
+    echo "// toggle dark mode" >> theme.js
+    git add theme.js
+    git commit --amend          # Again, adds to same commit
+
+    # Step 4: See all commit updates using reflog
+    git reflog
+    # You’ll see the commit before and after each amend, each with a new hash
+
+    # Step 5: Verify commit history (should have only 1)
+    git log --oneline

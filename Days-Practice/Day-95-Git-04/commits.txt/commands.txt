@@ -1,0 +1,48 @@
+1. git commit --amend
+What it does:
+Allows you to modify the most recent commit (message or content).
+
+Useful when:
+    You forgot to add a file.
+    You made a typo in the commit message.
+    You made multiple small changes that should be part of a single commit.
+
+Syntax:
+    git add <file>        # stage the change
+    git commit --amend    # amend the last commit
+
+Behind the Scenes:
+    -Creates a new commit object with a new SHA-1 hash.
+    -The previous commit still exists in .git/objects/, and you can retrieve it using git reflog.
+
+
+
+2. git reflog
+What it does:
+    -Records every update to the HEAD (checkout, commit, rebase, amend).
+    -Helps you find lost commits, especially useful after --amend, rebase, or reset.
+
+Syntax:
+    git reflog
+
+Example Output:
+    -d5c8e9d HEAD@{0}: commit (amend): Final UI fix
+    -c122f2a HEAD@{1}: commit: Initial UI fix
+You can use git checkout <hash> to retrieve old commits from this list.
+
+
+
+
+
+Use Case: Why LinkedIn Follows One Commit Policy
+Companies like LinkedIn avoid multiple tiny commits like:
+    -fix typo
+    -add missing file
+    -updated css
+
+Instead, they squash all related changes into a single clean commit, usually by using:
+    git commit --amend
+    git rebase -i (interactive rebase)
+
+This makes code review and history tracking easier and cleaner.
+

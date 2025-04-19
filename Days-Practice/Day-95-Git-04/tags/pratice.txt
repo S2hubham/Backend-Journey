@@ -1,0 +1,31 @@
+# 1. Init new repo
+mkdir tag-demo && cd tag-demo
+git init
+
+# 2. Make a commit
+echo "v1 content" > file.txt
+git add .
+git commit -m "Initial version"
+
+# 3. Add a tag for version 1.0
+git tag -a v1.0 -m "First release version 1.0"
+
+# 4. Make another commit
+echo "v2 content" >> file.txt
+git commit -am "Added new feature"
+
+# 5. Add another tag
+git tag -a v2.0 -m "Second release version 2.0"
+
+# 6. View all tags
+git tag
+
+# 7. Show tag details
+git show v1.0
+
+# 8. See tag references
+git show-ref --tags
+
+# 9. Push all tags (after linking to remote repo)
+# git remote add origin <url>
+# git push --tags

@@ -1,0 +1,47 @@
+Goal:
+You're building a feature called featured-product. You want to:
+    -Work on it in isolation.
+    -Keep the main branch clean.
+    -Visualize commit history with branches.
+
+
+Stey-by-Step
+
+    # Step 1: Initialize Git repo
+    mkdir git-branch-demo && cd git-branch-demo
+    git init
+
+    # Step 2: Create initial file and commit
+    echo "Initial homepage" > index.html
+    git add index.html
+    git commit -m "Initial commit on main"
+
+    # Step 3: Create new branch and switch to it
+    git checkout -b featured-product
+
+    # Step 4: Make some feature changes
+    echo "Featured product section added" >> index.html
+    git add index.html
+    git commit -m "Add featured product section"
+
+    # Step 5: Check branches
+    git branch
+    # Output:
+    # * featured-product
+    #   master
+
+    # Step 6: Visualize commit history
+    git log --all --decorate --oneline --graph
+
+    # Step 7: Switch back to main
+    git checkout main
+
+    # Step 8: Check HEAD position
+    cat .git/HEAD
+    # Will show ref: refs/heads/master
+
+    # Step 9: Optional - Merge branch
+    git merge featured-product
+
+    # Step 10: View final commit history
+    git log --all --decorate --oneline --graph

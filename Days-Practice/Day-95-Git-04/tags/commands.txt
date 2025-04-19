@@ -1,0 +1,44 @@
+What Are Git Tags?
+    -Tags are pointers to specific commits — similar to branches, but immutable and meant for marking versions/releases.
+    -Useful for marking release points, like v1.0, v2.1, etc.
+
+
+Difference Between Tag and Branch
+Feature	            Branch	                                Tag
+Mutable	            Yes (moves with new commits)	        No (fixed to one commit)
+Purpose	            Development (ongoing work)	            Marking snapshots/releases
+Structure	        Pointer to latest commit + moves	    Pointer to specific commit + frozen
+Common Example	    main, feature-x	                        v1.0.0, release-2025
+
+
+Tagging Commands and Their Uses
+1. git tag
+List all tags in the repo.
+    git tag
+
+
+2. git tag -a <tag_name> -m "message"
+Create an annotated tag with metadata (author, date, message).
+    git tag -a v1.0 -m "First release"
+Use -a for "annotated" — best practice for production/release.
+
+
+3. git tag -m "message"
+Only works with -a, otherwise it's invalid alone.
+Correct usage:
+    git tag -a v1.1 -m "Second release"
+
+
+4. git show <tag_name>
+Show details of the tag, including the commit and metadata.
+    git show v1.0
+
+
+5. git show-ref --tags
+Show all tag references and their commit hashes.
+    git show-ref --tags
+
+
+6. git push --tags
+Push all local tags to the remote.
+    git push --tags

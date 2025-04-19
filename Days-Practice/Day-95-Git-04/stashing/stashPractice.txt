@@ -1,0 +1,57 @@
+Hands-On Practice Scenario (Covers All Commands)
+Imagine you're working in a company on a feature branch called feature/navbar. You're midway through updating the navbar and sidebar.
+
+Situation:
+You're asked to:
+    -Fix a bug on main
+    -Pull latest changes
+    -Test a new header layout
+    -Handle untracked CSS files
+
+Practice Flow:
+
+    # 1. Working on multiple files (tracked + untracked)
+    echo "nav code" > navbar.js
+    echo "side code" > sidebar.js
+    touch temp.css             # untracked
+
+    # 2. Save with message + include untracked
+    git stash save "navbar and sidebar updates" --include-untracked
+
+    # 3. Check stash list
+    git stash list
+
+    # 4. View stash details
+    git stash show stash@{0}
+
+    # 5. Switch to main branch and pull bug fix
+    git checkout main
+    git pull origin main
+
+    # 6. Return to your branch
+    git checkout feature/navbar
+
+    # 7. Apply your stash but keep it
+    git stash apply stash@{0}
+
+    # 8. Realize you only need sidebar.js stashed, stash again selectively
+    git stash -- sidebar.js
+
+    # 9. Apply and remove it from stash
+    git stash pop
+
+    # 10. Drop old stash
+    git stash drop stash@{0}
+
+    # 11. Test just temp.css file (untracked)
+    git stash --include-untracked -- temp.css
+    git stash list
+
+
+Result:
+You’ve:
+    -Stashed full and partial changes
+    -Handled untracked files
+    -Used apply, pop, drop
+    -Tested and organized changes effectively
+    

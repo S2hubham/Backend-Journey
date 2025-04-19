@@ -1,0 +1,29 @@
+Git Branching: 
+
+1. What is a Branch?
+    -A branch is simply a pointer to a specific commit.
+    -By default, Git creates a branch named master (or main).
+    -As you make commits, this pointer moves forward.
+
+Think of it as a named timeline of your project.
+
+
+2. What is HEAD?
+HEAD is a special pointer that tells you:
+    -Which branch you're currently on
+    -What the latest commit on that branch is
+
+
+3. Changing branches = moving the HEAD to point to another branch.
+   Branch = a pointer to a commit
+   HEAD = pointer to the current branch
+
+
+4. Common Git Branch Commands
+Command	                                    |    Description
+git branch	                                |    List all branches
+git branch <branch_name>	                |    Create a new branch (without switching to it)
+git checkout <branch_name>	                |    Switch to a branch
+git checkout -b <branch_name>	            |    Create and switch to a new branch
+git log --graph	                            |    Visualize branching in graph
+git log --all --decorate --oneline --graph	|    Detailed and compact visual of commit history

@@ -1,0 +1,64 @@
+1. Bug Fix on Another Branch (Urgent Patch Request)
+You're working on a new feature, halfway through coding. Suddenly, your team lead says:
+"Hey, production is breaking! We need to fix a critical bug on main ASAP."
+But you can’t commit your half-baked feature.
+
+Use git stash to save your changes temporarily:
+    git stash
+    git checkout main
+    # fix the bug
+    git commit -m "Hotfix for production crash"
+    git push
+    git checkout feature/new-ui
+    git stash pop  # continue where you left off
+
+
+
+2. Need to Pull Latest Changes, But You Have Local Modifications
+You're on a branch and made changes. Now you want to pull the latest code from the remote repo, but Git says:
+"Cannot pull with rebase: You have unstaged changes."
+If you don’t want to deal with merge conflicts right now:
+    git stash
+    git pull --rebase origin main
+    git stash pop
+
+
+
+3. Quickly Test Something Else
+You're writing code, but a teammate says:
+"Can you check if this function breaks when passed an empty array?"
+Rather than risking your current codebase:
+    git stash
+    # do some quick testing
+    git checkout <testing branch> or modify temporarily
+    # done testing
+    git checkout your-branch
+    git stash pop
+
+
+
+4. Clean Working Directory for Running Lint, Test, or Build Scripts
+Sometimes, your changes might break the test or build setup. You want to:
+    -Run build/lint/test on a clean slate
+    -Then restore your messy code after
+
+    git stash
+    npm run build
+    # success!
+    git stash pop
+
+
+
+5. Code Review / Pair Programming Help
+You're doing feature work, but a teammate asks:
+“Can you help me debug something real quick?”
+You don’t want to lose your progress but also need a clean working copy to debug with them:
+    git stash
+    git checkout teammate-branch
+    # help them
+    git checkout your-feature-branch
+    git stash pop
+
+
+In short ->   
+In any serious development environment (companies, startups, open source), stashing is like pressing "Save and Minimize" on your work so you can juggle priorities without losing progress.

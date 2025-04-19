@@ -1,0 +1,85 @@
+Git Stash: What & Why?
+git stash temporarily shelves (or stashes) changes you've made to your working directory so you can work on something else, then come back and re-apply them later.
+
+
+
+Git Stash Commands & Explanations : 
+
+1. git stash
+What it does: Saves your modified tracked files and reverts them from your working directory.
+Syntax:
+    git stash
+
+Note: Only saves tracked files by default.
+
+
+2. git stash list
+What it does: Shows a list of all stash entries saved in stack-like order (stash@{0} is the most recent).
+Syntax:
+    git stash list
+
+
+3. git stash apply
+What it does: Applies the most recent stash to your working directory but keeps the stash in the stack.
+Syntax:
+    git stash apply
+
+
+4. git stash apply stash@{<stash_number>}
+What it does: Applies a specific stash by index from the stash list.
+Syntax:
+    git stash apply stash@{1}
+
+
+5. git stash show stash@{<stash_number>}
+What it does: Shows what changes are inside the stash (summary).
+Syntax:
+    git stash show stash@{0}
+
+
+6. git stash pop
+What it does: Applies the most recent stash and removes it from the stash list.
+Syntax:
+    git stash pop
+
+
+7. git stash drop
+What it does: Removes the most recent stash entry.
+Syntax:
+    git stash drop
+
+
+8. git stash drop stash@{<stash_number>}
+What it does: Removes a specific stash from the list.
+Syntax:
+    git stash drop stash@{2}
+
+
+9. git stash save "message"
+What it does: Creates a stash with a custom message (useful for remembering purpose).
+Syntax:
+    git stash save "working on navbar"
+
+
+10. git stash save "message" --include-untracked
+What it does: Stashes both tracked and untracked files.
+Syntax:
+    git stash save "quick fix in header" --include-untracked
+
+
+11. git stash --include-untracked
+What it does: Stashes everything (including untracked files) without message.
+Syntax:
+    git stash --include-untracked
+
+
+12. git stash -- <file_name>
+What it does: Stashes changes from only a specific file.
+Syntax:
+    git stash -- header.js
+
+
+13. git stash --include-untracked -- <file_name>
+What it does: Stashes a specific file, including if it's untracked.
+Syntax:
+    git stash --include-untracked -- style.css
