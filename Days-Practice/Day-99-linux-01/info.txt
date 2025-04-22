@@ -1,0 +1,88 @@
+🔹 What is Unix?
+A multiuser, multitasking operating system developed in the 1970s.
+The foundation/inspiration for many modern OSes like Linux, BSD, macOS.
+Structured with: Kernel + Shell + Utilities + Filesystem
+
+
+🔹 Key Terms:
+    Kernel: The core part of an OS, manages hardware.
+    Shell: Interface between user and OS (e.g., bash).
+    Multiuser: Multiple users can log in and use the same system.
+    Multitasking: Running multiple programs simultaneously.
+    Derivative: A system created based on another system.
+
+
+🔹 What is Linux?
+A Unix-like open-source OS built around the Linux kernel (created by Linus Torvalds in 1991).
+Runs on PCs, servers, smartphones, TVs, routers, etc.
+Has many distributions (distros) for different use cases.
+
+
+🔹 What is BSD?
+    Berkeley Software Distribution — a Unix variant.
+    macOS is built on BSD (specifically Darwin, a BSD-based system).
+    Known for security, performance, and server use.
+Popular BSDs:
+    FreeBSD – Performance/server use
+    OpenBSD – Security-focused
+    NetBSD – Hardware portability
+    macOS – Apple’s OS based on BSD
+
+
+🔹 What is a Distro?
+A Linux distro (distribution) = Linux kernel + software tools + GUI + package manager.
+Different distros are created by different organizations/communities for specific purposes.
+
+
+🔹 Distro Families
+🟢 Debian-based
+    Debian: Stable, secure, base-level distro.
+    Ubuntu: User-friendly version of Debian.
+    Kali Linux: Ethical hacking, pen-testing (built on Ubuntu).
+    Linux Mint, Pop!_OS: Variants of Ubuntu with extra features.
+
+🔴 Red Hat-based
+    Red Hat Enterprise Linux (RHEL): Enterprise-focused, paid support.
+    Fedora: Cutting-edge, developer-focused, backed by Red Hat.
+    CentOS / CentOS Stream: Free version/variant of RHEL, used on servers.
+
+
+🔹 Linux Distros Breakdown
+Distro	        Based On	        Use Case
+Debian	        Independent	        Stability, servers
+Ubuntu	        Debian	            Beginners, general use
+Kali Linux	    Ubuntu	            Ethical hacking, cybersecurity
+RHEL	        Independent	        Companies, enterprise support
+Fedora	        RHEL	            Developers, latest tech
+CentOS	        RHEL	            Free enterprise-style server usage
+
+
+🔹 Package Managers
+Distro Family	Package Manager	File Type
+Debian/Ubuntu	apt, dpkg	    .deb
+Red Hat/Fedora	dnf, yum, rpm	.rpm
+Arch Linux	    pacman	        .pkg.tar.zst
+Alpine Linux	apk	            .apk
+
+
+🔹 Independent vs Derived Distributions
+Distro	    Uses Linux Kernel	Independent Base	Derived From
+Debian	    ✅	                ✅	             –
+Ubuntu	    ✅	                ❌	             Debian
+Kali Linux	✅	                ❌	             Ubuntu
+RHEL	    ✅	                ✅	             –
+Fedora	    ✅	                ❌	             RHEL
+CentOS	    ✅	                ❌	             RHEL
+
+
+🔹 Why Linux Kernel is Famous?
+    Free & Open Source – No license needed, anyone can use and modify it.
+    Highly Customizable – Can be tailored for phones, PCs, servers, or even rockets!
+    Strong Community – Thousands of developers and big companies contribute.
+    Modular Design – Only use the features you need = faster, lighter, safer.
+    Runs Everywhere – Powers Android, servers, smart devices, supercomputers.
+    Stable & Secure – Trusted by Google, Facebook, Amazon, NASA, etc.
+    Scalable – Works for small IoT devices to huge data centers.
+
+
+-macOS = Darwin kernel (based on BSD)
