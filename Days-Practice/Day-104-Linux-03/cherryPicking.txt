@@ -1,0 +1,62 @@
+Git Cherry Picking
+    Meaning:
+    Cherry-picking means selecting a specific commit and applying it to your current branch.
+    (Think of it like picking only one fruit from a tree instead of taking the whole tree.)
+
+
+Scenario:
+-You have two branches: main and feature.
+-First, on the main branch, you make two commits.
+-Then, you switch to the feature branch and make two more commits.
+-You later hear that there's a bug fix in the second commit of the feature branch, and you want to cherry-pick that specific commit into the main branch.
+
+Step-by-Step:
+On the main branch:
+    First, let's make two commits on the main branch.
+        git checkout main
+        echo "First commit on main" > file1.txt
+        git add file1.txt
+        git commit -m "First commit on main"
+
+        echo "Second commit on main" > file2.txt
+        git add file2.txt
+        git commit -m "Second commit on main"
+
+Switch to the feature branch:
+    Now, let's create the feature branch and make two commits there.
+        git checkout -b feature
+        echo "First commit on feature" > feature1.txt
+        git add feature1.txt
+        git commit -m "First commit on feature"
+
+        echo "Bug fix commit on feature" > feature2.txt
+        git add feature2.txt
+        git commit -m "Bug fix commit on feature"
+
+Switch back to the main branch:
+    After making the commits on feature, we switch back to the main branch.
+        git checkout main
+        echo "Another commit on main" > file3.txt
+        git add file3.txt
+        git commit -m "Another commit on main"
+
+Identify the bug fix commit on the feature branch:
+    Now, we want to cherry-pick the bug fix commit from the feature branch. First, let's find the commit ID for that bug fix commit.
+        git log
+    (In the log, we can see the commit IDs. The second commit on feature is the bug fix commit. Suppose its ID is abcd123.)
+
+Cherry-pick the bug fix commit to the main branch:
+    Now, we cherry-pick that specific commit from the feature branch into the main branch.
+        git cherry-pick abcd123
+    This will apply the bug fix commit from the feature branch to your main branch.
+
+
+
+Notes:
+If a conflict occurs during cherry-picking, you will need to resolve the conflicts manually.
+
+After resolving, run:
+    git add .
+    git cherry-pick --continue
+Cherry-picking is a very important concept when you want precise control over which changes you bring between branches.
+

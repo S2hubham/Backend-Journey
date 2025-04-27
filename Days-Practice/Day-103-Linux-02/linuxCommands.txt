@@ -1,12 +1,15 @@
--pwd : this represents what is the current directory we are currently at.
+1. pwd : this represents what is the current directory we are currently at.
 
--ls  : you can print the content of the current directory we are in. All the files and sub-directories will be printed.
 
--cd   : this can help you to move into a folder and move out of a folder.
+2. ls  : you can print the content of the current directory we are in. All the files and sub-directories will be printed.
+
+
+3. cd   : this can help you to move into a folder and move out of a folder.
     cd .. : if you want to jump one folder back from the current directory.
     cd ../.. : if you want to make two jumps back from the current directory.
     cd ~ : from any directory this will help you to come back to the home directory.
     cd directory1/directory2/ : we can move into internal subdirectories directly by separating them with a forward slash L .
+
 
 Note :
     ~   -> this tilde refers to the home directory. Ex: /Users/shubham.
@@ -19,22 +22,136 @@ Note :
     whereas in the relative path you do jumps w.r.t to the current folder.
 
 
--clear : clears the working space by actually moving you to the top of the current shell.
+4. clear : clears the working space by actually moving you to the top of the current shell.
 
--mkdir : this helps us to create a new folder.
 
--touch : we can create a brand new blank file out of the blue. 
+5. mkdir : this helps us to create a new folder.
 
--cat <filename> : prints the whole content of a file
 
--rm <filename> : is command deletes a file
+6. touch : we can create a brand new blank file out of the blue. 
 
--rmdir <foldername> : this commands deletes `only` empty folder
 
--rm -r <foldername> : the -r flag enables rm to recursively delete all the content of the folder and then delete the folder.
+7. cat <filename> : prints the whole content of a file
 
--rm -rf <foldername> : forcefully deletes all contents of the folder and then the folder.
+
+8. rm <filename> : is command deletes a file
+
+
+9. rmdir <foldername> : this commands deletes `only` empty folder
+
+
+10. rm -r <foldername> : the -r flag enables rm to recursively delete all the content of the folder and then delete the folder.
+
+
+11. rm -rf <foldername> : forcefully deletes all contents of the folder and then the folder.
+
 
 Command	            Description
 rm -r <foldername>	Deletes folder & its contents, but won't remove write-protected files without confirmation.
 rm -rf <foldername>	Deletes folder & its contents forcefully, even if files are write-protected.
+
+
+12. head -n X <filename> : 
+This command prints the first X number of lines from a file. By deault gives first 10 only if not mentioned.
+Example: head -n 3 file.txt → prints the first 3 lines of the file.
+
+
+13. tail -n X <filename> : 
+This command prints the last X number of lines from a file. By deault gives last 10 only if not mentioned.
+Example: tail -n 10 file.txt → prints the last 10 lines of the file.
+
+
+14. piping (|) :
+Piping is used to pass the output of one command as the input to another command.
+It helps us to combine two or more commands together in a flow.
+
+
+15. ls | grep search_word :
+This command first lists all files/folders using ls,
+then filters only those items that match the search_word.
+Example: ls | grep notes → shows only files/folders which have "notes" in their name.
+
+
+16. ps aux | grep chrome :
+This command first shows all running processes using ps aux,
+then filters and shows only the processes that have "chrome" in their details.
+Useful for checking if a specific program (like Chrome) is running.
+
+
+17. g++ a.cpp --std=c++14 -o run && ./run :
+This command first compiles the a.cpp file using the C++14 standard (--std=c++14),
+produces an output file named run,
+and then runs the program if compilation is successful.
+    -g++ a.cpp --std=c++14 -o run → Compiles the C++ file.
+    -&& ./run → Runs the output file only if compilation was successful.
+
+
+18. echo "message" > file :
+This command writes the "message" into the file.
+If the file already has some content, it will overwrite (delete old content and write new).
+Example:
+    echo "Hello World" > file.txt
+    Result: file.txt now contains only "Hello World".
+
+
+19. echo "message" >> file :
+This command adds the "message" at the end of the file.
+It appends without deleting the existing content.
+Example:
+    echo "Welcome" >> file.txt
+    Result: file.txt will have old content + "Welcome" added at the end.
+
+
+20. cp file1 file2 :
+This command copies the content of file1 into a new file file2.
+file1 remains unchanged; file2 is created as a duplicate.
+Example:
+    cp notes.txt backup.txt
+    Result: A new file backup.txt is created with the same content as notes.txt.
+
+
+21. mv file path/to/destination :
+This command moves the file from the current location to the destination path.
+It can also be used to rename a file while moving.
+Example for moving only:
+    mv notes.txt ../backup/
+    Moves notes.txt into the backup folder.
+
+Example for moving + renaming:
+    mv notes.txt ../backup/my_notes.txt
+    Moves notes.txt into the backup folder and renames it to my_notes.txt.
+
+Example for only renaming:
+    mv notes.txt newNotes.txt
+    moves the notes.txt and renames it as newNotes.txt
+
+
+-- TAR
+1. tar -cf archive.zip file1 file2 :
+This command creates an archive file (collection of files) named archive.zip containing file1 and file2.
+    -c → create archive
+    -f → file name of archive
+(Note: here .zip likha hai, but normally tar archives have .tar extension. Example: archive.tar)
+
+2. tar -zcf archive.zip file1 file2 :
+This command creates a compressed archive using gzip compression.
+    -z → compress using gzip
+    -c → create archive
+    -f → file name
+Result: smaller file size than normal tar.
+
+3. tar -xvzf archive.zip :
+This command extracts (unpacks) the files from a gzip compressed tar archive in the `same directory`.
+    -x → extract files
+    -v → verbose (show filenames while extracting)
+    -z → unzip (because gzip compressed)
+    -f → file name
+
+4. tar xf archive.zip -C extracted :
+This command extracts the archive into a specific folder called `extracted`.
+    -C extracted → extract into the extracted/ directory.
+If extracted/ folder doesn't exist, first create it using mkdir extracted.
+
+5. tape archive -> tar :
+The word tar comes from "Tape Archive".
+Old computers used to store backup files in tape drives, and tar was made to archive multiple files into one tape file for easier storage.

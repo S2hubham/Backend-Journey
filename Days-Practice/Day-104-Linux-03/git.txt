@@ -1,0 +1,49 @@
+1. git pull:
+git pull is a command that fetches changes from a remote repository and automatically merges those changes into your current branch. It’s essentially a combination of git fetch and git merge.
+Types of Merge in git pull:
+
+a. Fast-Forward Merge:
+    This happens when your current branch has no new commits since you last pulled from the remote. The branch is just "fast-forwarded" to match the remote branch.
+    Example:
+        Suppose your main branch has commit A (locally) and the remote main has commit A and B.
+        When you do a git pull, Git will just move your local main to commit B because it is ahead of your local commit A.
+    How does it happen?
+        Git simply adjusts your local branch pointer to point to the latest commit of the remote branch, as there are no local changes that conflict with the remote changes.
+    Outcome:
+        Your local branch moves to the most recent commit from the remote branch, and no merge commit is created. This is a "fast-forward" update.
+
+b. Merge Commit:
+    If you have made local commits and the remote branch has diverged (i.e., there are new commits in both the remote and local repositories), Git will attempt to merge the two branches.
+    Example:
+        You have commit A locally and remote has commits A, B, and C.
+        When you do a git pull, Git will fetch the changes (B, C) and merge them with your local changes.
+        If there are no conflicts, Git will create a merge commit (M), which integrates the changes from both sides.
+    How does it happen?
+        Git tries to merge the two sets of changes (your local commits and remote commits).
+        If there are conflicts, you’ll need to resolve them before completing the merge.
+        Once resolved, a new merge commit is created.
+    Outcome:
+        A merge commit is created to combine the histories of both branches.
+
+
+
+
+2. git fetch:
+git fetch retrieves the changes from a remote repository but does not merge them into your working branch. It only updates your remote-tracking branches (e.g., origin/main), so you can see what changes are available on the remote repository before merging them.
+Example:
+    Suppose your main branch is behind and you run git fetch.
+    Git will download the latest changes from the remote (e.g., commits B, C), but your local main branch will remain unchanged.
+    You can then use git log origin/main to view the remote commits or git merge origin/main to merge those commits into your local branch.
+Outcome:
+    Your remote-tracking branches are updated, but no changes are made to your local branches.
+
+
+
+Difference between git pull and git fetch:
+
+Feature	        git pull	                                                git fetch
+Merges changes	Yes, it fetches and merges changes	                        No, it only fetches changes
+Local Branch	Updates and merges remote changes to your local branch	    Doesn't change your local branch
+When to use	    When you want to integrate changes from the remote branch	When you want to inspect or preview changes from the remote
+Outcome	        Updates your branch and potentially creates a merge commit	Only updates remote-tracking branches, no merge
+Use case	    You want to sync your local branch with the remote	        You want to inspect remote changes before merging
