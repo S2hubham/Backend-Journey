@@ -1,0 +1,40 @@
+-pwd : this represents what is the current directory we are currently at.
+
+-ls  : you can print the content of the current directory we are in. All the files and sub-directories will be printed.
+
+-cd   : this can help you to move into a folder and move out of a folder.
+    cd .. : if you want to jump one folder back from the current directory.
+    cd ../.. : if you want to make two jumps back from the current directory.
+    cd ~ : from any directory this will help you to come back to the home directory.
+    cd directory1/directory2/ : we can move into internal subdirectories directly by separating them with a forward slash L .
+
+Note :
+    ~   -> this tilde refers to the home directory. Ex: /Users/shubham.
+    /   -> this slash leads you to root directory
+    Paths : 
+    Relative Path describes the location of a file/folder w.r.t current folder.
+    In an absolute path we mention the location from home directory or root directory. Always starts from / (root)
+
+    When you give the absolute path of a file or folder that means you will give the whole path of that file or folder, 
+    whereas in the relative path you do jumps w.r.t to the current folder.
+
+
+-clear : clears the working space by actually moving you to the top of the current shell.
+
+-mkdir : this helps us to create a new folder.
+
+-touch : we can create a brand new blank file out of the blue. 
+
+-cat <filename> : prints the whole content of a file
+
+-rm <filename> : is command deletes a file
+
+-rmdir <foldername> : this commands deletes `only` empty folder
+
+-rm -r <foldername> : the -r flag enables rm to recursively delete all the content of the folder and then delete the folder.
+
+-rm -rf <foldername> : forcefully deletes all contents of the folder and then the folder.
+
+Command	            Description
+rm -r <foldername>	Deletes folder & its contents, but won't remove write-protected files without confirmation.
+rm -rf <foldername>	Deletes folder & its contents forcefully, even if files are write-protected.

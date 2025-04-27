@@ -1,0 +1,45 @@
+--Basic Vim Commands Cheat Sheet
+
+Action	                                    Command
+Enter Insert Mode (typing)	                i
+Save (Write)	                            :w
+Quit	                                    :q
+Save and Quit	                            :wq or ZZ
+Quit without Saving	                        :q!
+replace word on single line with new word   :s/old_word/new_word
+replacing words with new word               :%s/old_word/new_word
+Move cursor left	                        h
+Move cursor down	                        j
+Move cursor up	                            k
+Move cursor right	                        l
+move to the next word                       w
+move to the last line                       G
+move to the first line                      gg
+Delete a line	                            dd 
+Delete character under cursor	            x
+Undo last change	                        u
+Redo undone change	                        Ctrl + r
+Copy (yank) a line	                        yy
+Paste copied text	                        p
+Go to beginning of line	                    0 (zero)
+Go to end of line	                        $
+Search for text	                            /text (then n for next match)
+
+
+
+
+--Vim Modes (Very Important)
+
+Mode	        How to Enter	    What It Does
+Normal mode	    Press Esc	        Move, delete, copy, etc.
+Insert mode	    Press i	            Type/edit text
+Command mode	Press :	            Run commands like :w, :q, etc.
+
+
+
+
+--Fast Practice Tip
+When you open a file in Vim:
+    Press i to type.
+    Press Esc to stop typing.
+    Type :wq to save and quit.

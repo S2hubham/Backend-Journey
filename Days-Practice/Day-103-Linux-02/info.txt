@@ -1,0 +1,70 @@
+--Shell script
+    -A shell script is a file where you write Linux commands line by line, and when you run the file, all the commands are executed automatically one after another.
+Just imagine:
+    -Instead of typing 10 commands manually one by one,
+    -You write those 10 commands inside a file,
+    -Then run the file once, and everything happens automatically.
+
+Terms:
+    -Extension: Usually .sh (like myscript.sh).
+    -Interpreter: Shell (like bash) reads and runs it line-by-line.
+    -First line: #!/bin/bash — called a shebang, tells which shell to use.
+    -Purpose: Automation (makes repeating tasks super easy).
+
+
+
+
+
+--Shell
+1. Shell = Interface between user and Operating System.
+Meaning:
+    When you type a command in the terminal, it goes to the shell, and the shell talks to the OS and shows you the result.
+    You → Shell → Operating System 
+
+2. Unix Shell:
+    -Unix Shell is a command-line interface created during the early Unix system days.
+    -It's very old but very powerful.
+    Example: sh (Bourne shell) was the most famous early Unix shell.
+
+3. Bash (Bourne Again Shell):
+    -Bash = "Bourne Again SHell".
+    -It's an upgraded version of the original Unix shell.
+    -Today, bash is the most common shell in Linux systems.
+    -Default in Ubuntu, Debian, and many Linux distros.
+Bash Features:
+    -Command history (you can press the UP arrow to see previous commands)
+    -Easy scripting
+    -Auto-completion with TAB
+    -Basic error handling
+
+4. Zsh (Z Shell):
+    -Zsh = "Z shell", another advanced shell based on bash.
+    -It works just like bash but is more powerful and highly customizable.
+    -macOS now uses Zsh as the default shell (earlier it was Bash).
+Zsh Features:
+    -Auto-suggestions
+    -Themes (customize your terminal look)
+    -Plugins (like Oh My Zsh)
+    -Faster scripting and better experience
+
+5. PowerShell:
+    -PowerShell is a Microsoft-made shell.
+    -Built mainly for Windows systems.
+    -It allows both command execution and programming (using objects).
+    -Now also available for Linux and macOS.
+PowerShell Features:
+    -Direct access to Windows file system and registry
+    -Powerful automation scripting
+    -Object-oriented output (not just plain text)
+
+
+
+
+
+--REPL
+    REPL is a tool where you type code, it runs immediately, shows output, and lets you continue typing again.
+Where you find REPL?
+    -Linux terminal (bash REPL)
+    -Python interpreter 
+    -Node.js terminal 
+    -Ruby, Go, Clojure such languages also have repl
