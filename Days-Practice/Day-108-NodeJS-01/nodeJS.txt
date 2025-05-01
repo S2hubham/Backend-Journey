@@ -1,0 +1,222 @@
+__What is Node.js?
+    -Node.js is not a framework or a library.
+    -It is a JavaScript runtime environment.
+    -Built on Google Chrome’s V8 JavaScript engine.
+    -Allows you to run JavaScript on the server side (outside the browser).
+
+
+
+__Advancements of Node.js Over Browser JavaScript
+1. File System Access
+    -Browser JS: Cannot read/write files on disk for security reasons.
+    -Node.js: Full access to the file system using the built-in fs module.
+    Example: Create, read, write, delete files and folders.
+
+2. System-Level Access
+    Node.js can interact with:
+    -Operating system info (os module)
+    -Environment variables
+    -Network interfaces
+    -Process & memory usage
+
+3.  Access to Child Processes
+    -Can run OS-level commands/scripts using child_process module.
+    Example: Run a Python script or a terminal command from Node.js.
+
+4.  NPM Ecosystem
+    -Largest package manager: npm
+    -Gives access to thousands of useful third-party modules for almost everything (databases, APIs, file handling, etc.).
+
+5. Cross-Platform Development
+    -Node.js apps can run on Windows, macOS, Linux, etc.
+    -Write once, run anywhere — as long as Node is installed.
+
+
+
+
+__Node.js - Key Features
+1. Open Source
+    -Developed by Ryan Dahl in 2009.
+    -Freely available and actively maintained by the community.
+
+2. JavaScript Beyond the Browser
+    -Brings raw JavaScript features into the terminal.
+    -Enables developers to interact directly with the operating system, something browser JavaScript can't do.
+
+3. OS-Level Access
+    -Access to file system, network, processes, and OS-level tasks using built-in Node.js modules (fs, os, child_process, etc.).
+
+4. Non-blocking & Asynchronous
+    -Uses event-driven architecture and non-blocking I/O.
+    -Handles multiple tasks efficiently without waiting for one to complete.
+
+5. Built-in Modules
+    -Comes with core modules: http, fs, path, os, etc.
+    -No need for external libraries to do basic server-side tasks.
+
+6. npm (Node Package Manager)
+    -World's largest ecosystem of open-source libraries. 
+    -Easy to install, manage, and share packages.
+
+7. Cross-Platform
+    -Runs on Windows, Linux, macOS, etc.
+    -Platform-independent development using JavaScript.
+
+
+
+
+__What Can Be Built with Node.js?
+1. Server-side Applications
+    -Web servers, APIs, RESTful services.
+    Example: Express.js-based backend for a web app.
+
+2. Desktop Applications
+    -Using Electron.js (which combines Node.js + Chromium).
+    Example: VS Code, Discord, Postman.
+
+3. IoT (Internet of Things)
+    -Can control and communicate with hardware devices.
+    -Works with platforms like Johnny-Five, Raspberry Pi.
+
+4. Reusable Libraries/Packages
+    -Create your own modules and publish them via npm.
+    -Encourages modular development and code reuse.
+
+
+
+
+__How Node.js Handles I/O Efficiently
+1. libuv
+    -C library under the hood of Node.js.
+    Handles asynchronous I/O using:
+        -Event loop
+        -Thread pool
+        -OS-level features (like epoll, kqueue, IOCP)
+        -Powers non-blocking behavior in Node.js.
+
+2. Why I/O Operations Are Costly
+    -I/O (Input/Output) refers to reading/writing files, DB calls, network requests, etc.
+    -These operations wait for external systems, which is:
+    -Slow compared to CPU tasks
+    -Blocks the flow if not handled asynchronously
+
+3. Blocking vs Non-blocking I/O
+    Type	            Description	Example
+    Blocking I/O	    Waits until the task finishes before moving on.	Reading a file synchronously.
+    Non-blocking I/O	Moves on immediately, handles result later via callbacks/promises.	Reading a file asynchronously.
+
+4. Multiplexing and Demultiplexing
+    -Multiplexing: Combine many I/O requests into one queue.
+    -Demultiplexing: OS informs which task is ready, and Node passes it to appropriate callback.
+
+5. Event Demultiplexer
+    -Provided by the OS (like epoll in Linux).
+    -Watches multiple file/network events.
+    -Once an event is ready (e.g., file read complete), it notifies Node.js to execute its callback.
+    -This is how Node's event loop stays non-blocking and efficient.
+
+
+
+
+__Architecture of Node.js
+1. V8 Engine
+    -Developed by Google, written in C++.
+    -Converts JavaScript code to machine code for fast execution.
+    -Same engine used in Chrome.
+
+2. JavaScript APIs
+    -Node.js provides additional JS APIs (like fs, http, process, setTimeout) beyond browser JS.
+    -These APIs internally rely on libuv, not V8 alone.
+
+3. libuv (C++ Library)
+    -Core of Node's asynchronous I/O model.
+    Provides:
+        -Event loop
+        -Thread pool
+        -OS abstraction
+        -Written in C/C++ to handle low-level non-blocking I/O operations.
+    Example: Linux vs Windows File System Access
+    -Linux: Non-blocking network I/O is native (via epoll), but file I/O is blocking, so Node offloads to threads.
+    -Windows: Uses IOCP, which supports true non-blocking file and network I/O.
+
+    NOTE : libuv is a C++ library that makes Node.js compatible across all operating systems (Linux, Windows, macOS), by handling differences in how each OS deals with I/O, files, processes, etc.
+    Example -> 
+    -Different Banks (like SBI, HDFC, ICICI)
+        Each bank has its own internal systems for handling transactions.
+        If apps had to integrate with each bank individually, it would be complex, slow, and inconsistent.
+    -UPI (Unified Payments Interface)
+        Acts as a common interface.
+        Developers use one unified method (UPI) to handle transactions.
+        UPI takes care of how each bank internally works.
+    -Like libuv in Node.js
+        Different OS (Linux, Windows, macOS) have different ways of handling I/O.
+        libuv acts like UPI — a unified, consistent interface for Node.js developers.
+        You write simple JS code; libuv takes care of OS-specific complexity behind the scenes.
+    
+4. Bindings
+    -Written in C++, act as a bridge between JS and libuv/V8.
+    -Help Node.js JS APIs talk to underlying C++ code.
+    Example:
+        When you call fs.readFile() in JS, it goes through bindings → C++ → libuv → OS.
+
+
+Summary Flow:
+Your JS Code → V8 Engine → Native Bindings → libuv (C++) → OS (Linux/Windows)
+    -libuv handles async ops, wraps OS-specific logic.
+    -Bindings bridge JS with C++.
+    -V8 runs the JS fast.
+
+
+
+__Globals in Node.js
+In Node.js, some variables and objects are available globally, meaning you can access them anywhere in your code without importing them.
+
+1. process (Object)
+    -Provides info and control over the current Node.js process.
+    Examples:
+        -process.env → environment variables
+        -process.exit() → terminate the process
+        -process.argv → command line arguments
+
+2. __dirname (String)
+    -Returns the absolute path of the directory where the current file resides.
+    -Not the working directory.
+    Example:
+        console.log(__dirname); // /Users/you/projects/app
+
+3. require (Function)
+    -Used to import modules, JSON, or local files.
+    Example:
+        const fs = require('fs');
+
+4. module (Object)
+    -Represents the current module file.
+    -Contains metadata like module.exports, id, filename.
+    Example:
+        console.log(module); // Info about current module
+
+5. global (Object)
+    -Like window in the browser — a global namespace.
+    -Variables defined on global can be accessed anywhere.
+    Example:
+        global.x = 10;
+        console.log(x); // 10
+
+
+
+__How things are handled differently in various runtimes like in browser and nodeJS
+Browser:
+    -In the browser, setTimeout returns a timeout ID, which is a `number`.
+    -This ID can be passed to clearTimeout to cancel the timeout before it executes.
+
+    Example : 
+    let timeoutId = setTimeout(() => { console.log('Executed'); }, 1000);
+    clearTimeout(timeoutId);  // Cancels the timeout before it executes
+
+Node.js:
+    -In Node.js, setTimeout returns a `timeout object` (not just a number).
+    -This object contains additional methods and properties (e.g., unref() method) that can manipulate the timer behavior more explicitly.
+
+    Example : 
+    let timeoutObj = setTimeout(() => { console.log('Executed'); }, 1000);
+    clearTimeout(timeoutObj);  // Cancels the timeout before it executes
