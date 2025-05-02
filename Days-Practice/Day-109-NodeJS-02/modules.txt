@@ -1,0 +1,30 @@
+__What is a Module?
+    -A module is a self-contained unit of code that can be reused across files.
+    -It helps organize code, separate concerns, and promote reusability.
+    -Each file in Node.js is treated as a separate module.
+
+__Types of Modules
+1.Built-in Modules
+    -Provided by Node.js (no installation needed)
+    -Example: fs, http, path, os, url
+
+2.User-defined Modules
+    -Custom modules created by the developer
+    -Example: math.js, logger.js
+
+3.Third-party Modules
+    -Installed via npm
+    -Example: express, lodash, mongoose
+    -Installed using: npm install <package-name>
+
+
+__CommonJS (CJS) vs ESModules (ESM)
+| Feature             | CommonJS (CJS)               | ESModules (ESM)                                         |
+| ------------------- | ---------------------------- | ------------------------------------------------------- |
+| File Extension      | .js                          | .js or .mjs (or "type": "module" in package.json)       |
+| Import Syntax       | require()                    | import                                                  |
+| Export Syntax       | module.exports / exports     | export, export default                                  |
+| Synchronous Loading | Yes                          | No (asynchronous)                                       |
+| Mostly used in      | Node.js (older or backend)   | Frontend (React) & modern Node.js                       |
+
+

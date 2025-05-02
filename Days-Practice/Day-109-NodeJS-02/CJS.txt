@@ -1,0 +1,75 @@
+CommonJS (CJS) 
+
+__Folder Structure (CJS_Demo)
+CJS_Demo/
+├── index.js        # Main entry point
+├── quickSort.js    # Default export (single function)
+├── searching.js    # Named exports (multiple functions)
+└── sorting.js      # Named exports (functions with 2 export styles)
+
+
+__Key Concepts of CommonJS
+1. File as a Module
+    Each file (e.g., quickSort.js) is a separate CommonJS module.
+    Everything inside is scoped locally unless explicitly exported.
+
+
+2. Exporting
+    -Default Export (single value/function)
+    In quickSort.js:
+        module.exports = quickSort;
+        Used when the file exports only one thing (function/object/class).
+
+    -Named Exports (multiple values/functions)
+    In searching.js and sorting.js:
+        module.exports = {
+        linear: linearSearch,
+        binary: binarySearch
+        };
+        // or
+        module.exports.bubbleSort = bubbleSort;
+
+    You can attach properties directly to module.exports or export an entire object.
+
+
+3. Importing
+    -Import Default Export
+        const quickSort = require('./quickSort');
+    
+    -Import Named Exports
+        const { bubbleSort, insertionSort } = require('./sorting');
+
+    -Import Whole Module Object
+        const searchFunction = require('./searching');
+        searchFunction.linear(...);
+        searchFunction.binary(...);
+
+    -Destructuring Named Exports
+        const { linear: ls, binary } = require('./searching');
+
+
+4. Module Object
+    -Every module in CJS has a module object:
+        console.log(module);
+    -It contains:
+        -exports: Object to be exported
+        -filename: Full path
+        -id, loaded, children, etc.
+
+    -Other Tips Demonstrated
+    You can use short-hand export:
+        module.exports = { linearSearch }; → key: value same
+
+    -Use descriptive aliases when destructuring for clarity:
+        const { linear: ls } = require('./searching');
+
+
+__Summary Cheatsheet
+Action	Syntax              Example
+Export single value	        module.exports = quickSort;
+Export multiple values	    module.exports = { fn1, fn2 };
+Export individual values	module.exports.fn = fn;
+Import default	            const q = require('./quickSort');
+Import named	            const { fn1 } = require('./mod');
+Import whole object	        const utils = require('./mod');
+Access module info	        console.log(module);

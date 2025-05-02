@@ -1,0 +1,52 @@
+ESM (ECMAScript Modules)
+
+__Folder Structure (ESM_Demo)
+
+ESM_Demo/
+├── index.js         # Entry file using ESM syntax
+├── searching.mjs    # ESM file with named + default export
+└── quickSort.js     # Still using CJS for comparison
+
+Key Concepts of ES Modules
+1. Use of import and export
+    ES Modules use import / export syntax instead of require / module.exports.
+
+
+2. Exporting
+    -Named Export
+            export function Linearsearch() { ... }
+        -Allows multiple named exports per file.
+        -Aliases can be applied while importing:
+            import { Linearsearch as ls } from './searching.mjs';
+
+    -Default Export
+            export default function Binarysearch() { ... }
+        -Only one default export per file.
+        -Can be imported with any name.
+
+
+3. Importing
+    -Import Named Export
+        import { Linearsearch } from './searching.mjs';
+    
+    -Import Default Export
+        import Binarysearch from './searching.mjs';
+
+    -Import Both
+       import Binarysearch, { Linearsearch as LS } from './searching.mjs';
+
+    Note: File extension .mjs is required unless your environment allows .js with "type": "module" in package.json.
+
+
+
+__Summary Cheatsheet
+Task	                      |  Syntax Example
+------------------------------------------------------------------------------------
+Export named	              |  export function fn() {}                            
+Export default	              |  export default function fn() {}
+Import named	              |  import { fn } from './mod.mjs';
+Import default	              |  import fn from './mod.mjs';
+Import both	                  |  import df, { named } from './mod.mjs';
+Alias during import	          |  import { fn as alias } from './mod.mjs';
+File extension required	      |  import ... from './file.mjs';
+Mixed usage restriction	      |  Cannot use require / module.exports in .mjs file
