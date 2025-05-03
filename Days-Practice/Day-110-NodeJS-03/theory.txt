@@ -1,0 +1,74 @@
+1. fs vs fs/promises
+    -fs → callback-based, older style
+    -fs/promises → promise-based, used with async/await, cleaner
+    -Prefer fs/promises for modern code.
+
+
+2. new URL('./file', import.meta.url)
+    -Used in ES modules (type: "module" in package.json)
+    -Replaces __dirname and __filename
+    -Resolves a relative path ('./index.html') to an absolute URL
+    -Needed because readFile() can accept URL objects.
+
+
+3. console.log() vs process.stdout.write()
+Feature	        console.log()	        process.stdout.write()
+Newline auto?	Yes (\n)	            No
+Formatting?	    Yes (%s, objects)	    No
+Use case	    Debug/log	            Stream/raw output
+
+
+4. Concepts :
+    -Manual templating using string replacement ({{key}})
+    -Writing new file using writeFile()
+    -File system basics with ES modules
+    -Template placeholders → replaced via Object.entries(data)
+
+
+
+
+
+
+-------streams------
+
+1. File System (fs) Modules
+Type	        Example	                    Description
+Promise API	    fs/promises	                Uses await readFile(...)
+Callback API	fs.readFile(path, cb)	    Uses callbacks, older style
+Stream API	    fs.createReadStream()	    Reads/writes large files chunk by chunk
+
+
+2. Streams Types
+Type	        Example	                                    Purpose
+Readable	    fs.createReadStream()	                    Reads data in chunks
+Writable	    fs.createWriteStream() / process.stdout	    Writes data chunk-wise
+Transform	    new Transform({ transform(...) })	        Modifies data mid-pipeline
+Duplex	        Read + Write combined stream	            Like sockets
+PassThrough	    new PassThrough()	                        Stream that passes input as-is (used to fork a stream)
+
+
+3. Chaining Streams
+        readstream.pipe(transform).pipe(writestream);
+    -pipe() connects readable → writable/transform streams.
+    -You can pipe to multiple writables, but not multiple readables directly.
+
+
+4. process.stdout vs fileWriteStream
+Stream	            Destination	        Use Case
+process.stdout	    Terminal (console)	Live preview
+fileWriteStream	    File (write.txt)	Save transformed output
+
+
+5. Special Concepts
+    -new URL('./file.html', import.meta.url)
+        -Converts relative path to absolute file path in ESM.
+
+    -PassThrough Stream
+        -This can cause issues
+            readstream.pipe(trans1);
+            readstream.pipe(trans2);
+        -This might not work reliably, because once readstream pushes a chunk to trans1, it may not retain it for trans2. Streams are typically consumed once.
+        
+        -Instead use PassThrough Stream. A PassThrough stream is like a pipe splitter. It reads from one source and lets you clone the readable stream.
+        -Used to fork a stream to multiple pipelines.
+        
