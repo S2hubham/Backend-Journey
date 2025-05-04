@@ -1,5 +1,6 @@
-const { Telegraf } = require('telegraf');
-require('dotenv').config();
+const { Telegraf } = require("telegraf");
+const { Markup } = require("telegraf");
+require("dotenv").config();
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 const bubbleSortString = `
@@ -16,17 +17,40 @@ function bubbleSort(arr) {
 }
 `;
 
-try{
-    bot.start((ctx) => ctx.reply('Welcome to shubh\'s dev'));  // this will run on /start command
+try {
+    bot.start((ctx) => ctx.reply("Welcome to shubh's dev")); // this will run on /start command
 
-    bot.command('bubblesort', (ctx) => ctx.reply(bubbleSortString));  // this is custom command like /binarysearch
+    bot.command("bubblesort", (ctx) => ctx.reply(bubbleSortString)); // this is custom command like /binarysearch
 
-    bot.on('sticker', (ctx) => ctx.reply('❤️'));
+    bot.command("help", (ctx) => {
+        ctx.reply(`
+      Available commands:
+      /start - Welcome message
+      /bubblesort - Show bubble sort code
+      /help - List all commands
+      `);
+    });
 
-    bot.on('emoji', (ctx) => ctx.reply('🤣'));
+    bot.command("algos", (ctx) => {
+        return ctx.reply(
+            "Choose an algorithm:",
+            Markup.inlineKeyboard([
+                [Markup.button.callback("Bubble Sort", "BUBBLE")],
+                [Markup.button.callback("Insertion Sort", "INSERTION")],
+            ])
+        );
+    });
+
+    bot.action("BUBBLE", (ctx) => ctx.reply(bubbleSortString));
+    bot.action("INSERTION", (ctx) =>
+        ctx.reply("insertion sort coming soon 😄")
+    );
+
+    bot.on("sticker", (ctx) => ctx.reply("❤️"));
+
+    bot.on("emoji", (ctx) => ctx.reply("🤣"));
 
     bot.launch();
-}
-catch{
+} catch {
     console.log("Unexpected command");
 }
