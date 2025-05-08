@@ -1,0 +1,114 @@
+How the Internet Works
+1. Overview
+    The internet is a global network of computers that communicate through a standardized protocol called TCP/IP. 
+    When you access a website, multiple systems and steps come into play — including DNS resolution, routing, and load balancing.
+
+
+DNS (Domain Name System)
+2. What Happens When You Search "google.com"
+    Your browser checks if it already knows the IP for google.com via local DNS cache.
+    If not, it queries a DNS resolver (usually your ISP’s).
+    The resolver checks:
+        -Local cache
+        -Root name server (returns TLD server for .com)
+        -TLD server (returns authoritative server for google.com)
+        -Authoritative server (returns IP of google.com)
+        -Once the IP is received, your browser makes an HTTP/S request to that IP address.
+
+
+3. Structure of a URL
+    -Example: https://www.example.com:443/path/resource.html?search=query
+    -Protocol: https:// – tells the browser which protocol to use (HTTP, HTTPS)
+    -Subdomain: www – part of DNS structure
+    -Domain Name: example.com – registered domain
+    -Port: :443 – optional, defaults for HTTP (80) and HTTPS (443)
+    -Path: /path/resource.html – specific resource
+    -Query Parameters: ?search=query – dynamic data passed to backend
+
+
+
+4. Why DNS is So Fast
+    Despite billions of domain name queries daily, DNS remains fast because of the highly optimized design involving caching, distributed infrastructure, and smart query resolution. Here's how it stays fast:
+    A. Hierarchical and Distributed System
+        -DNS is not a single server or database — it is a globally distributed system.
+        -The load is spread across many servers around the world: root servers, TLD servers, and authoritative name servers.
+        -Each part of the system only handles a portion of the query path, reducing the load on any single server.
+
+    B. Aggressive Caching
+        -Caching plays the most critical role in performance.
+        -DNS resolvers cache IP addresses for domain names after resolving them for the first time.
+        -This means that repeated queries for the same domain (like google.com) are served directly from cache, with no need to traverse the full DNS chain again.
+
+    Where is DNS cached?
+        -Browser – holds recently resolved names.
+        -Operating System (OS) – system-level DNS cache.
+        -Local DNS resolver (ISP or public like Google DNS) – caches for thousands or millions of users.
+        -CDNs and proxies – also cache DNS queries to serve content closer to users.
+
+    C. Short TTLs vs Long TTLs
+        -The TTL (Time to Live) value of DNS records determines how long they stay in cache.
+        -High-traffic domains like google.com use long TTLs, so their IP mappings stay cached in resolvers and browsers for a long time.
+        -Lower TTLs are used for dynamic domains (like load-balanced or region-specific domains) for flexibility
+
+
+
+5. DNS: Mapping URL to IP
+    DNS maps human-readable URLs to machine-usable IP addresses
+    This is done through recursive and iterative queries from root to authoritative DNS servers
+
+
+6. Early Days: hosts.txt File
+    Before DNS, systems used a flat file (hosts.txt) mapping hostnames to IPs
+    Managed manually; became impractical as internet grew
+
+
+
+7. DNS Hierarchical Architecture
+    Structured like a tree:
+        -Root Server: Top of the hierarchy (.)
+        -TLD (Top-Level Domain): .com, .org, .net
+        -SLD (Second-Level Domain): example in example.com
+        -Subdomain: www, mail, blog (e.g., blog.example.com)
+
+
+
+DNS Caching and Tools
+8. Caching in DNS
+    DNS responses have TTL (Time to Live) values
+    After TTL expires, resolver queries upstream again
+    Improves performance but may delay updates (e.g., when IP of a domain changes)
+
+
+
+9. Tools: dig and nslookup
+    -dig (Domain Information Groper): powerful tool to query DNS records
+    Example: dig google.com
+
+    -nslookup: older tool, more user-friendly
+    Example: nslookup google.com
+
+
+
+Scalability and Load Management
+10. Horizontal vs Vertical Scaling
+    Vertical Scaling:
+        -Increase power of a single machine (CPU, RAM, etc.)
+        -Simple but has hardware limits and downtime during upgrade
+
+    Horizontal Scaling:
+        -Add more machines/nodes to distribute load
+        -Better fault tolerance and elasticity
+        -Requires load balancers and distributed systems
+
+
+
+11. Load Balancers
+    Purpose: Distribute incoming network traffic across multiple servers
+    Types:
+        -DNS-based load balancing: different IPs for same domain
+        -Layer 4 (Transport Layer): based on TCP/UDP
+        -Layer 7 (Application Layer): based on HTTP headers, URLs, cookies
+    Benefits:
+        -Improved performance
+        -High availability
+        -Fault tolerance
